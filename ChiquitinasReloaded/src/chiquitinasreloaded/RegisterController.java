@@ -5,6 +5,8 @@
  */
 package chiquitinasreloaded;
 
+import java.util.Scanner;
+
 /**
  *
  * @author santialfonso
@@ -46,5 +48,49 @@ public class RegisterController extends Controller{
     //metodo que imprime el menu de registro
     public void menuRegistro(){
         
+    }
+    
+    /**
+     * pregunta al user por el id
+     * @return el id ingresado por el user
+     */
+    public int ingresarId ()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingresar ID:");
+        return sc.nextInt();
+    }
+    
+    /**
+     * pregunta al user por el nombre
+     * @return el nombre
+     */
+    public String ingresarNombre()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar nombre:");
+        return sc.nextLine();
+    }
+    
+    /**
+     * pregunta al user por la contraseña que quiere utilizar
+     * @return la contraseña
+     */
+    public String ingresarContrasenna()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar contraseña:");
+        return sc.nextLine();
+    }
+    
+    /**
+     * pregunta al user de repetir la contraseña ingresada
+     * @return la contraseña
+     */
+    public String ingresarContrasennaAgain()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar contraseña una segunda vez:");
+        return sc.nextLine();
     }
 }

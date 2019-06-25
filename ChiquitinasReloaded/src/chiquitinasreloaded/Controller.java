@@ -38,8 +38,13 @@ public class Controller {
         this.servivioUsuario = servivioUsuario;
     }
     
-    //metodo que verifica si ya existe un usuario con el ID especificado
+/**
+ * NOT IMPLEMENTED YET
+ * @param idInput es el id que se envia a la base de datos para verificar unicidad
+ * @return true si el id ya existe en la base de datos
+ */
     public boolean existeId(long idInput){
+        this.getServivioUsuario().conectar();
         return true;
     }
     

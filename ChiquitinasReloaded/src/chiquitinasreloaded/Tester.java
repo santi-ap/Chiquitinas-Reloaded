@@ -18,6 +18,17 @@ public class Tester {
         // TODO code application logic here
         //esto es un cambio
         //esto es un cambio desde la nube
+        RegisterController rc = new RegisterController();
+        String test;
+        test = rc.ingresarContrasenna();
+        System.out.println(test);
+        test = rc.ingresarContrasennaAgain();
+        System.out.println(test);
+        test = rc.ingresarNombre();
+        System.out.println(test);
+        test = Integer.toString(rc.ingresarId());
+        System.out.println(test);
+                
     }
     
 }
