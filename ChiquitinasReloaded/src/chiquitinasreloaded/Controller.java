@@ -50,6 +50,9 @@ public class Controller {
     
     //metodo que verifica si las contrasennas ingresadas son iguales
     public boolean verificaContrasenna(String passInput, String passDosInput){
-        return true;
+        if (passInput.equals(passDosInput))
+            return true;
+        else
+            return false;
     }
 }
