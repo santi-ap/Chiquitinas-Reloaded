@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public interface InterfaceDAO {
     public Object select(Object queBuscamos, Object queColumna, Object queValor);
-    public void insert(Object queInsertamos, Object queColumna, Object queValor);
-    public void update(Object queActualizamos, Object queColumna, Object queValor);
+    public void insert(ArrayList<Object> datosQueInsertamos);//Se toma una lista como parametro porque hay que insertar todos los datos de un objeto al mismo tiempo
+    public void update(Object queInsertamos, Object queColumnaActualizamos, Object queColuma, Object queValor);
     public void delete(Object queBorramos, Object queColumna, Object queValor);
     public ArrayList<Object> selectAll(Object queColumna, Object queValor);
 }

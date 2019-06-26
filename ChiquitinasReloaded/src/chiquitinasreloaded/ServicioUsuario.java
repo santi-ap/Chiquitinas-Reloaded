@@ -60,12 +60,34 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public void insert(Object queInsertamos, Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void insert(ArrayList<Object> datosQueInsertamos) {
+        try{
+            //STEP 3: Execute a querey
+            super.conectar();
+            
+            System.out.println("Insertando valores...");
+            String sql;
+            sql="INSERT INTO Usuario (idUsuario, nombreUsuario, contrasennaUsuario, tipoUsuario) values (?,?,?,?);";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, datosQueInsertamos.get(0).toString());//idUsuario
+            preparedStatement.setString(2, datosQueInsertamos.get(1).toString());//nombreUsuario
+            preparedStatement.setString(3, datosQueInsertamos.get(2).toString());//contrasennaUsuario
+            preparedStatement.setString(4, datosQueInsertamos.get(3).toString());//tipoUsuario
+            preparedStatement.executeUpdate(); 
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void update(Object queActualizamos, Object queColumna, Object queValor) {
+    public void update(Object queInsertamos, Object queColumnaActualizamos, Object queColuma, Object queValor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
