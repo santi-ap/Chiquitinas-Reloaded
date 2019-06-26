@@ -20,7 +20,8 @@ public class Tester {
         // TODO code application logic here
        
         
-        
+        LoginController lc = new LoginController();
+        lc.formLogin();
     }
     
 }
