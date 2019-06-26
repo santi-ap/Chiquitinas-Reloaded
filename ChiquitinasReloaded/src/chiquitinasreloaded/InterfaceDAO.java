@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * @author santialfonso
  */
 public interface InterfaceDAO {
-    public Object select(Object object);
-    public void insert(Object object);
-    public void update(Object object);
-    public void delete(Object object);
-    public ArrayList<Object> selectAll(Object object);
+    public Object select(Object queBuscamos, Object queColumna, Object queValor);
+    public void insert(Object queInsertamos, Object queColumna, Object queValor);
+    public void update(Object queActualizamos, Object queColumna, Object queValor);
+    public void delete(Object queBorramos, Object queColumna, Object queValor);
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor);
 }

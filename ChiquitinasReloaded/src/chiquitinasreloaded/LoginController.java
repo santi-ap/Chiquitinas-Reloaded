@@ -15,8 +15,8 @@ public class LoginController extends Controller{
         return null;
     }
     
-    //metodo que imprime el menu de login
-    public void menuLogin(){
+    //metodo que imprime el form de login
+    public void formLogin(){
         
     }
 }
