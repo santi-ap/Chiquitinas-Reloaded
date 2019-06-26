@@ -45,8 +45,8 @@ public class RegisterController extends Controller{
         return null;
     }
     
-    //metodo que imprime el menu de registro
-    public void menuRegistro(){
+    //metodo que imprime el form de registro
+    public void formRegistro(){
         
     }
     
