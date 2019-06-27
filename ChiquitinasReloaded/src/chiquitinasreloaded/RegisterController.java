@@ -61,11 +61,7 @@ public class RegisterController extends Controller{
             this.setContrasennaDosInput(this.ingresarContrasennaAgain());
             if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
             {
-                u = new Admin ();
-                u.setContrasennaUsuario(contrasennaInput);
-                u.setIdUsuario(id);
-                u.setNombreUsuario(this.ingresarNombre());
-                u.setTipoUsuario(0);
+                u = new Admin (id, this.ingresarNombre(), this.contrasennaInput, 0);
                 return (Usuario)u;
             } else {
                 System.out.println("Contraseñas no coinciden. Reiniciando...");
@@ -76,11 +72,7 @@ public class RegisterController extends Controller{
             this.setContrasennaDosInput(this.ingresarContrasennaAgain());
             if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
             {
-                u = new Cliente ();
-                u.setContrasennaUsuario(contrasennaInput);
-                u.setIdUsuario(id);
-                u.setNombreUsuario(this.ingresarNombre());
-                u.setTipoUsuario(0);
+                u = new Cliente (id, this.ingresarNombre(), this.contrasennaInput, 0);
                 return (Usuario)u;
             } else {
                 System.out.println("Contraseñas no coinciden. Reiniciando...");
