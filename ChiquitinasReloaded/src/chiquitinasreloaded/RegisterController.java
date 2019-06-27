@@ -5,6 +5,7 @@
  */
 package chiquitinasreloaded;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -46,15 +47,73 @@ public class RegisterController extends Controller{
     }
     
     //metodo que imprime el form de registro
-    public void formRegistro(){
+    public Usuario formRegistro() throws SQLException{
+        Usuario u;
+        long id;
+        System.out.println("Inizializando registro...");
+        id = this.ingresarId();
+        if (super.existeId(id)) //checking if id is already in the db
+        {
+            System.out.println("Usuario ya existe, reiniciando...");
+            return formRegistro ();
+        } else if (this.verificaContrasennaAdmin()){ //if not, check if the user wants to create an admin or client account
+            this.setContrasennaInput(this.ingresarContrasenna());
+            this.setContrasennaDosInput(this.ingresarContrasennaAgain());
+            if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
+            {
+                u = new Admin ();
+                u.setContrasennaUsuario(contrasennaInput);
+                u.setIdUsuario(id);
+                u.setNombreUsuario(this.ingresarNombre());
+                u.setTipoUsuario(0);
+                return (Usuario)u;
+            } else {
+                System.out.println("Contraseñas no coinciden. Reiniciando...");
+                return this.formRegistro();
+            }
+        } else {
+            this.setContrasennaInput(this.ingresarContrasenna());
+            this.setContrasennaDosInput(this.ingresarContrasennaAgain());
+            if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
+            {
+                u = new Cliente ();
+                u.setContrasennaUsuario(contrasennaInput);
+                u.setIdUsuario(id);
+                u.setNombreUsuario(this.ingresarNombre());
+                u.setTipoUsuario(0);
+                return (Usuario)u;
+            } else {
+                System.out.println("Contraseñas no coinciden. Reiniciando...");
+                return this.formRegistro();
+            }
+            
+        }
         
+            
     }
     
+    public boolean verificaContrasennaAdmin()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar contraseña de administrador para crear una cuenta Admin.\nDe lo contrario, presione ENTER:");
+        String s = sc.nextLine();
+        if (s.equals("")||s.equals(null))
+        {
+            System.out.println("Creando CLIENTE...");
+            return false;
+        } else if (s.equals(this.getAdminContrasenna())) {
+            System.out.println("Creando ADMIN...");
+            return true;
+        } else {
+            System.out.println("Contraseña incorrecta, reiniciando...");
+            return verificaContrasennaAdmin();
+        }
+    }
     /**
      * pregunta al user por el id
      * @return el id ingresado por el user
      */
-    public int ingresarId ()
+    public long ingresarId ()
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingresar ID:");
