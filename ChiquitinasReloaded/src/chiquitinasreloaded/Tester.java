@@ -19,9 +19,13 @@ public class Tester {
     public static void main(String[] args) {
         // TODO code application logic here
        
-        
-        LoginController lc = new LoginController();
-        lc.formLogin();
+        ServicioUsuario us = new ServicioUsuario();
+        ArrayList<Object> list = new ArrayList<>();
+        list.add("5");
+        list.add("testName5");
+        list.add("testPass5");
+        list.add("1");
+        us.insert(list);
     }
     
 }
