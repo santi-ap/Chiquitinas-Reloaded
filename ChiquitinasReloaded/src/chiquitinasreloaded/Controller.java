@@ -5,6 +5,8 @@
  */
 package chiquitinasreloaded;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author santialfonso
@@ -39,20 +41,35 @@ public class Controller {
     }
     
 /**
- * NOT IMPLEMENTED YET
+ * metodo chequea en la base de datos si el id ingresado ya existe
  * @param idInput es el id que se envia a la base de datos para verificar unicidad
  * @return true si el id ya existe en la base de datos
  */
-    public boolean existeId(long idInput){
-        this.getServivioUsuario().conectar();
-        return true;
+    public boolean existeId(long idInput) throws SQLException{
+        Object o;
+        try
+        {
+            this.getServivioUsuario().conectar();
+            o = this.getServivioUsuario().select("id", "id", idInput);
+            if (o==null)
+                return false;
+            else
+                return true;
+        } catch(Exception e) {
+            System.out.println(e + "\n\nError in method existeId in the controller class, method defaulting to true...");
+            return true;
+        } finally {
+            this.getServivioUsuario().desconectar();
+        }      
     }
     
-    //metodo que verifica si las contrasennas ingresadas son iguales
-    public boolean verificaContrasenna(String passInput, String passDosInput){
-        if (passInput.equals(passDosInput))
-            return true;
-        else
-            return false;
+    /**
+     * metodo que verifica si dos strings son iguales.
+     * @param s es el primer input ingresado por el usuario.
+     * @param p es el segundo input ingresado por el usuario.
+     * @return true si son iguales, false si no.
+     */
+    public boolean verificaString (String s, String p){
+        return s.equals(p);
     }
 }

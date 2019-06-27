@@ -23,7 +23,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         ResultSet rs = null;
         Statement stmt=null;
         try{
-            //STEP 3: Execute a querey
+            //STEP 3: Execute a query
             super.conectar();
             System.out.println("Creando statement...");
             stmt=conn.createStatement();
