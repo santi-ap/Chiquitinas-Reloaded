@@ -18,7 +18,7 @@ public abstract class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
+    public Usuario(long idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.contrasennaUsuario = contrasennaUsuario;
