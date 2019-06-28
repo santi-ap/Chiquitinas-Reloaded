@@ -19,10 +19,7 @@ public class Tester {
     public static void main(String[] args) {
         // TODO code application logic here
        
-        ServicioUsuario us = new ServicioUsuario();
-        Usuario u = new Cliente("3","testName3","testPass3",1);
-        us.insert(u);
-        //Usuario admin = new Admin(1,"Nombre","pass",1);
+        
     }
     
 }

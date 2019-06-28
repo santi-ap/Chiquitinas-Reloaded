@@ -87,18 +87,93 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public void update(Object queInsertamos, Object queColumnaActualizamos, Object queColuma, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
+        try{
+            super.conectar();
+            System.out.println("Actualizando valores...");
+            String sql = "UPDATE Usuario SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queInsertamos.toString());
+            preparedStmt.setString(2, queValor.toString());
+            preparedStmt.executeUpdate(); 
+           
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void delete(Object queBorramos, Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(Object queColumna, Object queValor) {
+        try{
+            super.conectar();
+            System.out.println("Borrando valores...");
+            String sql = "DELETE FROM Usuario WHERE "+queColumna+" = ?";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queValor.toString());
+            preparedStmt.execute(); 
+           
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> listaDatosUsuario= new ArrayList<>();
+        ResultSet rs = null;
+        Statement stmt=null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT * FROM Usuario WHERE "+queColumna+" = ?;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                listaDatosUsuario.add(rs.getString("idUsuario"));
+                listaDatosUsuario.add(rs.getString("nombreUsuario"));
+                listaDatosUsuario.add(rs.getString("contrasennaUsuario"));
+                listaDatosUsuario.add(rs.getString("tipoUsuario"));
+            }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+                listaDatosUsuario.add("noUserFound");
+            return listaDatosUsuario;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDatosUsuario;
     }
 
     

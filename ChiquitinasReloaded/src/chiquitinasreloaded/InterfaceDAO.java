@@ -12,9 +12,43 @@ import java.util.ArrayList;
  * @author santialfonso
  */
 public interface InterfaceDAO {
+    /**
+     * SELECT queBuscamos FROM Usuario WHERE queColumna = queValor;
+     * el metodo select toma los siguientes parametros para especificar que va a seleccionar
+     * @param queBuscamos
+     * @param queColumna
+     * @param queValor
+     * @return 
+     */
     public Object select(Object queBuscamos, Object queColumna, Object queValor);
+    
+    /**
+     * Toma un objeto tipo usuario para tener todos los datos completos para hacer el insert
+     * @param usuario 
+     */
     public void insert(Usuario usuario);//Se toma una un usario como parametro
-    public void update(Object queInsertamos, Object queColumnaActualizamos, Object queColuma, Object queValor);
-    public void delete(Object queBorramos, Object queColumna, Object queValor);
+    
+    /**
+     * UPDATE Usuario SET queColumnaActualizamos = queInsertamos WHERE queColuma = queValor
+     * @param queColumnaActualizamos
+     * @param queInsertamos
+     * @param queColuma
+     * @param queValor 
+     */
+    public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor);
+    
+    /**
+     * DELETE FROM Usuario WHERE queColumna = queValor
+     * @param queColumna
+     * @param queValor 
+     */
+    public void delete(Object queColumna, Object queValor);
+    
+    /**
+     * SELECT * FROM Usuario WHERE queColumna = queValor;
+     * @param queColumna
+     * @param queValor
+     * @return 
+     */
     public ArrayList<Object> selectAll(Object queColumna, Object queValor);
 }
