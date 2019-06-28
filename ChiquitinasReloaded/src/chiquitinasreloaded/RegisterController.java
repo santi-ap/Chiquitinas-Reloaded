@@ -46,7 +46,7 @@ public class RegisterController extends Controller{
     //metodo que imprime el form de registro
     public Usuario formRegistro() throws SQLException{
         Usuario u;
-        long id;
+        String id;
         System.out.println("Inizializando registro...");
         id = this.ingresarId();
         if (super.existeId(id)) //checking if id is already in the db
@@ -102,11 +102,11 @@ public class RegisterController extends Controller{
      * pregunta al user por el id
      * @return el id ingresado por el user
      */
-    public long ingresarId ()
+    public String ingresarId ()
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingresar ID:");
-        return sc.nextInt();
+        return sc.nextLine();
     }
     
     /**

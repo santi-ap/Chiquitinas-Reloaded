@@ -20,14 +20,9 @@ public class Tester {
         // TODO code application logic here
        
         ServicioUsuario us = new ServicioUsuario();
-        ArrayList<Object> list = new ArrayList<>();
-        list.add("5");
-        list.add("testName5");
-        list.add("testPass5");
-        list.add("1");
-        us.insert(list);
-        
-        Usuario admin = new Admin(1,"Nombre","pass",1);
+        Usuario u = new Cliente("3","testName3","testPass3",1);
+        us.insert(u);
+        //Usuario admin = new Admin(1,"Nombre","pass",1);
     }
     
 }

@@ -12,15 +12,15 @@ import java.sql.SQLException;
  * @author santialfonso
  */
 public class Controller {
-    protected long idInput;
+    protected String idInput;
     protected String contrasennaInput;
     protected ServicioUsuario servivioUsuario;
 
-    public long getIdInput() {
+    public String getIdInput() {
         return idInput;
     }
 
-    public void setIdInput(long idInput) {
+    public void setIdInput(String idInput) {
         this.idInput = idInput;
     }
 
@@ -45,7 +45,7 @@ public class Controller {
  * @param idInput es el id que se envia a la base de datos para verificar unicidad
  * @return true si el id ya existe en la base de datos
  */
-    public boolean existeId(long idInput) throws SQLException{
+    public boolean existeId(String idInput) throws SQLException{
         Object o;
         try
         {
