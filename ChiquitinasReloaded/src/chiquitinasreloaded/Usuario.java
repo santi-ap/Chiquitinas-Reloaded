@@ -10,7 +10,7 @@ package chiquitinasreloaded;
  * @author santialfonso
  */
 public abstract class Usuario {
-    protected long idUsuario;
+    protected String idUsuario;
     protected String nombreUsuario;
     protected String contrasennaUsuario;
     protected int tipoUsuario;
@@ -18,18 +18,18 @@ public abstract class Usuario {
     public Usuario() {
     }
 
-    public Usuario(long idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
+    public Usuario(String idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.contrasennaUsuario = contrasennaUsuario;
         this.tipoUsuario = tipoUsuario;
     }
 
-    public long getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(long idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

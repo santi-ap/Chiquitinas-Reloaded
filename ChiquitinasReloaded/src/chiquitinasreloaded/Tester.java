@@ -20,9 +20,10 @@ public class Tester {
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
        
-        
+        System.out.println("creating controller...");
         RegisterController rc = new RegisterController();
-        rc.formRegistro();
+        System.out.println("Initializing Controller...");
+        rc.getServivioUsuario().selectAll("*", "idUsuario");
     }
     
 }

@@ -10,7 +10,8 @@ package chiquitinasreloaded;
  * @author santialfonso
  */
 public class Cliente extends Usuario{
-    public Cliente(long idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
+    public Cliente (){}
+    public Cliente(String idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
         super.idUsuario = idUsuario;
         super.nombreUsuario = nombreUsuario;
         super.contrasennaUsuario = contrasennaUsuario;
