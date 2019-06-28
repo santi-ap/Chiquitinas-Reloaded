@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class RegisterController extends Controller{
     private String nombreInput;
     private  String contrasennaDosInput;
-    private static String adminContrasenna="admin";
+    private final static String ADMINCONTRASENNA="admin";
 
     public String getNombreInput() {
         return nombreInput;
@@ -34,12 +34,9 @@ public class RegisterController extends Controller{
     }
 
     public static String getAdminContrasenna() {
-        return adminContrasenna;
+        return ADMINCONTRASENNA;
     }
 
-    public static void setAdminContrasenna(String adminContrasenna) {
-        RegisterController.adminContrasenna = adminContrasenna;
-    }
     
     //metodo que hace toda la logico para registar un usuario nuevo
     public Usuario registar(){

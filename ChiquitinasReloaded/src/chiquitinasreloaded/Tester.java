@@ -26,6 +26,8 @@ public class Tester {
         list.add("testPass5");
         list.add("1");
         us.insert(list);
+        
+        Usuario admin = new Admin(1,"Nombre","pass",1);
     }
     
 }
