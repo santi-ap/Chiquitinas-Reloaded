@@ -46,21 +46,12 @@ public class Controller {
  * @return true si el id ya existe en la base de datos
  */
     public boolean existeId(long idInput) throws SQLException{
-        Object o;
-        try
-        {
-            this.getServivioUsuario().conectar();
-            o = this.getServivioUsuario().select("id", "id", idInput);
+        Object o = new Object();
+            o = this.getServivioUsuario().select("idUsuario", "idUsuario", idInput);
             if (o==null)
                 return false;
             else
                 return true;
-        } catch(Exception e) {
-            System.out.println(e + "\n\nError in method existeId in the controller class, method defaulting to true...");
-            return true;
-        } finally {
-            this.getServivioUsuario().desconectar();
-        }      
     }
     
     /**

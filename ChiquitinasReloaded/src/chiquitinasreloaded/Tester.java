@@ -5,6 +5,7 @@
  */
 package chiquitinasreloaded;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,12 +17,12 @@ public class Tester {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // TODO code application logic here
        
         
-        LoginController lc = new LoginController();
-        lc.formLogin();
+        RegisterController rc = new RegisterController();
+        rc.formRegistro();
     }
     
 }

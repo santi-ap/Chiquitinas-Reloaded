@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public abstract class Servicio {
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    String DB_URL="jdbc:mysql://ulatina.ceuol7o4t0su.us-east-2.rds.amazonaws.com:3306/ChiquitinasReloaded";
+    String DB_URL="jdbc:mysql://ulatina3.ceuol7o4t0su.us-east-2.rds.amazonaws.com:3306/ChiquitinasReloaded";
     String USER="chic";
     String PASS="123456";
     Connection conn=null;

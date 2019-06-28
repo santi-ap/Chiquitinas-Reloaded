@@ -46,7 +46,11 @@ public class RegisterController extends Controller{
         return null;
     }
     
-    //metodo que imprime el form de registro
+    /**
+     * metodo que imprime el formulario de registro
+     * @return el usuario registrado
+     * @throws SQLException 
+     */
     public Usuario formRegistro() throws SQLException{
         Usuario u;
         long id;
@@ -72,7 +76,7 @@ public class RegisterController extends Controller{
             this.setContrasennaDosInput(this.ingresarContrasennaAgain());
             if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
             {
-                u = new Cliente (id, this.ingresarNombre(), this.contrasennaInput, 0);
+                u = new Cliente (id, this.ingresarNombre(), this.contrasennaInput, 1);
                 return (Usuario)u;
             } else {
                 System.out.println("Contraseñas no coinciden. Reiniciando...");
