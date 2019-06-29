@@ -19,7 +19,13 @@ public class Tester {
     public static void main(String[] args) {
         // TODO code application logic here
        
-        
+        ServicioUsuario us = new ServicioUsuario();
+        Usuario u = new Cliente("2","testName2","testPass2",1);
+        us.insert(u);
+        //Usuario admin = new Admin(1,"Nombre","pass",1);
+//        System.out.println(us.selectAll("idUsuario", "5"));
+//        us.delete("idUsuario", "2");
+//        us.update("contrasennaUsuario","123", "idUsuario", "3");
     }
     
 }
