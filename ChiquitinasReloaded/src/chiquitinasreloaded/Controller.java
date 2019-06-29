@@ -45,22 +45,14 @@ public class Controller {
  * @param idInput es el id que se envia a la base de datos para verificar unicidad
  * @return true si el id ya existe en la base de datos
  */
+
     public boolean existeId(String idInput) throws SQLException{
-        Object o;
-        try
-        {
-            this.getServivioUsuario().conectar();
-            o = this.getServivioUsuario().select("id", "id", idInput);
+        
+            String o = this.getServivioUsuario().select("idUsuario", "idUsuario", idInput).toString();
             if (o==null)
                 return false;
             else
                 return true;
-        } catch(Exception e) {
-            System.out.println(e + "\n\nError in method existeId in the controller class, method defaulting to true...");
-            return true;
-        } finally {
-            this.getServivioUsuario().desconectar();
-        }      
     }
     
     /**

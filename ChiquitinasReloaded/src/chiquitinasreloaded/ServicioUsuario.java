@@ -17,6 +17,13 @@ import java.util.ArrayList;
  */
 public class ServicioUsuario extends Servicio implements InterfaceDAO{
 
+    /**
+     * santiago do 
+     * @param queBuscamos 
+     * @param queColumna
+     * @param queValor
+     * @return 
+     */
     @Override//select, toma como parametros lo que estmos buscando, la columna donde especificamos el valor de condicion y que valor debe tener la columna 
     public Object select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect="";

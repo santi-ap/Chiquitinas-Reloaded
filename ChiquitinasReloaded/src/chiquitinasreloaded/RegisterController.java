@@ -43,44 +43,62 @@ public class RegisterController extends Controller{
         return null;
     }
     
-    //metodo que imprime el form de registro
+    /**
+     * metodo que imprime el formulario de registro
+     * @return el usuario registrado
+     * @throws SQLException 
+     */
     public Usuario formRegistro() throws SQLException{
-        Usuario u;
         String id;
+        Usuario u = null;
+        Scanner sc = new Scanner (System.in);
         System.out.println("Inizializando registro...");
-        id = this.ingresarId();
+        System.out.println("Ingresar:\n1 - para registrar Cliente\n2 - para registrar Admin");
+        try 
+        {
+            switch (sc.nextInt())
+            {
+                case 1: Usuario cliente = new Cliente ();
+                u = (Usuario)cliente;
+                break;
+                case 2: Usuario admin = new Admin();
+                u = (Usuario)admin;
+                break;
+                default: System.out.println("Input no valido, reiniciando...");
+                return formRegistro();
+            }
+        } catch (Exception e) {
+            System.out.println(e + "Input not valid.");    
+        }
+        id = this.ingresarId(); //asking user for id
         if (super.existeId(id)) //checking if id is already in the db
         {
             System.out.println("Usuario ya existe, reiniciando...");
             return formRegistro ();
-        } else if (this.verificaContrasennaAdmin()){ //if not, check if the user wants to create an admin or client account
-            this.setContrasennaInput(this.ingresarContrasenna());
-            this.setContrasennaDosInput(this.ingresarContrasennaAgain());
-            if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
-            {
-                u = new Admin (id, this.ingresarNombre(), this.contrasennaInput, 0);
-                return (Usuario)u;
-            } else {
-                System.out.println("Contraseñas no coinciden. Reiniciando...");
-                return this.formRegistro();
-            }
         } else {
             this.setContrasennaInput(this.ingresarContrasenna());
             this.setContrasennaDosInput(this.ingresarContrasennaAgain());
             if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
             {
-                u = new Cliente (id, this.ingresarNombre(), this.contrasennaInput, 0);
-                return (Usuario)u;
+               if (u instanceof Admin)
+               {
+                   if (this.verificaContrasennaAdmin())
+                   {
+                       return u;
+                   } else {
+                       System.out.println("reiniciando...");
+                       return this.formRegistro();
+                   }
+               } else {
+                    return u;   
+               }
             } else {
                 System.out.println("Contraseñas no coinciden. Reiniciando...");
                 return this.formRegistro();
             }
             
         }
-        
-            
     }
-    
     public boolean verificaContrasennaAdmin()
     {
         Scanner sc = new Scanner (System.in);

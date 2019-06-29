@@ -10,6 +10,7 @@ package chiquitinasreloaded;
  * @author santialfonso
  */
 public class Admin extends Usuario{
+    public Admin (){}
     public Admin(String idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
         super.idUsuario = idUsuario;
         super.nombreUsuario = nombreUsuario;
