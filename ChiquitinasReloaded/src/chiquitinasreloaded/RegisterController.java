@@ -49,27 +49,28 @@ public class RegisterController extends Controller{
      * @throws SQLException 
      */
     public Usuario formRegistro() throws SQLException{
-        String id;
-        Usuario u = null;
+        String id = "";
         Scanner sc = new Scanner (System.in);
         System.out.println("Inizializando registro...");
         System.out.println("Ingresar:\n1 - para registrar Cliente\n2 - para registrar Admin");
+        Usuario u;
+        boolean isAdmin = false;
         try 
         {
-            switch (sc.nextInt())
+            int userInput = sc.nextInt();
+            if (userInput == 1 )
             {
-                case 1: Usuario cliente = new Cliente ();
-                u = (Usuario)cliente;
-                break;
-                case 2: Usuario admin = new Admin();
-                u = (Usuario)admin;
-                break;
-                default: System.out.println("Input no valido, reiniciando...");
-                return formRegistro();
+                u = new Cliente();
             }
-        } catch (Exception e) {
-            System.out.println(e + "Input not valid.");    
-        }
+            else if (userInput == 2)
+            {
+                u = new Admin();
+                isAdmin = true;
+            } else {
+                System.out.println("Input no valido, reiniciando...");
+                return this.formRegistro();
+            }
+            
         id = this.ingresarId(); //asking user for id
         if (super.existeId(id)) //checking if id is already in the db
         {
@@ -80,13 +81,13 @@ public class RegisterController extends Controller{
             this.setContrasennaDosInput(this.ingresarContrasennaAgain());
             if (super.verificaString(this.getContrasennaInput(), this.getContrasennaDosInput())) //verifica contraseña 
             {
-               if (u instanceof Admin)
+               if (isAdmin)
                {
                    if (this.verificaContrasennaAdmin())
                    {
                        return u;
                    } else {
-                       System.out.println("reiniciando...");
+                       System.out.println("Contraseña Invalida, reiniciando...");
                        return this.formRegistro();
                    }
                } else {
@@ -97,7 +98,11 @@ public class RegisterController extends Controller{
                 return this.formRegistro();
             }
             
-        }
+        }         
+    } catch (Exception e) {
+        System.out.println(e + "Input not valid.");
+        return formRegistro();
+    }
     }
     public boolean verificaContrasennaAdmin()
     {

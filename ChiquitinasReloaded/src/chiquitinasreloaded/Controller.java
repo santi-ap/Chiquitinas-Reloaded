@@ -47,9 +47,9 @@ public class Controller {
  */
 
     public boolean existeId(String idInput) throws SQLException{
-        
+            System.out.println("BP1");
             String o = this.getServivioUsuario().select("idUsuario", "idUsuario", idInput).toString();
-            if (o==null)
+            if (o.equals("noUserFound"))
                 return false;
             else
                 return true;

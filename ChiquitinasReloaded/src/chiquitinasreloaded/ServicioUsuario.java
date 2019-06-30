@@ -19,10 +19,11 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
 
     /**
      * santiago do 
+     * REMEMBER TO ALWAYS TOSTRING THE RETURN TO SHOW THE OBJECT AS A VISIBLE THING TO THE USER
      * @param queBuscamos 
      * @param queColumna
      * @param queValor
-     * @return 
+     * @return the selected value if it finds it, the string "noUserFound" will be returned
      */
     @Override//select, toma como parametros lo que estmos buscando, la columna donde especificamos el valor de condicion y que valor debe tener la columna 
     public Object select(Object queBuscamos, Object queColumna, Object queValor) {

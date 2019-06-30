@@ -18,16 +18,18 @@ public class Tester {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        // TODO code application logic here
-       
-//        System.out.println("creating controller...");
-//        RegisterController rc = new RegisterController();
-//        System.out.println("Initializing Controller...");
-//        System.out.println(rc.getServivioUsuario().selectAll("idUsuario", "1").toString());
+        
+//////////////////////////////////////////////////////////////////////////////////////////      
+//        Test for database DO NOT DELETE (run to check if db connection is working     //
+//        ServicioUsuario us = new ServicioUsuario();                                   //
+//        Usuario u = new Cliente("2","testName2","testPass2",1);                       //
+//        System.out.println(us.selectAll("idUsuario", "1").toString());                //
+//////////////////////////////////////////////////////////////////////////////////////////   
 
-            ServicioUsuario su = new ServicioUsuario();
-            System.out.println(su.selectAll("idUduario", "1").toString());
-            
+        Usuario u = new Cliente("2","testName2","testPass2",1);
+        RegisterController rc = new RegisterController();
+        rc.getServivioUsuario().insert(rc.formRegistro());
+        
     }
     
 }
