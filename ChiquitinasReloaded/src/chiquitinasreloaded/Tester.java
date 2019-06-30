@@ -22,8 +22,9 @@ public class Tester {
        
 
         ServicioUsuario us = new ServicioUsuario();
-        Usuario u = new Cliente("2","testName2","testPass2",1);
-        System.out.println(us.selectAll("idUsuario", "1").toString());
+//        Usuario u = new Cliente("2","testName2","testPass2",1);
+//        System.out.println(us.selectAll("idUsuario", "1").toString());
+        System.out.println(us.selectAll("idUsuario", "1"));
             
     }
     
