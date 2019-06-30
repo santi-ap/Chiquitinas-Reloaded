@@ -29,7 +29,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     public Object select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect="";
         ResultSet rs = null;
-        Statement stmt=null;
+        Statement stmt = null;
         try{
             //STEP 3: Execute a query
             super.conectar();

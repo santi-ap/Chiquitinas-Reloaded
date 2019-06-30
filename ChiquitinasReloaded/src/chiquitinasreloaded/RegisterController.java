@@ -16,6 +16,7 @@ public class RegisterController extends Controller{
     private String nombreInput;
     private  String contrasennaDosInput;
     private final static String ADMINCONTRASENNA="admin";
+    ServicioUsuario su=new ServicioUsuario();
 
     public String getNombreInput() {
         return nombreInput;
@@ -39,8 +40,9 @@ public class RegisterController extends Controller{
 
     
     //metodo que hace toda la logico para registar un usuario nuevo
-    public Usuario registar(){
-        return null;
+    public Usuario registar(Usuario u){
+        su.insert(u);
+        return u;
     }
     
     /**
@@ -91,6 +93,20 @@ public class RegisterController extends Controller{
                        return this.formRegistro();
                    }
                } else {
+   // --SANTI--     /////////////////////// AQUI ES DONDE SE DECIDE SI ACEPTA REGISTRAR O CANCELAR ////////////////////////////////////////////// --SANTI--//
+                    System.out.println("1 - Registrar\n2 - Cancelar");
+                    switch (sc.nextInt())
+                    {
+                        case 1://SI ESCOGE REGISTRAR, LLAMA A LA FUNCION DE REGISTAR
+                            this.registar(u);
+                            break;
+                        case 2://SI ESCOGE CANCELAR, SE REINICA EL FORM 
+                            return formRegistro();
+                        default: //SI ESCOGE CUALQUIER OTRA COSA IGUAL SE REINICIA EL FORM
+                            System.out.println("Input no valido, reiniciando...");
+                            return formRegistro();
+                    }
+   // --SANTI--     /////////////////////// AQUI TERMINA DE DECIDIR SI ACEPTA REGISTRAR O CANCELAR ////////////////////////////////////////////// --SANTI--//                 
                     return u;   
                }
             } else {
@@ -107,13 +123,9 @@ public class RegisterController extends Controller{
     public boolean verificaContrasennaAdmin()
     {
         Scanner sc = new Scanner (System.in);
-        System.out.println("Ingresar contraseña de administrador para crear una cuenta Admin.\nDe lo contrario, presione ENTER:");
+        System.out.println("Ingresar contraseña de administrador para crear una cuenta Admin:");
         String s = sc.nextLine();
-        if (s.equals("")||s.equals(null))
-        {
-            System.out.println("Creando CLIENTE...");
-            return false;
-        } else if (s.equals(this.getAdminContrasenna())) {
+        if (s.equals(this.getAdminContrasenna())) {
             System.out.println("Creando ADMIN...");
             return true;
         } else {
