@@ -5,6 +5,7 @@
  */
 package chiquitinasreloaded;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,12 +21,19 @@ public class LoginController extends Controller {
         //validar id con base de datos
         
         String idBD = su.select("idUsuario", "idUsuario", idInput).toString();
-        String passBD = su.select("contrasennaUsuario", "idUsuario", idInput).toString();//
+        String passBD = su.select("contrasennaUsuario", "idUsuario", idInput).toString();
+        ArrayList<Object> typeBD = su.selectAll("idUsuario", idInput);
+        
 
         if (idInput.equals(idBD)) {
             if(passInput.equals(passBD)){
-                System.out.println("Succes");
-                //enter method for next meny
+                if( typeBD.get(3).toString().equals("0") ){
+                    System.out.println("Menu Admin");
+                }else{
+                    System.out.println("Menu Cliente");
+                }
+                
+                
             }else{
                 System.out.println("Usuario o contrasenna incorrecta");
             this.formLogin();
