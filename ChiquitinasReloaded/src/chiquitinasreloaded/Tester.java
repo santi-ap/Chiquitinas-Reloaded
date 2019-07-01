@@ -7,6 +7,7 @@ package chiquitinasreloaded;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -19,40 +20,39 @@ public class Tester {
      */
     public static void main(String[] args) throws SQLException {
 
-        // TODO code application logic here
-       
-//        System.out.println("creating controller...");
-//        RegisterController rc = new RegisterController();
-//        System.out.println("Initializing Controller...");
-//        rc.getServivioUsuario().selectAll("*", "idUsuario");
-       //     ServicioUsuario su = new ServicioUsuario();
-         //   System.out.println(su.selectAll("idUsuario", "1").toString());
-         
-         LoginController lc = new LoginController();
-         lc.formLogin();
-
-        
 //////////////////////////////////////////////////////////////////////////////////////////      
 //        Test for database DO NOT DELETE (run to check if db connection is working     //
 //        ServicioUsuario us = new ServicioUsuario();                                   //
 //        Usuario u = new Cliente("2","testName2","testPass2",1);                       //
 //        System.out.println(us.selectAll("idUsuario", "1").toString());                //
 //////////////////////////////////////////////////////////////////////////////////////////   
-
-
-        RegisterController rc = new RegisterController();
-        rc.formRegistro();
+        
+        primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
+        
         
 
-//        ServicioUsuario us = new ServicioUsuario();
-//        Usuario u = new Cliente("2","testName2","testPass2",1);
-//        System.out.println(us.select("idUsuario", "idUsuario", "1").toString());
-//        System.out.println(us.selectAll("idUsuario", "1"));
-//        rc.formRegistro();
 
 
 
-
+    }
+    
+    //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
+    public static void primerMenu() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1 - Login\n2 - Registrar");
+        String input = sc.nextLine();
+        if(input.equals("1")){
+            LoginController lc = new LoginController();
+            lc.formLogin();
+        }else if(input.equals("2")){
+            RegisterController rc = new RegisterController();
+            rc.formRegistro();
+        }else{
+            System.out.println("Input no valido");
+            primerMenu();
+            return;
+        }
+        
     }
     
 }
