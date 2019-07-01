@@ -10,11 +10,14 @@ package chiquitinasreloaded;
  * @author santialfonso
  */
 public class Admin extends Usuario{
-    public Admin (){}
-    public Admin(String idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
+    public Admin ()
+    {
+        super.setTipoUsuario(0); //admins will always be 0
+    }
+    public Admin(String idUsuario, String nombreUsuario, String contrasennaUsuario) {
         super.idUsuario = idUsuario;
         super.nombreUsuario = nombreUsuario;
         super.contrasennaUsuario = contrasennaUsuario;
-        super.tipoUsuario = tipoUsuario;
+        super.tipoUsuario = 0;
     }
 }

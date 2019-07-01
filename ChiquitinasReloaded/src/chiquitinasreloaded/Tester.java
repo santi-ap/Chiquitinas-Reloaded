@@ -28,7 +28,7 @@ public class Tester {
 
 
         RegisterController rc = new RegisterController();
-        rc.getServivioUsuario().insert(rc.formRegistro());
+        rc.formRegistro();
         
 
 //        ServicioUsuario us = new ServicioUsuario();
