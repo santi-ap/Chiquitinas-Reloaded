@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class Controller {
     protected String idInput;
     protected String contrasennaInput;
-    protected ServicioUsuario servivioUsuario;
+    protected ServicioUsuario servivioUsuario = new ServicioUsuario();
 
     public String getIdInput() {
         return idInput;
@@ -46,13 +46,15 @@ public class Controller {
  * @return true si el id ya existe en la base de datos
  */
 
-    public boolean existeId(String idInput) throws SQLException{
-        
-            String o = this.getServivioUsuario().select("idUsuario", "idUsuario", idInput).toString();
-            if (o==null)
+    public boolean existeId(String idInput) {
+            if (this.getServivioUsuario().select("idUsuario", "idUsuario", idInput).toString().equals("noUserFound"))
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
     }
     
     /**

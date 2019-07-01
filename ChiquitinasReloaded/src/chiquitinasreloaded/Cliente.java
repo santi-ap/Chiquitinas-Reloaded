@@ -10,11 +10,15 @@ package chiquitinasreloaded;
  * @author santialfonso
  */
 public class Cliente extends Usuario{
-    public Cliente (){}
-    public Cliente(String idUsuario, String nombreUsuario, String contrasennaUsuario, int tipoUsuario) {
+    public Cliente ()
+    {
+        super.setTipoUsuario(1); //client will always be 1 in the db
+    }
+    
+    public Cliente(String idUsuario, String nombreUsuario, String contrasennaUsuario) {
         super.idUsuario = idUsuario;
         super.nombreUsuario = nombreUsuario;
         super.contrasennaUsuario = contrasennaUsuario;
-        super.tipoUsuario = tipoUsuario;
+        super.tipoUsuario = 1;
     }
 }
