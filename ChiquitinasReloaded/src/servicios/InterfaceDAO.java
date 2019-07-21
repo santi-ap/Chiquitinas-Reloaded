@@ -21,7 +21,7 @@ public interface InterfaceDAO {
      * @param queValor
      * @return 
      */
-    public Object select(Object queBuscamos, Object queColumna, Object queValor);
+    public String select(Object queBuscamos, Object queColumna, Object queValor);
     
     /**
      * Toma un objeto tipo TABLA para tener todos los datos completos para hacer el insert
@@ -51,5 +51,5 @@ public interface InterfaceDAO {
      * @param queValor
      * @return 
      */
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor);
+    public ArrayList<String> selectAll(Object queColumna, Object queValor);
 }

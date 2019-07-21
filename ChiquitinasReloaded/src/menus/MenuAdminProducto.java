@@ -20,8 +20,8 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
 
     @Override
     public void displayMenu() {
-        int condicion =0;
-        while (condicion==0) {
+        int condicion = 0;
+        while (condicion == 0) {
             System.out.println("MENU DE INVENTARIO\n"
                     + "1-Agregar/Pedir un producto\n"
                     + "2-Buscar producto por nombre\n"
@@ -39,11 +39,14 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                 case "4":// opcion para Eliminar producto
                     break;
                 case "5"://opcion para ir atras
-                    condicion=1;
+                    condicion = 1;
                     break;
             }
         }
     }
-    
-    
+
+    public void displayBuscarProductoPorNombre() {
+        
+    }
+
 }

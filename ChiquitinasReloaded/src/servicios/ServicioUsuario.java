@@ -28,7 +28,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
      * @return the selected value if it finds it, the string "noUserFound" will be returned
      */
     @Override//select, toma como parametros lo que estmos buscando, la columna donde especificamos el valor de condicion y que valor debe tener la columna 
-    public Object select(Object queBuscamos, Object queColumna, Object queValor) {
+    public String select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect="";
         ResultSet rs = null;
         Statement stmt = null;
@@ -141,8 +141,8 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        ArrayList<Object> listaDatosUsuario= new ArrayList<>();
+    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
+        ArrayList<String> listaDatosUsuario= new ArrayList<>();
         ResultSet rs = null;
         Statement stmt=null;
         try{
