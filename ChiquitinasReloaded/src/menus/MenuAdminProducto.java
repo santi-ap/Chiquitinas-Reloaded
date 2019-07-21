@@ -5,18 +5,45 @@
  */
 package menus;
 
+import java.util.Scanner;
+
 /**
  *
  * @author santialfonso
  */
-public class MenuAdminProducto implements MenuDisplayBehavior{
+public class MenuAdminProducto implements MenuDisplayBehavior {
+
+    Scanner input = new Scanner(System.in);
 
     public MenuAdminProducto() {
     }
 
     @Override
     public void displayMenu() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int condicion =0;
+        while (condicion==0) {
+            System.out.println("MENU DE INVENTARIO\n"
+                    + "1-Agregar/Pedir un producto\n"
+                    + "2-Buscar producto por nombre\n"
+                    + "3-Modificar producto\n"
+                    + "4-Eliminar producto\n"
+                    + "5-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Opcion para Agregar/Pedir un producto
+                    break;
+                case "2"://Opcion para Buscar producto por nombre
+                    break;
+                case "3"://opcion para Modificar producto
+                    break;
+                case "4":// opcion para Eliminar producto
+                    break;
+                case "5"://opcion para ir atras
+                    condicion=1;
+                    break;
+            }
+        }
     }
+    
     
 }
