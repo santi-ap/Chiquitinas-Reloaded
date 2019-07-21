@@ -10,6 +10,7 @@ import controllers.LoginController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import servicios.ServicioProducto;
 
 /**
  *
@@ -27,12 +28,12 @@ public class Tester {
 //        ServicioUsuario us = new ServicioUsuario();                                   //
 //        Usuario u = new Cliente("2","testName2","testPass2",1);                       //
 //        System.out.println(us.selectAll("idUsuario", "1").toString());                //
+//        ServicioProducto sp = new ServicioProducto();                                 //
+//        System.out.println(sp.select("nombreProducto", "idProducto", "2123657"));     //
 //////////////////////////////////////////////////////////////////////////////////////////   
         
         primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
-        
-        
-
+     
 
 
 
