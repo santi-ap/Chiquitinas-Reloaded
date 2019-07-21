@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import objetos.Usuario;
 import java.util.ArrayList;
 
 /**
@@ -194,10 +193,11 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
                 listaDatosProducto.add(rs.getString("precioClienteProducto"));
                 listaDatosProducto.add(rs.getString("stockMinProducto"));
                 listaDatosProducto.add(rs.getString("contadorProducto"));
+                listaDatosProducto.add(rs.getString("precioProveedorProducto"));
                 listaDatosProducto.add(rs.getString("descuentoPromo"));
                 listaDatosProducto.add(rs.getString("Proveedor_idProveedor"));
-            } else {//si no encuentra a un producto con los parametros especificados, va a retornar un un String avisando que no se encontro el producto
-                listaDatosProducto.add("noProductFound");
+            } else {//si no encuentra a un producto con los parametros especificados, va a retornar un String avisando que no se encontro el producto
+                listaDatosProducto.add("No Existe el Producto");
                 return listaDatosProducto;
             }
 
@@ -215,4 +215,6 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return listaDatosProducto;
     }
+    
+    
 }

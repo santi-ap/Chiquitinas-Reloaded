@@ -5,6 +5,7 @@
  */
 package menus;
 
+import controllers.ControllerProducto;
 import java.util.Scanner;
 
 /**
@@ -14,9 +15,14 @@ import java.util.Scanner;
 public class MenuAdminProducto implements MenuDisplayBehavior {
 
     Scanner input = new Scanner(System.in);
+    ControllerProducto controllerProducto = new ControllerProducto();
 
     public MenuAdminProducto() {
     }
+    public void clearScreen() {  
+    System.out.print("\033[H\033[2J");  
+    System.out.flush();  
+   }
 
     @Override
     public void displayMenu() {
@@ -33,6 +39,8 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                 case "1"://Opcion para Agregar/Pedir un producto
                     break;
                 case "2"://Opcion para Buscar producto por nombre
+                    this.clearScreen();
+                    this.controllerProducto.buscarProductoPorNombre();
                     break;
                 case "3"://opcion para Modificar producto
                     break;
@@ -44,9 +52,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-
-    public void displayBuscarProductoPorNombre() {
-        
-    }
+    
+    
 
 }
