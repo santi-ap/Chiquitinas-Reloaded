@@ -19,6 +19,15 @@ public class Proveedor {
     public Proveedor() {
     }
 
+    public Proveedor(int idProveedor, String nombreProveedor, int numeroTelProveedor, String correoProveedor) {
+        this.idProveedor = idProveedor;
+        this.nombreProveedor = nombreProveedor;
+        this.numeroTelProveedor = numeroTelProveedor;
+        this.correoProveedor = correoProveedor;
+    }
+    
+    
+
     public int getIdProveedor() {
         return idProveedor;
     }
