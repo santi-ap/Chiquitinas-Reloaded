@@ -31,6 +31,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Agregar/Pedir un producto
+                    System.out.println("1-Producto Exsitente\n2-Productos Nuevo");
                     break;
                 case "2"://Opcion para Buscar producto por nombre
                     break;
