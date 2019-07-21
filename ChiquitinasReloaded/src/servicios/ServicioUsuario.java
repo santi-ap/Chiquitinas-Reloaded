@@ -101,7 +101,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         try{
             super.conectar();
             System.out.println("Actualizando valores...");
-            String sql = "UPDATE Usuario SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?";
+            String sql = "UPDATE Usuario SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
             preparedStmt.setString(2, queValor.toString());
@@ -123,7 +123,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         try{
             super.conectar();
             System.out.println("Borrando valores...");
-            String sql = "DELETE FROM Usuario WHERE "+queColumna+" = ?";
+            String sql = "DELETE FROM Usuario WHERE "+queColumna+" = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
             preparedStmt.execute(); 

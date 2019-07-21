@@ -5,6 +5,8 @@
  */
 package items;
 
+import objetos.Proveedor;
+
 /**
  *
  * @author santialfonso
@@ -19,6 +21,7 @@ public class Producto extends Decorador{
     private int stockMinimoProducto;
     private int cantidadActualProducto;
     private String categoriaProducto;
+    private Proveedor proveedorProducto;
     
     
     public Producto() {
@@ -86,6 +89,14 @@ public class Producto extends Decorador{
 
     public void setCategoriaProducto(String categoriaProducto) {
         this.categoriaProducto = categoriaProducto;
+    }
+
+    public Proveedor getProveedorProducto() {
+        return proveedorProducto;
+    }
+
+    public void setProveedorProducto(Proveedor proveedorProducto) {
+        this.proveedorProducto = proveedorProducto;
     }
     
     
