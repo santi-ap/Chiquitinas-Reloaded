@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Scanner;
 import mediador.Colleague;
 import mediador.Mediador;
 import observer.Observer;
@@ -18,9 +20,10 @@ import servicios.ServicioProducto;
  */
 public class ControllerProducto extends ControllerFactory implements Colleague, Subject{
     
-     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
+    // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto)this.CrearServicio());//CASTING DE Servcio A ServicioProducto
     private Mediador mediador;
+    Scanner input = new Scanner(System.in);
 
     public ControllerProducto() {
     }
@@ -60,6 +63,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     @Override
     public void notificarObserver() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void buscarProductoPorNombre()
+    {
+        System.out.println("Ingese el nombre del producto que desea buscar: ");
+        String nombreProductoDeseado = input.nextLine();
+        ArrayList<String> listaDetallesProducto = this.servicioProducto.selectAll("nombreProducto", nombreProductoDeseado);
     }
     
 }

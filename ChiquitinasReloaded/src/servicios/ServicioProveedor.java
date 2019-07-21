@@ -23,7 +23,7 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public Object select(Object queBuscamos, Object queColumna, Object queValor) {
+    public String select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect = "";
         ResultSet rs = null;
         Statement stmt = null;
@@ -135,8 +135,8 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        ArrayList<Object> listaDatosProveedor = new ArrayList<>();
+    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
+        ArrayList<String> listaDatosProveedor = new ArrayList<>();
         ResultSet rs = null;
         Statement stmt = null;
         try {
@@ -180,5 +180,38 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
         return listaDatosProveedor;
     }
     
+    public ArrayList<String> selecAllNombresProveedor(){
+        ArrayList<String> listaProveedores = new ArrayList<>();
+        ResultSet rs = null;
+        Statement stmt=null;
+        try{
+            //STEP 3: Execute a querey
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            sql="SELECT idProveedor, nombreProveedor FROM Proveedor;";
+            rs=stmt.executeQuery(sql);
+            //STEP 3.1: Extract data from result set
+            while (rs.next()){
+                //Retrieve by column name
+                listaProveedores.add(rs.getString("idProveedor"));
+                listaProveedores.add(rs.getString("nombreProveedor"));
+                //System.out.println(nombreProveedor);
+               // listaNombresProveedores.add(nombreProveedor);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return listaProveedores;
+    } 
     
 }

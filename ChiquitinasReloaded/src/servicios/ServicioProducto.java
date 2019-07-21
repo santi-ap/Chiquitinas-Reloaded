@@ -30,7 +30,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
      * @return lo que buscamos
      */
     @Override
-    public Object select(Object queBuscamos, Object queColumna, Object queValor) {
+    public String select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect = "";
         ResultSet rs = null;
         Statement stmt = null;
@@ -168,8 +168,8 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
      * @return una lista con todos los datos del producto
      */
     @Override
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        ArrayList<Object> listaDatosProducto = new ArrayList<>();
+    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
+        ArrayList<String> listaDatosProducto = new ArrayList<>();
         ResultSet rs = null;
         Statement stmt = null;
         try {

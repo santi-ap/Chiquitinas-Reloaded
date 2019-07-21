@@ -21,7 +21,9 @@ public class DavidTester {
     public static void main(String[] args) {
         ServicioProveedor sp = new ServicioProveedor();
         //System.out.println(sp.select("nombreProveedor", "idProveedor", 2));
-        System.out.println(sp.selectAll("idProveedor", 2));
+        //System.out.println(sp.selecAllNombresProveedor());
+        
+        System.out.println(sp.selecAllNombresProveedor()+ "\n");
     
 }
 }

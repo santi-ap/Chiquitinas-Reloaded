@@ -26,7 +26,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
      * @return el valor que estabamos buscando
      */
     @Override
-    public Object select(Object queBuscamos, Object queColumna, Object queValor) {
+    public String select(Object queBuscamos, Object queColumna, Object queValor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -51,7 +51,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
     }
 
     @Override
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
+    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

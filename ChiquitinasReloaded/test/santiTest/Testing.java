@@ -18,7 +18,6 @@ public class Testing {
      */
     public static void main(String[] args) {
         ServicioProducto sp = new ServicioProducto();
-        System.out.println(sp.selectAll("idProveedor", 2));
         
     }
     
