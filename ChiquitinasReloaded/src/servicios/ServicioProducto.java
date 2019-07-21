@@ -64,7 +64,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public void insert(Usuario usuario) {
+    public void insert(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

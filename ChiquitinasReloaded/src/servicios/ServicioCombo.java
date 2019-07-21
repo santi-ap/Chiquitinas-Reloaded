@@ -36,7 +36,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
      * @param usuario 
      */
     @Override
-    public void insert(Usuario usuario) {
+    public void insert(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

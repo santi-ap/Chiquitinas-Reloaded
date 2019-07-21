@@ -70,7 +70,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public void insert(Usuario usuario) {
+    public void insert(Object object) {
         try{
             //STEP 3: Execute a querey
             super.conectar();
@@ -79,10 +79,10 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
             String sql;
             sql="INSERT INTO Usuario (idUsuario, nombreUsuario, contrasennaUsuario, tipoUsuario) values (?,?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, usuario.getIdUsuario());//idUsuario
-            preparedStatement.setString(2, usuario.getNombreUsuario());//nombreUsuario
-            preparedStatement.setString(3, usuario.getContrasennaUsuario());//contrasennaUsuario
-            preparedStatement.setInt(4, usuario.getTipoUsuario());//tipoUsuario
+            preparedStatement.setString(1, ((Usuario)object).getIdUsuario());//idUsuario
+            preparedStatement.setString(2, ((Usuario)object).getNombreUsuario());//nombreUsuario
+            preparedStatement.setString(3, ((Usuario)object).getContrasennaUsuario());//contrasennaUsuario
+            preparedStatement.setInt(4, ((Usuario)object).getTipoUsuario());//tipoUsuario
             preparedStatement.executeUpdate(); 
             
         }catch(Exception e){
