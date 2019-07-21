@@ -5,6 +5,8 @@
  */
 package chiquitinasreloaded;
 
+import controllers.RegisterController;
+import controllers.LoginController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;

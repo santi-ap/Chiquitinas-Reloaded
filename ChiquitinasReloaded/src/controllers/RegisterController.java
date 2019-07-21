@@ -3,8 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chiquitinasreloaded;
+package controllers;
 
+import objetos.Admin;
+import objetos.Admin;
+import objetos.Cliente;
+import objetos.Cliente;
+import objetos.Usuario;
+import objetos.Usuario;
+import controllers.ControllerUsuario;
+import servicios.ServicioUsuario;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -12,7 +20,7 @@ import java.util.Scanner;
  *
  * @author santialfonso
  */
-public class RegisterController extends Controller {
+public class RegisterController extends ControllerUsuario {
 
     private String nombreInput;
     private String contrasennaDosInput;

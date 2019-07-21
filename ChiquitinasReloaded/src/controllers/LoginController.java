@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chiquitinasreloaded;
+package controllers;
 
+import objetos.Usuario;
+import controllers.ControllerUsuario;
+import servicios.ServicioUsuario;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,7 +15,7 @@ import java.util.Scanner;
  *
  * @author santialfonso
  */
-public class LoginController extends Controller {
+public class LoginController extends ControllerUsuario {
 
     //metodo que tiene toda la logica para logear un usuario
     public Usuario logear(String idInput, String passInput) {

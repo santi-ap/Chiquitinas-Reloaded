@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chiquitinasreloaded;
+package controllers;
 
+import servicios.ServicioUsuario;
 import java.sql.SQLException;
+import servicios.Servicio;
 
 /**
  *
  * @author santialfonso
  */
-public class Controller {
+public class ControllerUsuario extends ControllerFactory{
     protected String idInput;
     protected String contrasennaInput;
-    protected ServicioUsuario servivioUsuario = new ServicioUsuario();
+    // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
+    protected ServicioUsuario servivioUsuario = ((ServicioUsuario)this.CrearServicio());//CASTING DE Servcio A ServicioUsuario
+    
 
     public String getIdInput() {
         return idInput;
@@ -38,6 +42,15 @@ public class Controller {
 
     public void setServivioUsuario(ServicioUsuario servivioUsuario) {
         this.servivioUsuario = servivioUsuario;
+    }
+    
+    /**
+     * METODO NECESARIO PARA IMPLEMENTAR FACTORY
+     * @return un nuevo ServicioUsuario
+     */
+    @Override
+    public Servicio CrearServicio() {
+        return new ServicioUsuario();
     }
     
 /**
@@ -66,4 +79,6 @@ public class Controller {
     public boolean verificaString (String s, String p){
         return s.equals(p);
     }
+
+
 }
