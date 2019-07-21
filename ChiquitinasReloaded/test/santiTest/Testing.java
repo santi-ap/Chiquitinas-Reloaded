@@ -18,7 +18,7 @@ public class Testing {
      */
     public static void main(String[] args) {
         ServicioProducto sp = new ServicioProducto();
-        sp.update("stockMinProducto", "10", "idProducto", "2123657");
+        System.out.println(sp.selectAll("idProveedor", 2));
         
     }
     
