@@ -5,6 +5,7 @@
  */
 package santiTest;
 
+import menus.MenuAdminProducto;
 import servicios.ServicioProducto;
 
 /**
@@ -17,8 +18,12 @@ public class Testing {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ServicioProducto sp = new ServicioProducto();
-        
+
+//        ServicioProducto sp = new ServicioProducto();
+//        sp.update("stockMinProducto", "10", "idProducto", "2123657");
+        MenuAdminProducto mAP=new MenuAdminProducto();
+        mAP.displayMenu();
+
     }
     
 }

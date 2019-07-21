@@ -5,6 +5,7 @@
  */
 package menus;
 
+import controllers.ControllerProducto;
 import java.util.Scanner;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Scanner;
 public class MenuAdminProducto implements MenuDisplayBehavior {
 
     Scanner input = new Scanner(System.in);
+    ControllerProducto controllerProducto = new ControllerProducto();
 
     public MenuAdminProducto() {
     }
@@ -34,6 +36,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     System.out.println("1-Producto Exsitente\n2-Productos Nuevo");
                     break;
                 case "2"://Opcion para Buscar producto por nombre
+                    this.controllerProducto.buscarProductoPorNombre();
                     break;
                 case "3"://opcion para Modificar producto
                     break;
@@ -45,9 +48,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-
-    public void displayBuscarProductoPorNombre() {
-        
-    }
+    
+    
 
 }
