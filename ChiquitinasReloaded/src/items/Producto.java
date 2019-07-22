@@ -21,7 +21,7 @@ public class Producto extends Decorador{
     private int stockMinimoProducto;
     private int cantidadActualProducto;
     private String categoriaProducto;
-    private Proveedor proveedorProducto;
+    private int idProveedorProducto;
     
     
     public Producto() {
@@ -91,13 +91,15 @@ public class Producto extends Decorador{
         this.categoriaProducto = categoriaProducto;
     }
 
-    public Proveedor getProveedorProducto() {
-        return proveedorProducto;
+    public int getIdProveedorProducto() {
+        return idProveedorProducto;
     }
 
-    public void setProveedorProducto(Proveedor proveedorProducto) {
-        this.proveedorProducto = proveedorProducto;
+    public void setIdProveedorProducto(int idProveedorProducto) {
+        this.idProveedorProducto = idProveedorProducto;
     }
+
+   
     
     
 }
