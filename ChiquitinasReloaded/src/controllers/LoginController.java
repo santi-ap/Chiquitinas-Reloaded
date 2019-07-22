@@ -25,7 +25,7 @@ public class LoginController extends ControllerUsuario {
         
         String idBD = su.select("idUsuario", "idUsuario", idInput).toString();
         String passBD = su.select("contrasennaUsuario", "idUsuario", idInput).toString();
-        ArrayList<String> typeBD = su.selectAll("idUsuario", idInput);
+        ArrayList<Object> typeBD = su.selectAll("idUsuario", idInput);
         
 
         if (idInput.equals(idBD)) {

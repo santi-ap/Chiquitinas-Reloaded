@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import items.Producto;
 import java.util.ArrayList;
 import java.util.Scanner;
 import mediador.Colleague;
@@ -67,16 +68,25 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     }
 
     public void buscarProductoPorNombre() {
-        System.out.println("Ingese el nombre del producto que desea buscar: ");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIngese el nombre del producto que desea buscar: ");
         String nombreProductoDeseado = input.nextLine();
-        ArrayList<String> listaDetallesProducto = this.servicioProducto.selectAll("nombreProducto", nombreProductoDeseado);
+        ArrayList<Object> listaDetallesProducto = this.servicioProducto.selectAll("nombreProducto", nombreProductoDeseado);
         if (!(listaDetallesProducto.get(0).equals("No Existe el Producto"))) {
-            System.out.println("ID Producto: " + listaDetallesProducto.get(0) + "\nNombre Producto: " + listaDetallesProducto.get(1)
-                    + "\nPrecio del Producto para el cliente: ₡" + listaDetallesProducto.get(2) + "\nStock Minimo del Producto: " + listaDetallesProducto.get(3)
-                    + "\nStock actual del producto: " + listaDetallesProducto.get(4) + "\nPrecio del Producto ofrecido por el Proveedor: ₡" + listaDetallesProducto.get(5)
-                    + "\nDescuento promocional del producto: " + Double.parseDouble(listaDetallesProducto.get(6)) * 100 + "%" + "\nID del Proveedor del Producto: " + listaDetallesProducto.get(7));
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+(Producto)listaDetallesProducto.get(0));
         }else
-            System.out.println("No Existe el Producto");
+            System.out.println("No Existe el Producto\n\n\n\n");
     }
 
+    public void getDatosForMenuProducto(String id){
+        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
+        
+        for(Object o: listaProductos){
+            
+            System.out.println("ID PRODUCTO: "+((Producto)o).getIdProducto()+"|| PRODUCTO: "+((Producto)o).getNombreProducto()+"|| PRECIO CLIENTE: c"+ ((Producto)o).getPrecioProductoCliente()
+                    +"|| PRECIO PROVEEDOR: "+ ((Producto)o).getPrecioProductoProveedor());
+            
+        }
+        
+        
+    }
 }

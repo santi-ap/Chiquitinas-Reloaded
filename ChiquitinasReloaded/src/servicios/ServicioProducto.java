@@ -23,6 +23,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
 
     /**
      * SELECT queBuscamos FROM Producto WHERE queColumna queValor;
+     *
      * @param queBuscamos
      * @param queColumna
      * @param queValor
@@ -71,8 +72,11 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
     /**
-     * INSERT INTO Usuario (idProducto, nombreProducto, precioClienteProducto, stockMinProducto, contadorProducto, descuentoPromo, Proveedor_idProveedor) values (?,?,?,?,?,?,?);
-     * @param object 
+     * INSERT INTO Usuario (idProducto, nombreProducto, precioClienteProducto,
+     * stockMinProducto, contadorProducto, descuentoPromo,
+     * Proveedor_idProveedor) values (?,?,?,?,?,?,?);
+     *
+     * @param object
      */
     @Override
     public void insert(Object object) {
@@ -90,7 +94,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             preparedStatement.setInt(4, ((Producto) object).getStockMinimoProducto());//stockMinProducto
             preparedStatement.setInt(5, ((Producto) object).getCantidadActualProducto());//contadorProducto
             preparedStatement.setDouble(6, ((Producto) object).getDescuentoProductoPromo());//descuentoPromo
-            preparedStatement.setInt(7, ((Producto) object).getProveedorProducto().getIdProveedor());//Proveedor_idProveedor
+            preparedStatement.setInt(7, ((Producto) object).getIdProveedorProducto());//Proveedor_idProveedor
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
@@ -103,14 +107,15 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             }
         }
     }
-    
-    
+
     /**
-     * UPDATE Producto SET queColumnaActualizamos = queInsertamos WHERE queColuma = queValor;
+     * UPDATE Producto SET queColumnaActualizamos = queInsertamos WHERE
+     * queColuma = queValor;
+     *
      * @param queColumnaActualizamos
      * @param queInsertamos
      * @param queColuma
-     * @param queValor 
+     * @param queValor
      */
     @Override
     public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
@@ -136,8 +141,9 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
 
     /**
      * DELETE FROM Producto WHERE queColumna = queValor;
+     *
      * @param queColumna
-     * @param queValor 
+     * @param queValor
      */
     @Override
     public void delete(Object queColumna, Object queValor) {
@@ -162,13 +168,15 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
 
     /**
      * SELECT * FROM Producto WHERE queColumna = queValor;
+     *
      * @param queColumna
      * @param queValor
      * @return una lista con todos los datos del producto
      */
     @Override
-    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
-        ArrayList<String> listaDatosProducto = new ArrayList<>();
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
+        ArrayList<Object> listaDeProductos = new ArrayList<>();
+        Producto producto;
         ResultSet rs = null;
         Statement stmt = null;
         try {
@@ -186,19 +194,19 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             rs = preparedStatement.executeQuery();
 
             //STEP 3.1: Extract data from result set
-            if (rs.next()) {
+            while(rs.next()) {
                 //Retrieve by column name
-                listaDatosProducto.add(rs.getString("idProducto"));
-                listaDatosProducto.add(rs.getString("nombreProducto"));
-                listaDatosProducto.add(rs.getString("precioClienteProducto"));
-                listaDatosProducto.add(rs.getString("stockMinProducto"));
-                listaDatosProducto.add(rs.getString("contadorProducto"));
-                listaDatosProducto.add(rs.getString("precioProveedorProducto"));
-                listaDatosProducto.add(rs.getString("descuentoPromo"));
-                listaDatosProducto.add(rs.getString("Proveedor_idProveedor"));
-            } else {//si no encuentra a un producto con los parametros especificados, va a retornar un String avisando que no se encontro el producto
-                listaDatosProducto.add("No Existe el Producto");
-                return listaDatosProducto;
+                 producto = new Producto();
+                    //Retrieve by column name
+                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                    producto.setNombreProducto(rs.getString("nombreProducto"));
+                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
+                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
+                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
+                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
+                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
+                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    listaDeProductos.add(producto);
             }
 
         } catch (Exception e) {
@@ -213,8 +221,65 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-        return listaDatosProducto;
+        return listaDeProductos;
     }
-    
-    
+
+    /**
+     * SELECT * FROM Producto; Metodo para retornas todos los Productos de la
+     * base de datos con toda su info en una lista de Productos
+     *
+     * @return lista de Productos
+     */
+    public ArrayList<Producto> selectTodosLosProductos() {
+        ArrayList<Producto> listaDeProductos = new ArrayList<>();
+        Producto producto;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Producto;";
+
+            rs = stmt.executeQuery(sql);
+
+            //STEP 3.1: Extract data from result set
+//            if (rs.next()) {
+                while (rs.next()) {
+                    producto = new Producto();
+                    //Retrieve by column name
+                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                    producto.setNombreProducto(rs.getString("nombreProducto"));
+                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
+                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
+                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
+                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
+                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
+                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    listaDeProductos.add(producto);
+                }
+//            } else {//si no encuentra productos, avisa que no se encontro y retorna null
+//                System.out.println("No existen productos");
+//                return null;
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDeProductos;
+    }
+
 }

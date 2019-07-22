@@ -50,6 +50,34 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
 
+    
+    public void subMenuModificarProducto(){
+        int condicion = 0;
+        while (condicion == 0) {
+            System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n"
+                    + "1-Modificar el nombre\n"
+                    + "2-Modificar el precio\n"
+                    + "3-Modificar el stock minimo\n"
+                    + "4-Opciones de descuento promocional\n"
+                    + "5-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Modificar el nombre
+                    break;
+                case "2"://Modificar el precio
+                    break;
+                case "3"://Modificar el stock minimo
+                    break;
+                case "4"://Opciones de descuento promocional
+                    break;
+                case "5"://opcion para ir atras
+                    condicion = 1;
+                    break;
+            }
+        }
+    }
+
+
     public void menuAgregarPedirProducto() {
         int condicion = 0;
         while (condicion == 0) {
@@ -63,7 +91,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.menuAgregarPoductoNuevo();
                     break;
                 case "2"://Opcion para Pedir un producto existente
-
+                    this.seleccionarProductoExistente();
                     break;
                 case "3"://opcion para ir atras
                     condicion = 1;
@@ -83,7 +111,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Pedir de un proveedor existente
-
+                    
                     break;
                 case "2"://Opcion para Proveedo un producto nuevo
 
@@ -98,8 +126,13 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     
     public void seleccionarProductoExistente(){
       ControllerProveedor cp = new ControllerProveedor();
+      
       cp.getProveedorIdNombre();
       
         System.out.println("\nINSERTER EL ID DEL PROVEEDOR");
+        String idProveedor = input.nextLine();
+        controllerProducto.getDatosForMenuProducto(idProveedor);
+        System.out.println("\nINSERTER EL ID DEL PRODUCTO");
+         String idProducto = input.nextLine();
     }
 }

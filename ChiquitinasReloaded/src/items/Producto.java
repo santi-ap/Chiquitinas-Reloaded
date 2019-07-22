@@ -21,7 +21,7 @@ public class Producto extends Decorador{
     private int stockMinimoProducto;
     private int cantidadActualProducto;
     private String categoriaProducto;
-    private Proveedor proveedorProducto;
+    private int idProveedorProducto;
     
     
     public Producto() {
@@ -91,12 +91,20 @@ public class Producto extends Decorador{
         this.categoriaProducto = categoriaProducto;
     }
 
-    public Proveedor getProveedorProducto() {
-        return proveedorProducto;
+    public int getIdProveedorProducto() {
+        return idProveedorProducto;
     }
 
-    public void setProveedorProducto(Proveedor proveedorProducto) {
-        this.proveedorProducto = proveedorProducto;
+    public void setIdProveedorProducto(int idProveedorProducto) {
+        this.idProveedorProducto = idProveedorProducto;
+    }
+
+    @Override
+    public String toString(){
+        return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
+                    + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente() + " | Stock Minimo del Producto: " + this.getStockMinimoProducto()
+                    + " | Stock actual del producto: " + this.getCantidadActualProducto() + "\n Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor()
+                    + " | Descuento promocional del producto: " + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
     }
     
     

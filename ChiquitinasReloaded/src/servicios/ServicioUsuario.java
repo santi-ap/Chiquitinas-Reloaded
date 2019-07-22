@@ -141,8 +141,8 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     @Override
-    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
-        ArrayList<String> listaDatosUsuario= new ArrayList<>();
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
+        ArrayList<Object> listaDatosUsuario= new ArrayList<>();
         ResultSet rs = null;
         Statement stmt=null;
         try{

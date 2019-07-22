@@ -5,6 +5,8 @@
  */
 package santiTest;
 
+import controllers.ControllerProducto;
+import controllers.ControllerProveedor;
 import objetos.Proveedor;
 import servicios.ServicioProducto;
 import servicios.ServicioProveedor;
@@ -22,11 +24,14 @@ public class DavidTester {
     public static void main(String[] args) {
         ServicioProveedor sp = new ServicioProveedor();
         MenuAdminProducto map = new MenuAdminProducto();
+        ControllerProveedor cp = new ControllerProveedor();
+        ControllerProducto conP = new ControllerProducto();
         //System.out.println(sp.select("nombreProveedor", "idProveedor", 2));
         //System.out.println(sp.selecAllNombresProveedor());
         
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
         
+        map.displayMenu();
         
         
         
