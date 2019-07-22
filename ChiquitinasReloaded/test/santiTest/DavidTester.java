@@ -8,6 +8,7 @@ package santiTest;
 import objetos.Proveedor;
 import servicios.ServicioProducto;
 import servicios.ServicioProveedor;
+import menus.MenuAdminProducto;
 
 /**
  *
@@ -20,10 +21,15 @@ public class DavidTester {
      */
     public static void main(String[] args) {
         ServicioProveedor sp = new ServicioProveedor();
+        MenuAdminProducto map = new MenuAdminProducto();
         //System.out.println(sp.select("nombreProveedor", "idProveedor", 2));
         //System.out.println(sp.selecAllNombresProveedor());
         
-        System.out.println(sp.selecAllNombresProveedor()+ "\n");
+        //System.out.println(sp.selecAllNombresProveedor()+ "\n");
+        
+        
+        
+        
     
 }
 }
