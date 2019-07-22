@@ -5,6 +5,7 @@
  */
 package santiTest;
 
+import items.Producto;
 import menus.MenuAdminProducto;
 import servicios.ServicioProducto;
 
@@ -19,11 +20,16 @@ public class Testing {
      */
     public static void main(String[] args) {
 
-//        ServicioProducto sp = new ServicioProducto();
+        ServicioProducto sp = new ServicioProducto();
 //        sp.update("stockMinProducto", "10", "idProducto", "2123657");
-        MenuAdminProducto mAP=new MenuAdminProducto();
-        mAP.displayMenu();
-
+//        MenuAdminProducto mAP=new MenuAdminProducto();
+//        mAP.displayMenu();
+          for(Producto p:sp.selectTodosLosProductos()){
+              System.out.println(p);
+          }
+          for (Object o:sp.selectAll("Proveedor_idProveedor", "1")){
+              System.out.println((Producto)o);
+          }
     }
     
 }

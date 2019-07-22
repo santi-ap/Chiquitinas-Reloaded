@@ -48,6 +48,31 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
     
+    public void subMenuModificarProducto(){
+        int condicion = 0;
+        while (condicion == 0) {
+            System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n"
+                    + "1-Modificar el nombre\n"
+                    + "2-Modificar el precio\n"
+                    + "3-Modificar el stock minimo\n"
+                    + "4-Opciones de descuento promocional\n"
+                    + "5-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Modificar el nombre
+                    break;
+                case "2"://Modificar el precio
+                    break;
+                case "3"://Modificar el stock minimo
+                    break;
+                case "4"://Opciones de descuento promocional
+                    break;
+                case "5"://opcion para ir atras
+                    condicion = 1;
+                    break;
+            }
+        }
+    }
     
 
 }

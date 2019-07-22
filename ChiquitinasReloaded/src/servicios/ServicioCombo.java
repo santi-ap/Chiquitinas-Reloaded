@@ -51,7 +51,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
     }
 
     @Override
-    public ArrayList<String> selectAll(Object queColumna, Object queValor) {
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

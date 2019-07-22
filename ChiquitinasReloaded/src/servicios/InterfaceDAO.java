@@ -51,5 +51,5 @@ public interface InterfaceDAO {
      * @param queValor
      * @return 
      */
-    public ArrayList<String> selectAll(Object queColumna, Object queValor);
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor);
 }
