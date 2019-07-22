@@ -90,7 +90,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             preparedStatement.setInt(4, ((Producto) object).getStockMinimoProducto());//stockMinProducto
             preparedStatement.setInt(5, ((Producto) object).getCantidadActualProducto());//contadorProducto
             preparedStatement.setDouble(6, ((Producto) object).getDescuentoProductoPromo());//descuentoPromo
-            preparedStatement.setInt(7, ((Producto) object).getProveedorProducto().getIdProveedor());//Proveedor_idProveedor
+            preparedStatement.setInt(7, ((Producto) object).getIdProveedorProducto());//Proveedor_idProveedor
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
@@ -215,6 +215,8 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return listaDatosProducto;
     }
+    
+    
     
     
 }
