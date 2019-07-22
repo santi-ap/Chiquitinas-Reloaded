@@ -102,9 +102,11 @@ public class Producto extends Decorador{
     @Override
     public String toString(){
         return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
-                    + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente() + " | Stock Minimo del Producto: " + this.getStockMinimoProducto()
-                    + " | Stock actual del producto: " + this.getCantidadActualProducto() + "\n Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor()
-                    + " | Descuento promocional del producto: " + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
+                    + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente() 
+                    +" | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente()-(this.getPrecioProductoCliente()*this.getDescuentoProductoPromo())) 
+                    + " | Stock Minimo del Producto: " + this.getStockMinimoProducto() + "\n Stock actual del producto: " + this.getCantidadActualProducto() 
+                    + "Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor() + " | Descuento promocional del producto: " 
+                    + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
     }
     
     

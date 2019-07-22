@@ -38,6 +38,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.controllerProducto.buscarProductoPorNombre();
                     break;
                 case "3"://opcion para Modificar producto
+                    this.subMenuModificarProducto();
                     break;
                 case "4":// opcion para Eliminar producto
                     break;
@@ -49,9 +50,13 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     }
     
     public void subMenuModificarProducto(){
+        System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n");
+        controllerProducto.printTodosLosProductos();
+        System.out.println("Escoga el id del producto que desea modificar");
+        int idProductoAModificar = Integer.parseInt(input.nextLine());
         int condicion = 0;
         while (condicion == 0) {
-            System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n"
+            System.out.println("ECOGA UNA OPCION\n"
                     + "1-Modificar el nombre\n"
                     + "2-Modificar el precio\n"
                     + "3-Modificar el stock minimo\n"
@@ -60,10 +65,13 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Modificar el nombre
+                    controllerProducto.modidificarNombreProducto(idProductoAModificar);
                     break;
                 case "2"://Modificar el precio
+                    controllerProducto.modidificarPrecioProducto(idProductoAModificar);
                     break;
                 case "3"://Modificar el stock minimo
+                    controllerProducto.modidificarStockMinProducto(idProductoAModificar);
                     break;
                 case "4"://Opciones de descuento promocional
                     break;

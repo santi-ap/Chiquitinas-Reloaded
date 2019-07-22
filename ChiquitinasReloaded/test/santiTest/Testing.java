@@ -5,6 +5,7 @@
  */
 package santiTest;
 
+import controllers.ControllerProducto;
 import items.Producto;
 import menus.MenuAdminProducto;
 import servicios.ServicioProducto;
@@ -22,14 +23,16 @@ public class Testing {
 
         ServicioProducto sp = new ServicioProducto();
 //        sp.update("stockMinProducto", "10", "idProducto", "2123657");
-//        MenuAdminProducto mAP=new MenuAdminProducto();
-//        mAP.displayMenu();
-          for(Producto p:sp.selectTodosLosProductos()){
-              System.out.println(p);
-          }
-          for (Object o:sp.selectAll("Proveedor_idProveedor", "1")){
-              System.out.println((Producto)o);
-          }
+        MenuAdminProducto mAP=new MenuAdminProducto();
+        mAP.displayMenu();
+//          for(Producto p:sp.selectTodosLosProductos()){
+//              System.out.println(p);
+//          }
+//          for (Object o:sp.selectAll("Proveedor_idProveedor", "1")){
+//              System.out.println((Producto)o);
+//          }
+//        ControllerProducto cp = new ControllerProducto();
+//        cp.modidificarNombreProducto(1);
     }
     
 }

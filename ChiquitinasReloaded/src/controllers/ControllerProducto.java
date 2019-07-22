@@ -76,5 +76,28 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         }else
             System.out.println("No Existe el Producto\n\n\n\n");
     }
-
+    
+    public void printTodosLosProductos(){
+        for(Producto p:servicioProducto.selectTodosLosProductos()){
+              System.out.println(p);
+          }
+    }
+    
+    public void modidificarNombreProducto(int idProducto){
+        System.out.println("Ingrese el nuevo nombre del producto: ");
+        String nombreProdNuevo = input.nextLine();
+        servicioProducto.update("nombreProducto", nombreProdNuevo, "idProducto", idProducto);
+    }
+    
+    public void modidificarPrecioProducto(int idProducto){
+        System.out.println("Ingrese el nuevo precio del producto: ");
+        String precioClienteProductoNuevo = input.nextLine();
+        servicioProducto.update("precioClienteProducto", precioClienteProductoNuevo, "idProducto", idProducto);
+    }
+    
+    public void modidificarStockMinProducto(int idProducto){
+        System.out.println("Ingrese el nuevo stock minimo del producto: ");
+        String stockMinProductoNuevo = input.nextLine();
+        servicioProducto.update("stockMinProducto", stockMinProductoNuevo, "idProducto", idProducto);
+    }
 }
