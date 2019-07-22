@@ -45,4 +45,10 @@ public class ControllerProveedor extends ControllerFactory implements Colleague{
         this.mediador = mediador;
     }
     
+    public void getProveedorIdNombre(){
+        ServicioProveedor sp = new ServicioProveedor();
+        for(String s:sp.selecAllNombresProveedor()){
+            System.out.println("\n"+s);
+        }
+    }
 }

@@ -72,32 +72,47 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         String nombreProductoDeseado = input.nextLine();
         ArrayList<Object> listaDetallesProducto = this.servicioProducto.selectAll("nombreProducto", nombreProductoDeseado);
         if (!(listaDetallesProducto.get(0).equals("No Existe el Producto"))) {
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+(Producto)listaDetallesProducto.get(0));
-        }else
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + (Producto) listaDetallesProducto.get(0));
+        } else {
             System.out.println("No Existe el Producto\n\n\n\n");
+        }
     }
-    
-    public void printTodosLosProductos(){
-        for(Producto p:servicioProducto.selectTodosLosProductos()){
-              System.out.println(p);
-          }
+
+    public void printTodosLosProductos() {
+        for (Producto p : servicioProducto.selectTodosLosProductos()) {
+            System.out.println(p);
+        }
     }
-    
-    public void modidificarNombreProducto(int idProducto){
+
+    public void modidificarNombreProducto(int idProducto) {
         System.out.println("Ingrese el nuevo nombre del producto: ");
         String nombreProdNuevo = input.nextLine();
         servicioProducto.update("nombreProducto", nombreProdNuevo, "idProducto", idProducto);
     }
-    
-    public void modidificarPrecioProducto(int idProducto){
+
+    public void modidificarPrecioProducto(int idProducto) {
         System.out.println("Ingrese el nuevo precio del producto: ");
         String precioClienteProductoNuevo = input.nextLine();
         servicioProducto.update("precioClienteProducto", precioClienteProductoNuevo, "idProducto", idProducto);
     }
-    
-    public void modidificarStockMinProducto(int idProducto){
+
+    public void modidificarStockMinProducto(int idProducto) {
         System.out.println("Ingrese el nuevo stock minimo del producto: ");
         String stockMinProductoNuevo = input.nextLine();
         servicioProducto.update("stockMinProducto", stockMinProductoNuevo, "idProducto", idProducto);
+    }
+
+    
+
+    public void getDatosForMenuProducto(String id) {
+        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
+
+        for (Object o : listaProductos) {
+
+            System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
+                    + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
+
+        }
+
     }
 }

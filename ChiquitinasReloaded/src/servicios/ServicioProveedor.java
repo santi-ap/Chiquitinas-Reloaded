@@ -181,6 +181,7 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
     }
     
     public ArrayList<String> selecAllNombresProveedor(){
+        String temp="";
         ArrayList<String> listaProveedores = new ArrayList<>();
         ResultSet rs = null;
         Statement stmt=null;
@@ -195,8 +196,10 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
             //STEP 3.1: Extract data from result set
             while (rs.next()){
                 //Retrieve by column name
-                listaProveedores.add(rs.getString("idProveedor"));
-                listaProveedores.add(rs.getString("nombreProveedor"));
+                temp=temp+(rs.getString("idProveedor"))+" ";
+                temp=temp+(rs.getString("nombreProveedor"));
+                listaProveedores.add(temp);
+                temp="";
                 //System.out.println(nombreProveedor);
                // listaNombresProveedores.add(nombreProveedor);
             }

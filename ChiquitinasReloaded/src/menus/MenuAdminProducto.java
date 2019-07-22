@@ -6,6 +6,7 @@
 package menus;
 
 import controllers.ControllerProducto;
+import controllers.ControllerProveedor;
 import java.util.Scanner;
 
 /**
@@ -24,7 +25,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     public void displayMenu() {
         int condicion = 0;
         while (condicion == 0) {
-            System.out.println("MENU DE INVENTARIO\n"
+            System.out.println("\n\n\n\n\nMENU DE INVENTARIO\n"
                     + "1-Agregar/Pedir un producto\n"
                     + "2-Buscar producto por nombre\n"
                     + "3-Modificar producto\n"
@@ -33,6 +34,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Agregar/Pedir un producto
+                    this.menuAgregarPedirProducto();
                     break;
                 case "2"://Opcion para Buscar producto por nombre
                     this.controllerProducto.buscarProductoPorNombre();
@@ -48,6 +50,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
+
     
     public void subMenuModificarProducto(){
         System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n");
@@ -81,6 +84,63 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-    
 
+
+    public void menuAgregarPedirProducto() {
+        int condicion = 0;
+        while (condicion == 0) {
+            System.out.println("\n\n\n\n\nDESEA PEDIR UN PRODUCTO NUEVO O EXISTENTE?\n"
+                    + "1-Producto Nuevo\n"
+                    + "2-Producto Exsitente\n"
+                    + "3-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Opcion para Agregar un producto nuevo
+                    this.menuAgregarPoductoNuevo();
+                    break;
+                case "2"://Opcion para Pedir un producto existente
+                    this.seleccionarProductoExistente();
+                    break;
+                case "3"://opcion para ir atras
+                    condicion = 1;
+                    break;
+
+            }
+        }
+    }
+
+    public void menuAgregarPoductoNuevo() {
+        int condicion = 0;
+        while (condicion == 0) {
+            System.out.println("\n\n\n\n\nDESEA ORDENAR DE UN PROVEEDOR EXISTENTE O NUEVO?\n"
+                    + "1-Proveedor Exsitente\n"
+                    + "2-Proveedor Nuevo\n"
+                    + "3-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Opcion para Pedir de un proveedor existente
+                    
+                    break;
+                case "2"://Opcion para Proveedo un producto nuevo
+
+                    break;
+                case "3"://opcion para ir atras
+                    condicion = 1;
+                    break;
+
+            }
+        }
+    }
+    
+    public void seleccionarProductoExistente(){
+      ControllerProveedor cp = new ControllerProveedor();
+      
+      cp.getProveedorIdNombre();
+      
+        System.out.println("\nINSERTER EL ID DEL PROVEEDOR");
+        String idProveedor = input.nextLine();
+        controllerProducto.getDatosForMenuProducto(idProveedor);
+        System.out.println("\nINSERTER EL ID DEL PRODUCTO");
+         String idProducto = input.nextLine();
+    }
 }
