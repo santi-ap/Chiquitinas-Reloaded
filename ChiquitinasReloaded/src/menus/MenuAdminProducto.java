@@ -43,6 +43,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.subMenuModificarProducto();
                     break;
                 case "4":// opcion para Eliminar producto
+                    this.controllerProducto.borrarProducto();
                     break;
                 case "5"://opcion para ir atras
                     condicion = 1;

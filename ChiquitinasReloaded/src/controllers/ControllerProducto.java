@@ -115,4 +115,11 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         }
 
     }
+    
+    public void borrarProducto(){
+        this.printTodosLosProductos();
+        System.out.println("Seleccione el id del producto que desea eliminar: ");
+        String idProducto = input.nextLine();
+        servicioProducto.delete("idProducto", idProducto);
+    }
 }
