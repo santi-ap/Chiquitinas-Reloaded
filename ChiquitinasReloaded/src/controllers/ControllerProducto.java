@@ -102,6 +102,73 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         servicioProducto.update("stockMinProducto", stockMinProductoNuevo, "idProducto", idProducto);
     }
 
+    /*
+    @marco
+    Busca por un producto utilizando su identificador único(primaryKey)
+    */
+    public void buscarProductoId(int idProducto){
+        
+        System.out.println(servicioProducto.selectAll("idProducto", idProducto));
+}
+    
+    /*
+    @marco
+    Este método es idéntico al mñetodo buscarProductoId excepto que retorna el descuento. 
+    Me gustaría evacuar una duda antes de eliminarlo o implementarlo
+    */
+    
+    public void buscarProductoReturnDescuento(int idProducto){
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        servicioProducto.select("descuentoPromo", "idProducto", idProducto);
+}
+    
+    /*
+    @marco
+    Definir el descuento del producto e insertarlo a la base de datos
+    */
+
+
+    public void descuento(double cantidadDescuento){
+        Scanner sc = new Scanner(System.in);
+        boolean control = true;
+        do{
+        System.out.println("Digite el ID del producto al que desea modificar la promoción");
+        int idProducto = sc.nextInt();
+        double calculo =cantidadDescuento/100;
+        //No estaba seguro si la DB acepta decimales, entonces tuve que hacer conversión a String
+        String conversion = Double.toString(calculo);
+        //Este el task de taiga que me asignaron para aceptar cambios
+        System.out.println("Desea confirmar cambios a la promoción\n1-Sí\n2-No");
+        int confirmarCambios = input.nextInt();
+        
+            if(confirmarCambios == 1){
+            servicioProducto.update("descuentoPromo",conversion,"idProducto", idProducto);
+            System.out.println("Modificación exitosa");
+            System.out.println("Desea continuar agregando promociones?\n1-Sí\n2-No");
+            int continuar = input.nextInt();
+                if(continuar == 1){
+                
+                    control = true;
+                } else{
+                
+                    control = false;
+                }
+            
+            
+            } else{
+                control = false;
+                break;
+                
+            }
+        
+        } while(control == true);
+
+        
+        
+        }
+  
+    
     
 
     public void getDatosForMenuProducto(String id) {
@@ -123,3 +190,5 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         servicioProducto.delete("idProducto", idProducto);
     }
 }
+
+
