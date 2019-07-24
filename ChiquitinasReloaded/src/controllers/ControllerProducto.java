@@ -13,6 +13,7 @@ import mediador.Mediador;
 import observer.Observer;
 import observer.Subject;
 import servicios.Servicio;
+import servicios.ServicioComboHasProducto;
 import servicios.ServicioProducto;
 
 /**
@@ -24,6 +25,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto) this.CrearServicio());//CASTING DE Servcio A ServicioProducto
     private Mediador mediador;
+    ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
     Scanner input = new Scanner(System.in);
 
     public ControllerProducto() {
@@ -188,6 +190,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         System.out.println("Seleccione el id del producto que desea eliminar: ");
         String idProducto = input.nextLine();
         servicioProducto.delete("idProducto", idProducto);
+        this.servComboHasProd.delete("Producto_idProducto", idProducto);
     }
 }
 

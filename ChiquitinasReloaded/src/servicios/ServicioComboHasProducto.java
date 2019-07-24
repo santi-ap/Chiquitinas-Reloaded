@@ -16,13 +16,13 @@ import java.util.ArrayList;
  *
  * @author santialfonso
  */
-public class ServicioProducto extends Servicio implements InterfaceDAO {
+public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
 
-    public ServicioProducto() {
+    public ServicioComboHasProducto() {
     }
 
-    /**
-     * SELECT queBuscamos FROM Producto WHERE queColumna queValor;
+     /**
+     * SELECT queBuscamos FROM Combo_has_Producto WHERE queColumna queValor;
      *
      * @param queBuscamos
      * @param queColumna
@@ -42,7 +42,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             String sql;
 
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql = "SELECT " + queBuscamos + " FROM Producto WHERE " + queColumna + " = ?;";
+            sql = "SELECT " + queBuscamos + " FROM Combo_has_Producto WHERE " + queColumna + " = ?;";
 
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, queValor.toString());
@@ -53,7 +53,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
                 //Retrieve by column name
                 returnSelect = rs.getString(queBuscamos.toString());
             } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
-                return "noUserFound";
+                return "No se encontro el combo";
             }
 
         } catch (Exception e) {
@@ -72,29 +72,26 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
     /**
-     * INSERT INTO Producto (idProducto, nombreProducto, precioClienteProducto,
-     * stockMinProducto, contadorProducto, descuentoPromo,
-     * Proveedor_idProveedor) values (?,?,?,?,?,?,?);
+     * INSERT INTO Combo_has_Producto (Combo_idCombo, Producto_idProducto) values (?,?);
      *
      * @param object
      */
     @Override
     public void insert(Object object) {
         try {
+            //vamos a tomar lo que hay que insertar como un String done los IDs se separan por comas. Por ejemplo "12,5"
+            String[] combo_idComboYProducto_idProducto = ((String)object).split(","); //aqui se separan los dos IDs por la coma en un array y queda ["12","5"]
+            int combo_idCombo = Integer.parseInt(combo_idComboYProducto_idProducto[0]);//aqui se agarra el primer ID
+            int producto_idProducto = Integer.parseInt(combo_idComboYProducto_idProducto[1]);//aqui se agarra el segundo ID
             //STEP 3: Execute a querey
             super.conectar();
 
             System.out.println("Insertando valores...");
             String sql;
-            sql = "INSERT INTO Producto (idProducto, nombreProducto, precioClienteProducto, stockMinProducto, contadorProducto, descuentoPromo, Proveedor_idProveedor) values (?,?,?,?,?,?,?);";
+            sql = "INSERT INTO Combo_has_Producto (Combo_idCombo, Producto_idProducto) values (?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, ((Producto) object).getIdProducto());//idProducto
-            preparedStatement.setString(2, ((Producto) object).getNombreProducto());//nombreProducto
-            preparedStatement.setDouble(3, ((Producto) object).getPrecioProductoCliente());//precioClienteProducto
-            preparedStatement.setInt(4, ((Producto) object).getStockMinimoProducto());//stockMinProducto
-            preparedStatement.setInt(5, ((Producto) object).getCantidadActualProducto());//contadorProducto
-            preparedStatement.setDouble(6, ((Producto) object).getDescuentoProductoPromo());//descuentoPromo
-            preparedStatement.setInt(7, ((Producto) object).getIdProveedorProducto());//Proveedor_idProveedor
+            preparedStatement.setInt(1, combo_idCombo);//combo_idCombo
+            preparedStatement.setInt(2, producto_idProducto);//producto_idProduct
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
@@ -109,7 +106,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
     /**
-     * UPDATE Producto SET queColumnaActualizamos = queInsertamos WHERE
+     * UPDATE Combo_has_Producto SET queColumnaActualizamos = queInsertamos WHERE
      * queColuma = queValor;
      *
      * @param queColumnaActualizamos
@@ -122,7 +119,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         try {
             super.conectar();
             System.out.println("Actualizando valores...");
-            String sql = "UPDATE Producto SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            String sql = "UPDATE Combo_has_Producto SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
             preparedStmt.setString(2, queValor.toString());
@@ -140,7 +137,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
     /**
-     * DELETE FROM Producto WHERE queColumna = queValor;
+     * DELETE FROM Combo_has_Producto WHERE queColumna = queValor;
      *
      * @param queColumna
      * @param queValor
@@ -150,7 +147,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         try {
             super.conectar();
             System.out.println("Borrando valores...");
-            String sql = "DELETE FROM Producto WHERE " + queColumna + " = ?;";
+            String sql = "DELETE FROM Combo_has_Producto WHERE " + queColumna + " = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
             preparedStmt.execute();
@@ -167,11 +164,11 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
     /**
-     * SELECT * FROM Producto WHERE queColumna = queValor;
+     * SELECT * FROM Combo_has_Producto WHERE queColumna = queValor;
      *
      * @param queColumna
      * @param queValor
-     * @return una lista con todos los datos del producto
+     * @return una lista con todos los datos del Combo
      */
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
@@ -187,7 +184,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             String sql;
 
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql = "SELECT * FROM Producto WHERE " + queColumna + " = ?;";
+            sql = "SELECT * FROM Combo_has_Producto WHERE " + queColumna + " = ?;";
 
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, queValor.toString());
@@ -198,14 +195,8 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
                 //Retrieve by column name
                  producto = new Producto();
                     //Retrieve by column name
-                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
-                    producto.setNombreProducto(rs.getString("nombreProducto"));
-                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
-                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
-                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
-                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
-                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
-                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    producto.setIdProducto(Integer.parseInt(rs.getString("Combo_idCombo")));
+                    producto.setNombreProducto(rs.getString("Producto_idProducto"));
                     listaDeProductos.add(producto);
             }
 
@@ -223,63 +214,4 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return listaDeProductos;
     }
-
-    /**
-     * SELECT * FROM Producto; Metodo para retornas todos los Productos de la
-     * base de datos con toda su info en una lista de Productos
-     *
-     * @return lista de Productos
-     */
-    public ArrayList<Producto> selectTodosLosProductos() {
-        ArrayList<Producto> listaDeProductos = new ArrayList<>();
-        Producto producto;
-        ResultSet rs = null;
-        Statement stmt = null;
-        try {
-            //STEP 3: Execute a query
-            super.conectar();
-            System.out.println("Creando statement...");
-            stmt = conn.createStatement();
-            String sql;
-
-            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql = "SELECT * FROM Producto;";
-
-            rs = stmt.executeQuery(sql);
-
-            //STEP 3.1: Extract data from result set
-//            if (rs.next()) {
-                while (rs.next()) {
-                    producto = new Producto();
-                    //Retrieve by column name
-                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
-                    producto.setNombreProducto(rs.getString("nombreProducto"));
-                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
-                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
-                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
-                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
-                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
-                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
-                    listaDeProductos.add(producto);
-                }
-//            } else {//si no encuentra productos, avisa que no se encontro y retorna null
-//                System.out.println("No existen productos");
-//                return null;
-//            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                super.desconectar();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        //retorna lo que se selecciono
-        return listaDeProductos;
-    }
-
 }

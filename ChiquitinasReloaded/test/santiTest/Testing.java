@@ -23,8 +23,8 @@ public class Testing {
 
         ServicioProducto sp = new ServicioProducto();
 //        sp.update("stockMinProducto", "10", "idProducto", "2123657");
-        MenuAdminProducto mAP=new MenuAdminProducto();
-        mAP.displayMenu();
+//        MenuAdminProducto mAP=new MenuAdminProducto();
+//        mAP.displayMenu();
 //          for(Producto p:sp.selectTodosLosProductos()){
 //              System.out.println(p);
 //          }
@@ -33,6 +33,13 @@ public class Testing {
 //          }
 //        ControllerProducto cp = new ControllerProducto();
 //        cp.modidificarNombreProducto(1);
+        String test = "12,35";
+        String string = "004,034556";
+        String[] parts = string.split(",");
+        String part1 = parts[0]; // 004
+        String part2 = parts[1]; // 034556
+        System.out.println(part1);
+
     }
-    
+
 }
