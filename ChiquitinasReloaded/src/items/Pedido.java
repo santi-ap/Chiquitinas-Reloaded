@@ -5,7 +5,7 @@
  */
 package items;
 
-import java.util.Date;
+import java.sql.Date;
 import objetos.Proveedor;
 
 /**
