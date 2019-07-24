@@ -74,7 +74,7 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
     /**
      * INSERT INTO Combo_has_Producto (Combo_idCombo, Producto_idProducto) values (?,?);
      *
-     * @param object
+     * @param object este objeto debe ser un String de la siguiente forma: "a,b" donde 'a' es el idCombo y 'b' es el idProducto
      */
     @Override
     public void insert(Object object) {

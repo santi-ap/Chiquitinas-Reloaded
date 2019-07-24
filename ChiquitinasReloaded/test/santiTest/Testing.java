@@ -8,6 +8,7 @@ package santiTest;
 import controllers.ControllerProducto;
 import items.Producto;
 import menus.MenuAdminProducto;
+import servicios.ServicioComboHasProducto;
 import servicios.ServicioProducto;
 
 /**
@@ -33,12 +34,13 @@ public class Testing {
 //          }
 //        ControllerProducto cp = new ControllerProducto();
 //        cp.modidificarNombreProducto(1);
-        String test = "12,35";
-        String string = "004,034556";
+        String string = "1,5";
         String[] parts = string.split(",");
-        String part1 = parts[0]; // 004
-        String part2 = parts[1]; // 034556
-        System.out.println(part1);
+        String part1 = parts[0]; // 1
+        String part2 = parts[1]; // 5
+        System.out.println(part2);
+        ServicioComboHasProducto scp = new ServicioComboHasProducto();
+        scp.insert(string);
 
     }
 
