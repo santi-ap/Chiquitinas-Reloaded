@@ -171,6 +171,34 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         }
   
     
+    public int menuPromos(){
+    
+    System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
+    int userInput = input.nextInt();
+    return userInput;
+    }
+    
+    public double descuentoUsuario(){
+    
+    System.out.println("Digite el monto del descuento"); 
+    double descuento = input.nextDouble();
+    return descuento;
+    
+    }
+    
+    public int idUsuario(){
+    
+    System.out.println("Digite el identificador único del producto");
+    int idProducto = input.nextInt();
+    return idProducto;
+    
+    }
+    
+    public void buscarProductosConDescuento(){
+    
+        System.out.println(servicioProducto.buscarProductoConDescuento());
+    
+    }
     
 
     public void getDatosForMenuProducto(String id) {
