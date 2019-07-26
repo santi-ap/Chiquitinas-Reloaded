@@ -194,11 +194,11 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     
     }
     
-    public void buscarProductosConDescuento(){
-    
-        System.out.println(servicioProducto.buscarProductoConDescuento());
-    
-    }
+//    public void buscarProductosConDescuento(){
+//    
+//        System.out.println(servicioProducto.buscarProductoConDescuento());
+//    
+//    }
     
 
     public void getDatosForMenuProducto(String id) {
