@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import servicios.ServicioProducto;
+import menus.MenuAdminProducto;
 
 /**
  *
@@ -32,10 +33,11 @@ public class Tester {
 //        System.out.println(sp.select("nombreProducto", "idProducto", "2123657"));     //
 //////////////////////////////////////////////////////////////////////////////////////////   
         
-        primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
+        //primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
      
 
-
+     
+       
 
     }
     
@@ -59,3 +61,5 @@ public class Tester {
     }
     
 }
+
+
