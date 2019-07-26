@@ -8,41 +8,43 @@ package mediador;
 import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
+import java.util.Scanner;
 
 /**
  *
  * @author santialfonso
  */
-public class PedidoMediador implements Mediador{
-    private ControllerPedido controllerPedido;
-    private ControllerProveedor controllerProveedor;
-    private ControllerProducto controllerProducto;
+public class PedidoMediador implements Mediador {
 
-    public PedidoMediador() {
-    }
+    private final ControllerPedido controllerPedido;
+    private final ControllerProveedor controllerProveedor;
+    private final ControllerProducto controllerProducto;
 
-    public ControllerPedido getControllerPedido() {
-        return controllerPedido;
-    }
-
-    public void setControllerPedido(ControllerPedido controllerPedido) {
+    public PedidoMediador(ControllerPedido controllerPedido, ControllerProveedor controllerProveedor, ControllerProducto controllerProducto) {
         this.controllerPedido = controllerPedido;
-    }
-
-    public ControllerProveedor getControllerProveedor() {
-        return controllerProveedor;
-    }
-
-    public void setControllerProveedor(ControllerProveedor controllerProveedor) {
+        this.controllerProducto = controllerProducto;
         this.controllerProveedor = controllerProveedor;
     }
 
-    public ControllerProducto getControllerProducto() {
-        return controllerProducto;
+    @Override
+    public void start() {
+        controllerProveedor.getProveedorIdNombre();
     }
 
-    public void setControllerProducto(ControllerProducto controllerProducto) {
-        this.controllerProducto = controllerProducto;
+    @Override
+    public void step2() {
+        controllerProducto.getProductoForMenuByProv();
+
     }
-    
+
+    @Override
+    public void step3() {
+        controllerProducto.getProductoById();
+    }
+
+    @Override
+    public void step4(String id) {
+        controllerProducto.actualizarStock(id);
+    }
+
 }

@@ -5,9 +5,12 @@
  */
 package menus;
 
+import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
 import java.util.Scanner;
+import mediador.Mediador;
+import mediador.PedidoMediador;
 
 /**
  *
@@ -15,8 +18,13 @@ import java.util.Scanner;
  */
 public class MenuAdminProducto implements MenuDisplayBehavior {
 
-    Scanner input = new Scanner(System.in);
     ControllerProducto controllerProducto = new ControllerProducto();
+    ControllerProveedor controllerPreoveedor = new ControllerProveedor();
+    ControllerPedido controllerPedido = new ControllerPedido();
+
+    Mediador pedidoMediador = new PedidoMediador(controllerPedido, controllerPreoveedor, controllerProducto);
+
+    Scanner input = new Scanner(System.in);
 
     public MenuAdminProducto() {
     }
@@ -50,8 +58,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
 
-    
-    public void subMenuModificarProducto(){
+    public void subMenuModificarProducto() {
         int condicion = 0;
         while (condicion == 0) {
             System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n"
@@ -77,7 +84,6 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
 
-
     public void menuAgregarPedirProducto() {
         int condicion = 0;
         while (condicion == 0) {
@@ -91,7 +97,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.menuAgregarPoductoNuevo();
                     break;
                 case "2"://Opcion para Pedir un producto existente
-                    this.seleccionarProductoExistente();
+                    this.startPedidoProductoExistente();
                     break;
                 case "3"://opcion para ir atras
                     condicion = 1;
@@ -111,7 +117,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Pedir de un proveedor existente
-                    
+
                     break;
                 case "2"://Opcion para Proveedo un producto nuevo
 
@@ -123,16 +129,13 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-    
-    public void seleccionarProductoExistente(){
-      ControllerProveedor cp = new ControllerProveedor();
-      
-      cp.getProveedorIdNombre();
-      
-        System.out.println("\nINSERTER EL ID DEL PROVEEDOR");
-        String idProveedor = input.nextLine();
-        controllerProducto.getDatosForMenuProducto(idProveedor);
-        System.out.println("\nINSERTER EL ID DEL PRODUCTO");
-         String idProducto = input.nextLine();
+
+    public void startPedidoProductoExistente() {
+
+        this.controllerProducto.setMediador(pedidoMediador);
+        this.controllerPreoveedor.setMediador(pedidoMediador);
+        this.controllerPedido.setMediador(pedidoMediador);
+
+        pedidoMediador.start();        
     }
 }

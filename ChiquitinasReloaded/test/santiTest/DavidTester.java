@@ -32,7 +32,7 @@ public class DavidTester {
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
         
         map.displayMenu();
-        
+       // conP.actualizarStock(5, "1");
         
         
     

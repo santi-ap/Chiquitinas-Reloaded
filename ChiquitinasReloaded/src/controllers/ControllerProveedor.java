@@ -14,10 +14,10 @@ import servicios.ServicioProveedor;
  *
  * @author santialfonso
  */
-public class ControllerProveedor extends ControllerFactory implements Colleague{
-    
+public class ControllerProveedor extends ControllerFactory implements Colleague {
+
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
-    private ServicioProveedor servicioProveedor = ((ServicioProveedor)this.CrearServicio());//CASTING DE Servcio A ServicioProveedor
+    private ServicioProveedor servicioProveedor = ((ServicioProveedor) this.CrearServicio());//CASTING DE Servcio A ServicioProveedor
     private Mediador mediador;
 
     public ControllerProveedor() {
@@ -33,6 +33,7 @@ public class ControllerProveedor extends ControllerFactory implements Colleague{
 
     /**
      * METODO NECESARIO PARA IMPLEMENTAR FACTORY
+     *
      * @return un nuevo ServicioProveedor
      */
     @Override
@@ -44,11 +45,17 @@ public class ControllerProveedor extends ControllerFactory implements Colleague{
     public void setMediador(Mediador mediador) {
         this.mediador = mediador;
     }
-    
-    public void getProveedorIdNombre(){
+
+    /**
+     * Metodo para conseguit la lista de proveedores
+     */
+    public void getProveedorIdNombre() {
         ServicioProveedor sp = new ServicioProveedor();
-        for(String s:sp.selecAllNombresProveedor()){
-            System.out.println("\n"+s);
+        for (String s : sp.selecAllNombresProveedor()) {
+            System.out.println("\n" + s);
         }
+
+        mediador.step2();
     }
+
 }
