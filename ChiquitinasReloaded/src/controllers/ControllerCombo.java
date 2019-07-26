@@ -17,7 +17,7 @@ import java.util.*;
 public class ControllerCombo extends ControllerFactory{
     // ---------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioCombo servicioCombo = ((ServicioCombo)this.CrearServicio());//CASTING DE Servcio A ServicioCombo
-    private ServicioComboHasProducto servicioComboHasProducto = ((ServicioComboHasProducto)this.CrearServicio());
+    private ServicioComboHasProducto servicioComboHasProducto = new ServicioComboHasProducto();
     
     public ControllerCombo() {
     }
@@ -55,17 +55,72 @@ public class ControllerCombo extends ControllerFactory{
     
     public void insertarProductoAUnCombo(){
     //Lo mejoraré para no estar pidiendo de nuevo el identifier del combo, sino que solamente el del producto
+    boolean condicionSalida = true;
     Scanner sc = new Scanner(System.in);
     System.out.println("Digite el identificador del combo");
-    int primer = sc.nextInt();
+    int codigoDelCombo = sc.nextInt();
+    do{
     System.out.println("Digite el identificador del producto");
-    int segundo = sc.nextInt();
-    String conversionIdCombo = String.valueOf(primer);
-    String conversionIdProducto = String.valueOf(segundo);
-    String stringParaMetodo = primer +","+segundo;
-    
+    int idProducto = sc.nextInt();
+    String conversionIdCombo = String.valueOf(codigoDelCombo);
+    String conversionIdProducto = String.valueOf(idProducto);
+    String stringParaMetodo = codigoDelCombo +","+idProducto;
     servicioComboHasProducto.insert(stringParaMetodo);
+    System.out.println("Producto agregado con exito al combo " +codigoDelCombo);
+        System.out.println("Desea continuar agregando productos al combo?\n1-Si\n2-No");
+        int respuestaUsuario = sc.nextInt();
+            if(respuestaUsuario == 1){
+            
+            condicionSalida = true;
+            
+            } else{
+            
+            condicionSalida = false;    
+            
+            }
+    
+    
+    }while(condicionSalida == true);
+    
+}
+    
+    /**
+     * @Marco
+     * Creacion de un submenu para modificar el producto
+     */
+    
+    public void submenuModificarCombo(){
+    
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1-Agregar producto a un combo\n2-Modificar precio de un combo");
+        int respuestaUsuario = sc.nextInt();
+        if(respuestaUsuario == 1){
+         
+        this.insertarProductoAUnCombo();
+        
+        } else if(respuestaUsuario == 2){
+            System.out.println("Digite el identificador del combo");
+            int identificadorCombo = sc.nextInt();
+            this.actualizarPrecioDelCombo(identificadorCombo);
+        
+        }
     
     }
+    
+    /**
+     * 
+     * @marco 
+     * Actualiza el precio del producto y es parte del menu combos
+     */
+    public void actualizarPrecioDelCombo(int idCombo){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el nuevo precio del combo: ");
+        String precioClienteProductoNuevo = sc.nextLine();
+        servicioCombo.update("precioClienteCombo", precioClienteProductoNuevo, "idCombo", idCombo);
+        System.out.println("Actualizacion exitosa de combo con id "+idCombo + " a: "+precioClienteProductoNuevo);
+        
+
+}
+    
     
 }
