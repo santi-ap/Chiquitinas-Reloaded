@@ -10,5 +10,7 @@ package items;
  * @author santialfonso
  */
 public abstract class Item {
-    
+        protected String recibo;
+        public abstract double getPrecio();
+        public abstract String getRecibo();
 }

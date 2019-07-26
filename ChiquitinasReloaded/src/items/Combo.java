@@ -88,6 +88,20 @@ public class Combo extends Decorador{
     public void setFechaFinCombo(Date fechaFinCombo) {
         this.fechaFinCombo = fechaFinCombo;
     }
+
+    @Override
+    public double getPrecio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getRecibo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    boolean getIsItemPedido() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

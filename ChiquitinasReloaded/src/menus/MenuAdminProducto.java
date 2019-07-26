@@ -9,6 +9,7 @@ import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
 import java.util.Scanner;
 
+
 /**
  *
  * @author santialfonso
@@ -43,6 +44,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.subMenuModificarProducto();
                     break;
                 case "4":// opcion para Eliminar producto
+                    this.controllerProducto.borrarProducto();
                     break;
                 case "5"://opcion para ir atras
                     condicion = 1;
@@ -59,7 +61,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         int idProductoAModificar = Integer.parseInt(input.nextLine());
         int condicion = 0;
         while (condicion == 0) {
-            System.out.println("ECOGA UNA OPCION\n"
+            System.out.println("ESCOGA UNA OPCION\n"
                     + "1-Modificar el nombre\n"
                     + "2-Modificar el precio\n"
                     + "3-Modificar el stock minimo\n"
@@ -77,6 +79,44 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     controllerProducto.modidificarStockMinProducto(idProductoAModificar);
                     break;
                 case "4"://Opciones de descuento promocional
+                    //Para regresar a este menú desde las opciones del switch tuve que crear un flag boolean de salida
+                    boolean condicionSalida = true;
+                    do {
+                    System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
+                    int userInput = input.nextInt();
+                    switch(userInput){
+                    case 1: 
+                    System.out.println("Digite el monto del descuento"); 
+                    double descuento = input.nextDouble();
+                    controllerProducto.descuento(descuento);
+                    condicionSalida = true;
+                    break;
+                    
+                    case 2:
+                    System.out.println("Digite el monto del descuento"); 
+                    double descuentoModificacion = input.nextDouble();
+                    controllerProducto.descuento(descuentoModificacion);
+                    /*Hay una pulga cuando sale de las opciones, porque el menú principal lo arroja dos veces
+                    No estoy seguro donde está el glitch*/
+                    condicionSalida = true;
+                    break;
+                        
+                    case 3:
+                    System.out.println("Digite el identificador único del producto");
+                    int idProducto = input.nextInt();
+                    controllerProducto.buscarProductoId(idProducto);
+                    condicionSalida = true;
+                    break;
+                        
+                    case 4:
+                        
+                    case 5:    
+                    
+                        condicionSalida = false;
+                        break;
+                        
+                } } while(condicionSalida == true);
+                    
                     break;
                 case "5"://opcion para ir atras
                     condicion = 1;

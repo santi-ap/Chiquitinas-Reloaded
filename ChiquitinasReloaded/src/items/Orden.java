@@ -53,5 +53,15 @@ public class Orden extends Item{
     public void setClienteOrden(Cliente clienteOrden) {
         this.clienteOrden = clienteOrden;
     }
+
+    @Override
+    public double getPrecio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getRecibo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

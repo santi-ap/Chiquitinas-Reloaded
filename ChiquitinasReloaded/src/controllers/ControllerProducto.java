@@ -13,6 +13,7 @@ import mediador.Mediador;
 import observer.Observer;
 import observer.Subject;
 import servicios.Servicio;
+import servicios.ServicioComboHasProducto;
 import servicios.ServicioProducto;
 
 /**
@@ -24,6 +25,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto) this.CrearServicio());//CASTING DE Servcio A ServicioProducto
     private Mediador mediador;
+    ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
     Scanner input = new Scanner(System.in);
 
     public ControllerProducto() {
@@ -102,6 +104,101 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         servicioProducto.update("stockMinProducto", stockMinProductoNuevo, "idProducto", idProducto);
     }
 
+    /*
+    @marco
+    Busca por un producto utilizando su identificador único(primaryKey)
+    */
+    public void buscarProductoId(int idProducto){
+        
+        System.out.println(servicioProducto.selectAll("idProducto", idProducto));
+}
+    
+    /*
+    @marco
+    Este método es idéntico al mñetodo buscarProductoId excepto que retorna el descuento. 
+    Me gustaría evacuar una duda antes de eliminarlo o implementarlo
+    */
+    
+    public void buscarProductoReturnDescuento(int idProducto){
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        servicioProducto.select("descuentoPromo", "idProducto", idProducto);
+}
+    
+    /*
+    @marco
+    Definir el descuento del producto e insertarlo a la base de datos
+    */
+
+
+    public void descuento(double cantidadDescuento){
+        Scanner sc = new Scanner(System.in);
+        boolean control = true;
+        do{
+        System.out.println("Digite el ID del producto al que desea modificar la promoción");
+        int idProducto = sc.nextInt();
+        double calculo =cantidadDescuento/100;
+        //No estaba seguro si la DB acepta decimales, entonces tuve que hacer conversión a String
+        String conversion = Double.toString(calculo);
+        //Este el task de taiga que me asignaron para aceptar cambios
+        System.out.println("Desea confirmar cambios a la promoción\n1-Sí\n2-No");
+        int confirmarCambios = input.nextInt();
+        
+            if(confirmarCambios == 1){
+            servicioProducto.update("descuentoPromo",conversion,"idProducto", idProducto);
+            System.out.println("Modificación exitosa");
+            System.out.println("Desea continuar agregando promociones?\n1-Sí\n2-No");
+            int continuar = input.nextInt();
+                if(continuar == 1){
+                
+                    control = true;
+                } else{
+                
+                    control = false;
+                }
+            
+            
+            } else{
+                control = false;
+                break;
+                
+            }
+        
+        } while(control == true);
+
+        
+        
+        }
+  
+    
+    public int menuPromos(){
+    
+    System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
+    int userInput = input.nextInt();
+    return userInput;
+    }
+    
+    public double descuentoUsuario(){
+    
+    System.out.println("Digite el monto del descuento"); 
+    double descuento = input.nextDouble();
+    return descuento;
+    
+    }
+    
+    public int idUsuario(){
+    
+    System.out.println("Digite el identificador único del producto");
+    int idProducto = input.nextInt();
+    return idProducto;
+    
+    }
+    
+    public void buscarProductosConDescuento(){
+    
+        //System.out.println(servicioProducto.buscarProductoConDescuento());
+    
+    }
     
 
     public void getDatosForMenuProducto(String id) {
@@ -115,4 +212,14 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         }
 
     }
+    
+    public void borrarProducto(){
+        this.printTodosLosProductos();
+        System.out.println("Seleccione el id del producto que desea eliminar: ");
+        String idProducto = input.nextLine();
+        servicioProducto.delete("idProducto", idProducto);
+        this.servComboHasProd.delete("Producto_idProducto", idProducto);
+    }
 }
+
+
