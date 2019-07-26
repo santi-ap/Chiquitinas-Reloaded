@@ -50,6 +50,7 @@ public class ControllerProveedor extends ControllerFactory implements Colleague 
      * Metodo para conseguit la lista de proveedores
      */
     public void getProveedorIdNombre() {
+        //looks
         ServicioProveedor sp = new ServicioProveedor();
         for (String s : sp.selecAllNombresProveedor()) {
             System.out.println("\n" + s);

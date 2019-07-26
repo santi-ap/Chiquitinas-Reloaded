@@ -21,7 +21,11 @@ public class Combo extends Decorador{
     private double descuentoCombo;
     private Date fechaInicioCombo;
     private Date fechaFinCombo;
-    
+   
+    /*          Decorator       */
+    private Item itemDecorado;
+    private boolean isItemPedido;
+     
     public Combo() {
     }
 
@@ -101,6 +105,34 @@ public class Combo extends Decorador{
 
     boolean getIsItemPedido() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the itemDecorado
+     */
+    public Item getItemDecorado() {
+        return itemDecorado;
+    }
+
+    /**
+     * @param itemDecorado the itemDecorado to set
+     */
+    public void setItemDecorado(Item itemDecorado) {
+        this.itemDecorado = itemDecorado;
+    }
+
+    /**
+     * @return the isItemPedido
+     */
+    public boolean isIsItemPedido() {
+        return isItemPedido;
+    }
+
+    /**
+     * @param isItemPedido the isItemPedido to set
+     */
+    public void setIsItemPedido(boolean isItemPedido) {
+        this.isItemPedido = isItemPedido;
     }
     
     

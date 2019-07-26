@@ -11,6 +11,10 @@ package items;
  */
 public abstract class Item {
         protected String recibo;
+        /**
+        * 
+        * @return the accumulated price of the item(component), plus the cost of the product(decorator)
+        */
         public abstract double getPrecio();
         public abstract String getRecibo();
 }

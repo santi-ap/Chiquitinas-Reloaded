@@ -8,7 +8,7 @@ package mediador;
 import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
-import java.util.Scanner;
+import items.Producto;
 
 /**
  *
@@ -28,23 +28,79 @@ public class PedidoMediador implements Mediador {
 
     @Override
     public void start() {
+        //this
         controllerProveedor.getProveedorIdNombre();
     }
 
     @Override
     public void step2() {
+        //extremely
         controllerProducto.getProductoForMenuByProv();
 
     }
 
     @Override
     public void step3() {
+        //What
         controllerProducto.getProductoById();
     }
 
     @Override
     public void step4(String id) {
+        //absolute
         controllerProducto.actualizarStock(id);
     }
+    
+    /**
+     * these last steps must be run at the end. 
+     * Producto is taken from the controllerProducto
+     */
+    public void step5 () {
+        this.step6(controllerProducto.getProductoPedido());
+    }
+    
+    /**
+     * Product info is sent into controllerPedido
+     * @param productoPedido the product sent to the pedido controller
+     */
+    public void step6 (Producto productoPedido)
+    {
+        controllerPedido.setProductoPedidoByMediador(productoPedido);
+    }
+    
+    /**
+     * Proveedor is taken from controllerProveedor
+     */
+    @Override
+    public void step7 ()
+    {
+        //logic to get info from controllerProveedor
+    }
+    
+    /**
+     * Proveedor Info is sent to controllerProveedor
+     */
+    @Override
+    public void step8 ()
+    {
+        //logic to send info to controllerPedido
+    }
+    
+    public void step9 ()
+    {
+        controllerPedido.createPedido();
+    }
+    
+    @Override
+    public void step10()
+    {
+        //add pedido to every single table in the datababe
+    }
+    
+    public void step11()
+    {
+        //send the email
+    }
+    
 
 }

@@ -142,10 +142,7 @@ public final class Producto extends Decorador{
                     + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
     }
 
-    /**
-     * 
-     * @return the accumulated price of the item(component), plus the cost of the product(decorator)
-     */
+    
     @Override
     public double getPrecio() {
         //if the Item is a pedido, then the price should be the one from the Proveedor
