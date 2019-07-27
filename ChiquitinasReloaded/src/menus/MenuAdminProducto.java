@@ -82,33 +82,29 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     //Para regresar a este menú desde las opciones del switch tuve que crear un flag boolean de salida
                     boolean condicionSalida = true;
                     do {
-                    System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
-                    int userInput = input.nextInt();
-                    switch(userInput){
+                    controllerProducto.menuPromos();
+                    switch(controllerProducto.menuPromos()){
                     case 1: 
-                    System.out.println("Digite el monto del descuento"); 
-                    double descuento = input.nextDouble();
-                    controllerProducto.descuento(descuento);
+                        
+                    controllerProducto.descuento(controllerProducto.descuentoUsuario());
                     condicionSalida = true;
                     break;
                     
                     case 2:
-                    System.out.println("Digite el monto del descuento"); 
-                    double descuentoModificacion = input.nextDouble();
-                    controllerProducto.descuento(descuentoModificacion);
+                    controllerProducto.descuento(controllerProducto.descuentoUsuario());
                     /*Hay una pulga cuando sale de las opciones, porque el menú principal lo arroja dos veces
                     No estoy seguro donde está el glitch*/
                     condicionSalida = true;
                     break;
                         
                     case 3:
-                    System.out.println("Digite el identificador único del producto");
-                    int idProducto = input.nextInt();
-                    controllerProducto.buscarProductoId(idProducto);
+                    controllerProducto.buscarProductoId(controllerProducto.idUsuario());
                     condicionSalida = true;
                     break;
                         
                     case 4:
+                        
+                    controllerProducto.buscarProductosConDescuento();
                         
                     case 5:    
                     

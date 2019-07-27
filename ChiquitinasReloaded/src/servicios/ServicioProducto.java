@@ -281,5 +281,57 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return listaDeProductos;
     }
+    
+    public ArrayList<Producto> buscarProductoConDescuento() {
+        ArrayList<Producto> listaDeProductos = new ArrayList<>();
+        Producto producto;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Producto WHERE descuentoPromo > 0;";
+
+            rs = stmt.executeQuery(sql);
+
+            //STEP 3.1: Extract data from result set
+//            if (rs.next()) {
+                while (rs.next()) {
+                    producto = new Producto();
+                    //Retrieve by column name
+                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                    producto.setNombreProducto(rs.getString("nombreProducto"));
+                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
+                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
+                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
+                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
+                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
+                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    listaDeProductos.add(producto);
+                }
+//            } else {//si no encuentra productos, avisa que no se encontro y retorna null
+//                System.out.println("No existen productos");
+//                return null;
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDeProductos;
+    }
 
 }
