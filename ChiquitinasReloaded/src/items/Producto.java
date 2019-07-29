@@ -24,7 +24,7 @@ public final class Producto extends Decorador{
     private double precioProductoProveedor;
     private double descuentoProductoPromo;
     private int stockMinimoProducto;
-    private int cantidadActualProducto;
+    private int cantidadActualProducto; //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
     private String categoriaProducto;
     private int idProveedorProducto;
 
@@ -165,6 +165,10 @@ public final class Producto extends Decorador{
     }
 
     
+    /**
+     * GETS PRECIO FOR DECORATOR
+     * @return 
+     */
     @Override
     public double getPrecio() {
         //if the Item is a pedido, then the price should be the one from the Proveedor
@@ -188,6 +192,26 @@ public final class Producto extends Decorador{
      * @param itemDecorado the itemDecorado to set
      */
     public void setItemDecorado(Item itemDecorado) {
+        if (itemDecorado instanceof Pedido)
+        {
+            this.setIsItemPedido(true);
+        } else if (itemDecorado instanceof Orden || itemDecorado instanceof Carrito ) { 
+            this.setIsItemPedido(false);
+        } else if (itemDecorado instanceof Producto) {
+            if (((Producto) itemDecorado).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        } else /*this is a combo*/ {
+            if (((Combo) itemDecorado).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        }
         this.itemDecorado = itemDecorado;
     }
     

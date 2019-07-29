@@ -5,12 +5,12 @@
  */
 package testers;
 
-import items.Item;
-import items.Pedido;
-import items.Producto;
+import controllers.*;
+import items.*;
 import java.sql.Date;
-import menus.MenuAdminProducto;
-import servicios.ServicioPedido;
+import menus.*;
+import servicios.*;
+import mediador.*;
 
 /**
  *
@@ -23,26 +23,38 @@ public class TesterTom {
      */
     public static void main(String[] args) {
           
+        /*tester for Mediador*/
+
+        ControllerPedido cp = new ControllerPedido();
+        ControllerProducto cpp = new ControllerProducto();
+        ControllerProveedor cppp = new ControllerProveedor();
+        
+        PedidoMediador m = new PedidoMediador(cp, cppp, cpp);
+        cp.setMediador(m);
+        cpp.setMediador(m);
+        cppp.setMediador(m);
+        
+        m.start(1);
         /*decorator example*/
-        Pedido ped = new Pedido();
-        ped.setFechaPedido(new Date(System.currentTimeMillis()));
-        ped.setIdPedido(1);
-        
-        Producto p1 = new Producto(ped);
-        p1.setPrecioProductoProveedor(15);
-        p1.setNombreProducto("p1");
-        p1.setCantidadActualProducto(3);
-        
-        Producto p2 = new Producto(p1);
-        p2.setPrecioProductoProveedor(3);
-        p2.setNombreProducto("p2");
-        p2.setCantidadActualProducto(2);
-        Producto p3 = new Producto(p2);
-        p3.setNombreProducto("p3");
-        p3.setCantidadActualProducto(1);
-        p3.setPrecioProductoProveedor(1);
-        System.out.println(p3.getRecibo());
-        System.out.println(p3.getPrecio());
+//        Pedido ped = new Pedido();
+//        ped.setFechaPedido(new Date(System.currentTimeMillis()));
+//        ped.setIdPedido(1);
+//        
+//        Producto p1 = new Producto(ped);
+//        p1.setPrecioProductoProveedor(15);
+//        p1.setNombreProducto("p1");
+//        p1.setCantidadActualProducto(3);
+//        
+//        Producto p2 = new Producto(p1);
+//        p2.setPrecioProductoProveedor(3);
+//        p2.setNombreProducto("p2");
+//        p2.setCantidadActualProducto(2);
+//        Producto p3 = new Producto(p2);
+//        p3.setNombreProducto("p3");
+//        p3.setCantidadActualProducto(1);
+//        p3.setPrecioProductoProveedor(1);
+//        System.out.println(p3.getRecibo());
+//        System.out.println(p3.getPrecio());
 
         
 //        MenuAdminProducto map = new MenuAdminProducto();

@@ -29,6 +29,8 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     private Producto productoPedido;
     private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
     private Scanner input = new Scanner(System.in);
+    private String idProveedorForMediador;
+    private int montoCompra=20;
 
     public ControllerProducto() {
     }
@@ -88,8 +90,8 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void getProductoForMenuByProv() {
         //retarded.
         System.out.println("\nINSERTE EL ID DEL PROVEEDOR");
-        String id = getInput().nextLine();
-        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
+        idProveedorForMediador = getInput().nextLine();
+        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", idProveedorForMediador);
 
         for (Object o : listaProductos) {
             System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
@@ -272,7 +274,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void actualizarStock(String idProducto) {
         //Fuck!
         System.out.println("\nINSERTE EL MONTO QUE DESEA COMPRAR");
-        int montoCompra = Integer.parseInt(getInput().nextLine());
+        montoCompra = Integer.parseInt(getInput().nextLine());
         int stockActual = Integer.parseInt(servicioProducto.select("contadorProducto", "idProducto", idProducto));
         String stockNuevo = Integer.toString(stockActual + montoCompra);
         System.out.println("Desea comprar hacer la comprar s/n");
@@ -283,12 +285,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         } else {
 
         }
+        ((PedidoMediador)mediador).takeProductoFromControllerProducto();
 
     }
     
     public void crearProducto() {
         System.out.println("Inserte el ID del proveedor");
-        int idProveedor = Integer.parseInt(input.nextLine());
+        this.idProveedorForMediador =input.nextLine();
 
         System.out.println("Inserte el ID para el producto");
         int idProducto = Integer.parseInt(input.nextLine());
@@ -311,9 +314,10 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         System.out.println("Inserte el precio del proveedor");
         double precioProveedor = Double.parseDouble(input.nextLine());
 
-        Producto p = new Producto(idProducto, nombrePorducto, precioCliente, precioProveedor, stockMinimo, montoOrden, categoria, idProveedor);
+        productoPedido = new Producto(idProducto, nombrePorducto, precioCliente, precioProveedor, stockMinimo, montoOrden, categoria, Integer.parseInt(this.idProveedorForMediador));
         
-        servicioProducto.insert(p);
+        servicioProducto.insert(productoPedido);
+        ((PedidoMediador)mediador).sendProductoToControllerPedido(productoPedido);
 
     }
     /**
@@ -357,5 +361,25 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void setServComboHasProd(ServicioComboHasProducto servComboHasProd) {
         this.servComboHasProd = servComboHasProd;
     }
+
+    public void getIdProveedorPedidobyMediador() {
+        ((PedidoMediador)mediador).sendProveedorIdToControllerPedido(this.idProveedorForMediador);
+        
+    }
+
+    /**
+     * @return the montoCompra
+     */
+    public int getMontoCompra() {
+        return montoCompra;
+    }
+
+    /**
+     * @param montoCompra the montoCompra to set
+     */
+    public void setMontoCompra(int montoCompra) {
+        this.montoCompra = montoCompra;
+    }
+    
 
 }

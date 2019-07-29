@@ -25,10 +25,5 @@ public interface Mediador {
     
     public abstract void crpCrearProducto();
     
-    public abstract void step7();
-
-    public void step8();
-
-    public void step10();
 
 }
