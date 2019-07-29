@@ -11,8 +11,8 @@ import objetos.Proveedor;
  *
  * @author santialfonso
  */
-public class Producto extends Decorador{
-    
+public class Producto extends Decorador {
+
     private int idProducto;
     private String nombreProducto;
     private double precioProductoCliente;
@@ -22,9 +22,21 @@ public class Producto extends Decorador{
     private int cantidadActualProducto;
     private String categoriaProducto;
     private int idProveedorProducto;
-    
-    
+
+   
+
     public Producto() {
+    }
+    
+     public Producto(int idProducto, String nombreProducto, double precioProductoCliente, double precioProductoProveedor, int stockMinimoProducto, int cantidadActualProducto, String categoriaProducto, int idProveedorProducto) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.precioProductoCliente = precioProductoCliente;
+        this.precioProductoProveedor = precioProductoProveedor;
+        this.stockMinimoProducto = stockMinimoProducto;
+        this.cantidadActualProducto = cantidadActualProducto;
+        this.categoriaProducto = categoriaProducto;
+        this.idProveedorProducto = idProveedorProducto;
     }
 
     public int getIdProducto() {
@@ -100,14 +112,13 @@ public class Producto extends Decorador{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
-                    + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente() 
-                    +" | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente()-(this.getPrecioProductoCliente()*this.getDescuentoProductoPromo())) 
-                    + " | Stock Minimo del Producto: " + this.getStockMinimoProducto() + "\n Stock actual del producto: " + this.getCantidadActualProducto() 
-                    + "Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor() + " | Descuento promocional del producto: " 
-                    + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
+                + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente()
+                + " | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente() - (this.getPrecioProductoCliente() * this.getDescuentoProductoPromo()))
+                + " | Stock Minimo del Producto: " + this.getStockMinimoProducto() + "\n Stock actual del producto: " + this.getCantidadActualProducto()
+                + "Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor() + " | Descuento promocional del producto: "
+                + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto() + "\n";
     }
-    
-    
+
 }

@@ -86,7 +86,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
 
             System.out.println("Insertando valores...");
             String sql;
-            sql = "INSERT INTO Producto (idProducto, nombreProducto, precioClienteProducto, stockMinProducto, contadorProducto, descuentoPromo, Proveedor_idProveedor) values (?,?,?,?,?,?,?);";
+            sql = "INSERT INTO Producto (idProducto, nombreProducto, precioClienteProducto, stockMinProducto, contadorProducto, descuentoPromo, Proveedor_idProveedor, categoria, precioProveedorProducto) values (?,?,?,?,?,?,?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, ((Producto) object).getIdProducto());//idProducto
             preparedStatement.setString(2, ((Producto) object).getNombreProducto());//nombreProducto
@@ -95,6 +95,9 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
             preparedStatement.setInt(5, ((Producto) object).getCantidadActualProducto());//contadorProducto
             preparedStatement.setDouble(6, ((Producto) object).getDescuentoProductoPromo());//descuentoPromo
             preparedStatement.setInt(7, ((Producto) object).getIdProveedorProducto());//Proveedor_idProveedor
+            preparedStatement.setString(8, ((Producto) object).getCategoriaProducto());//Proveedor_idProveedor
+            preparedStatement.setDouble(9, ((Producto) object).getPrecioProductoProveedor());//precioClienteProducto
+            
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
@@ -206,6 +209,8 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
                     producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
                     producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
                     producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    producto.setCategoriaProducto(rs.getString("categoria"));
+                    
                     listaDeProductos.add(producto);
             }
 

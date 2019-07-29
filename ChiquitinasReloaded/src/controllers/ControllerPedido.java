@@ -51,4 +51,6 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         this.mediador = mediador;
     }
     
+    
+    
 }

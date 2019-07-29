@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import mediador.Colleague;
 import mediador.Mediador;
+import mediador.PedidoMediador;
 import observer.Observer;
 import observer.Subject;
 import servicios.Servicio;
@@ -93,7 +94,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
             System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
         }
-         mediador.step3();
+        mediador.opeGetProductoSeleccionado();
     }
 
     public void printTodosLosProductos() {
@@ -208,7 +209,6 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 //        System.out.println(servicioProducto.buscarProductoConDescuento());
 //
 //    }
-
     public void getDatosForMenuProducto(String id) {
         ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
 
@@ -227,7 +227,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         String idProducto = input.nextLine();
         servicioProducto.delete("idProducto", idProducto);
         this.servComboHasProd.delete("Producto_idProducto", idProducto);
-        
+
     }
 
     /**
@@ -244,7 +244,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
 
         }
-        mediador.step4(id);
+        mediador.opeSetMontoOrden(id);
     }
 
     /**
@@ -266,6 +266,37 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         } else {
 
         }
+
+    }
+
+    public void crearProducto() {
+        System.out.println("Inserte el ID del proveedor");
+        int idProveedor = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte el ID para el producto");
+        int idProducto = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte el nombre del producto");
+        String nombrePorducto = input.nextLine();
+
+        System.out.println("Inserte el precio para el cliente");
+        double precioCliente = Double.parseDouble(input.nextLine());
+
+        System.out.println("Inserte el stock minimo para el producto");
+        int stockMinimo = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte la cantidad que desea ordenar");
+        int montoOrden = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte la categoria del producto");
+        String categoria = input.nextLine();
+        
+        System.out.println("Inserte el precio del proveedor");
+        double precioProveedor = Double.parseDouble(input.nextLine());
+
+        Producto p = new Producto(idProducto, nombrePorducto, precioCliente, precioProveedor, stockMinimo, montoOrden, categoria, idProveedor);
+        
+        servicioProducto.insert(p);
 
     }
 

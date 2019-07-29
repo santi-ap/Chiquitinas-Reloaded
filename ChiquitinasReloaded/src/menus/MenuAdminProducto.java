@@ -22,7 +22,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     ControllerProveedor controllerPreoveedor = new ControllerProveedor();
     ControllerPedido controllerPedido = new ControllerPedido();
 
-    Mediador pedidoMediador = new PedidoMediador(controllerPedido, controllerPreoveedor, controllerProducto);
+    Mediador pedidoProdExistenteMediador = new PedidoMediador(controllerPedido, controllerPreoveedor, controllerProducto);
 
     Scanner input = new Scanner(System.in);
 
@@ -134,6 +134,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     }
 
     public void menuAgregarPedirProducto() {
+
         int condicion = 0;
         while (condicion == 0) {
             System.out.println("\n\n\n\n\nDESEA PEDIR UN PRODUCTO NUEVO O EXISTENTE?\n"
@@ -146,7 +147,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.menuAgregarPoductoNuevo();
                     break;
                 case "2"://Opcion para Pedir un producto existente
-                    this.startPedidoProductoExistente();
+                    this.pedirProducto(3);
                     break;
                 case "3"://opcion para ir atras
                     condicion = 1;
@@ -154,6 +155,8 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
 
             }
         }
+        
+
     }
 
     public void menuAgregarPoductoNuevo() {
@@ -166,10 +169,10 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Pedir de un proveedor existente
-
+                    this.pedirProducto(1);
                     break;
                 case "2"://Opcion para Proveedo un producto nuevo
-
+                    this.pedirProducto(2);
                     break;
                 case "3"://opcion para ir atras
                     condicion = 1;
@@ -179,12 +182,14 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
 
-    public void startPedidoProductoExistente() {
+   
 
-        this.controllerProducto.setMediador(pedidoMediador);
-        this.controllerPreoveedor.setMediador(pedidoMediador);
-        this.controllerPedido.setMediador(pedidoMediador);
+    public void pedirProducto(int i) {
 
-        pedidoMediador.start();
+        this.controllerProducto.setMediador(pedidoProdExistenteMediador);
+        this.controllerPreoveedor.setMediador(pedidoProdExistenteMediador);
+        this.controllerPedido.setMediador(pedidoProdExistenteMediador);
+
+        pedidoProdExistenteMediador.start(i);
     }
 }

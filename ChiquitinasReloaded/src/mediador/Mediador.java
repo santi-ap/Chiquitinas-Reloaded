@@ -11,11 +11,19 @@ package mediador;
  */
 public interface Mediador {
 
-    public abstract void start();
+    public abstract void start(int i);
+    
+    public abstract void opeGetListaProveedores();
 
-    public abstract void step2();
+    public abstract void opeGetListaProductoProv();
 
-    public abstract void step3();
+    public abstract void opeGetProductoSeleccionado();
 
-    public abstract void step4(String id);
+    public abstract void opeSetMontoOrden(String id);
+    
+    public abstract void crpGetListaProveedores();
+    
+    public abstract void crpCrearProducto();
+    
+    public abstract void step7();
 }

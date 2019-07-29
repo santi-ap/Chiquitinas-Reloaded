@@ -27,24 +27,62 @@ public class PedidoMediador implements Mediador {
     }
 
     @Override
-    public void start() {
+    public void start(int i) {
+        if (i == 1) {//Inicia agregar un producto nuevo de un proveedor existente
+            this.crpGetListaProveedores();
+        } else {//inicia pedir un producto existente
+            if (i == 2) {//Inicia agregar un producto nuevo de un proveedor nuevo
+// space for new proveedor
+            } else {
+                this.opeGetListaProveedores();
+            }
+        }
+    }
+
+    //-----------------------ORDENAR PRODUCTO EXISTENTE (ope)-----------------------
+    @Override
+    public void opeGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
+        this.opeGetListaProductoProv();
+        
     }
 
     @Override
-    public void step2() {
+    public void opeGetListaProductoProv() {//Imprime la lista de productos de un proveedor
         controllerProducto.getProductoForMenuByProv();
 
     }
 
     @Override
-    public void step3() {
+    public void opeGetProductoSeleccionado() {//Imprime el producto que se selecciono
         controllerProducto.getProductoById();
     }
 
     @Override
-    public void step4(String id) {
+    public void opeSetMontoOrden(String id) {// Pide la cantidad que se quiere pedir y actualiza el stock
         controllerProducto.actualizarStock(id);
     }
+    //-----------------------END ORDENAR PRODUCTO-----------------------
+
+    //------------------------------------------------------------------
+    
+    //-----------------------CREAR PRODUCTO NUEVO(crp)-----------------------
+    @Override
+    public void crpGetListaProveedores() {// Imprime la lista de proveedores
+        controllerProveedor.getProveedorIdNombre();
+        this.crpCrearProducto();
+    }
+
+    @Override
+    public void crpCrearProducto() {// se pide los datos del producto, se crea y se inserta a la base datos
+        controllerProducto.crearProducto();
+    }
+    //-----------------------END CREAR PRODUCTO-----------------------
+    @Override
+    public void step7() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 }
