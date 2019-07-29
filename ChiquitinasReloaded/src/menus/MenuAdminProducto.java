@@ -192,4 +192,24 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
 
         pedidoProdExistenteMediador.start(i);
     }
+    
+    /**
+     * 
+     * @return true if the user desires to continue with the process, false if they want to cancel
+     */
+    public boolean confirmarAccion ()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar 1 para confirmar, 2 para cancelar la accion:");
+        int i = Integer.parseInt(sc.nextLine());
+        if (i==1)
+        {
+            return true;
+        } else {
+            return false;
+        }
+            
+    }
+
 }
+

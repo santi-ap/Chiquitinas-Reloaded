@@ -11,7 +11,12 @@ import objetos.Proveedor;
  *
  * @author santialfonso
  */
-public class Producto extends Decorador {
+
+
+
+
+public final class Producto extends Decorador{
+    
 
     private int idProducto;
     private String nombreProducto;
@@ -22,6 +27,7 @@ public class Producto extends Decorador {
     private int cantidadActualProducto;
     private String categoriaProducto;
     private int idProveedorProducto;
+
 
    
 
@@ -37,6 +43,43 @@ public class Producto extends Decorador {
         this.cantidadActualProducto = cantidadActualProducto;
         this.categoriaProducto = categoriaProducto;
         this.idProveedorProducto = idProveedorProducto;
+     }
+    
+    /*          Decorator       */
+    private Item itemDecorado;
+    private boolean isItemPedido;
+    
+    /**
+     * constructor sobrecargado para decorador, also checks if the root item was a pedido or carrito/orden
+     * @param item el item que se quiere decorar (pedido, factura, carrito)
+     */
+    public Producto(Item item) 
+    {
+        this.itemDecorado = item;
+        /*  THIS LOGIC TELLS THE LAST DECORATOR IF HE'S DECORATING A PEDIDO OR A ORDEN/CARRITO  */
+        
+        //if the item passed is a pedido, or if this item has been passed on from a root pedido, the head of the chain is a pedido => 
+        if (item instanceof Pedido)
+        {
+            this.setIsItemPedido(true);
+        } else if (item instanceof Orden || item instanceof Carrito ) { 
+            this.setIsItemPedido(false);
+        } else if (item instanceof Producto) {
+            if (((Producto) item).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        } else /*this is a combo*/ {
+            if (((Combo) item).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        }
+
     }
 
     public int getIdProducto() {
@@ -121,4 +164,59 @@ public class Producto extends Decorador {
                 + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto() + "\n";
     }
 
+    
+    @Override
+    public double getPrecio() {
+        //if the Item is a pedido, then the price should be the one from the Proveedor
+        if (this.getIsItemPedido() == true)
+        {
+            return (this.getItemDecorado().getPrecio()+this.getPrecioProveedorPorCantidad());
+        } else /*it's either an orden or a carrito, so we use the price for the client*/{
+            return (this.getItemDecorado().getPrecio()+this.getPrecioProductoCliente());
+        }
+            
+    }
+
+    /**
+     * @return the itemDecorado
+     */
+    public Item getItemDecorado() {
+        return itemDecorado;
+    }
+
+    /**
+     * @param itemDecorado the itemDecorado to set
+     */
+    public void setItemDecorado(Item itemDecorado) {
+        this.itemDecorado = itemDecorado;
+    }
+    
+    /**
+     * 
+     * @return the recibo with the added product 
+     */
+    @Override
+    public String getRecibo() {
+        return (this.getItemDecorado().getRecibo() + this.getCantidadActualProducto() + "\t" + this.getNombreProducto() + "\t" + this.getPrecioProveedorPorCantidad() + "\n");
+    }
+    
+    public double getPrecioProveedorPorCantidad()
+    {
+        return (this.getCantidadActualProducto()*this.getPrecioProductoProveedor());
+    }
+
+    /**
+     * @return the isItemPedido
+     */
+    public boolean getIsItemPedido() {
+        return isItemPedido;
+    }
+
+    /**
+     * @param isItemPedido the isItemPedido to set
+     */
+    public void setIsItemPedido(boolean isItemPedido) {
+        this.isItemPedido = isItemPedido;
+    }
+    
 }

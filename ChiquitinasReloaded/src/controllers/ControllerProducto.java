@@ -26,8 +26,9 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto) this.CrearServicio());//CASTING DE Servcio A ServicioProducto
     private Mediador mediador;
-    ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
-    Scanner input = new Scanner(System.in);
+    private Producto productoPedido;
+    private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
+    private Scanner input = new Scanner(System.in);
 
     public ControllerProducto() {
     }
@@ -72,7 +73,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     public void buscarProductoPorNombre() {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIngese el nombre del producto que desea buscar: ");
-        String nombreProductoDeseado = input.nextLine();
+        String nombreProductoDeseado = getInput().nextLine();
         ArrayList<Object> listaDetallesProducto = this.servicioProducto.selectAll("nombreProducto", nombreProductoDeseado);
         if (!(listaDetallesProducto.get(0).equals("No Existe el Producto"))) {
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + (Producto) listaDetallesProducto.get(0));
@@ -85,12 +86,12 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
      * Metodo para imprimir la lista de productos de un proveedor
      */
     public void getProductoForMenuByProv() {
+        //retarded.
         System.out.println("\nINSERTE EL ID DEL PROVEEDOR");
-        String id = input.nextLine();
+        String id = getInput().nextLine();
         ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
 
         for (Object o : listaProductos) {
-
             System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
         }
@@ -105,19 +106,19 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     public void modidificarNombreProducto(int idProducto) {
         System.out.println("Ingrese el nuevo nombre del producto: ");
-        String nombreProdNuevo = input.nextLine();
+        String nombreProdNuevo = getInput().nextLine();
         servicioProducto.update("nombreProducto", nombreProdNuevo, "idProducto", idProducto);
     }
 
     public void modidificarPrecioProducto(int idProducto) {
         System.out.println("Ingrese el nuevo precio del producto: ");
-        String precioClienteProductoNuevo = input.nextLine();
+        String precioClienteProductoNuevo = getInput().nextLine();
         servicioProducto.update("precioClienteProducto", precioClienteProductoNuevo, "idProducto", idProducto);
     }
 
     public void modidificarStockMinProducto(int idProducto) {
         System.out.println("Ingrese el nuevo stock minimo del producto: ");
-        String stockMinProductoNuevo = input.nextLine();
+        String stockMinProductoNuevo = getInput().nextLine();
         servicioProducto.update("stockMinProducto", stockMinProductoNuevo, "idProducto", idProducto);
     }
 
@@ -156,13 +157,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
             String conversion = Double.toString(calculo);
             //Este el task de taiga que me asignaron para aceptar cambios
             System.out.println("Desea confirmar cambios a la promoción\n1-Sí\n2-No");
-            int confirmarCambios = input.nextInt();
+            int confirmarCambios = getInput().nextInt();
 
             if (confirmarCambios == 1) {
                 servicioProducto.update("descuentoPromo", conversion, "idProducto", idProducto);
                 System.out.println("Modificación exitosa");
                 System.out.println("Desea continuar agregando promociones?\n1-Sí\n2-No");
-                int continuar = input.nextInt();
+                int continuar = getInput().nextInt();
                 if (continuar == 1) {
 
                     control = true;
@@ -184,26 +185,38 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public int menuPromos() {
 
         System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
-        int userInput = input.nextInt();
+        int userInput = getInput().nextInt();
         return userInput;
     }
 
     public double descuentoUsuario() {
 
         System.out.println("Digite el monto del descuento");
-        double descuento = input.nextDouble();
+        double descuento = getInput().nextDouble();
         return descuento;
 
     }
+    
+//    public void buscarProductosConDescuento(){
+//    
+//        System.out.println(servicioProducto.buscarProductoConDescuento());
+//    
+//    }
+    
 
-    public int idUsuario() {
-
-        System.out.println("Digite el identificador único del producto");
-        int idProducto = input.nextInt();
-        return idProducto;
-
+    public int idUsuario(){
+    
+    System.out.println("Digite el identificador único del producto");
+    int idProducto = getInput().nextInt();
+    return idProducto;
+    
     }
-
+    
+    public void buscarProductosConDescuento(){
+    
+        //System.out.println(servicioProducto.buscarProductoConDescuento());
+    
+    }
 //    public void buscarProductosConDescuento() {
 //
 //        System.out.println(servicioProducto.buscarProductoConDescuento());
@@ -224,10 +237,11 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void borrarProducto() {
         this.printTodosLosProductos();
         System.out.println("Seleccione el id del producto que desea eliminar: ");
-        String idProducto = input.nextLine();
+        String idProducto = getInput().nextLine();
         servicioProducto.delete("idProducto", idProducto);
         this.servComboHasProd.delete("Producto_idProducto", idProducto);
-
+        this.getServComboHasProd().delete("Producto_idProducto", idProducto);
+        
     }
 
     /**
@@ -235,10 +249,12 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
      * para mostrar el que se selecciono
      */
     public void getProductoById() {
+        //the
         System.out.println("\nINSERTE EL ID DEL PRODUCTO");
-        String id = input.nextLine();
+        String id = getInput().nextLine();
         ArrayList<Object> listaProductos = servicioProducto.selectAll("idProducto", id);
         for (Object o : listaProductos) {
+            this.setProductoPedido((Producto) o);//This info will be sent to controller pedido by the mediator
 
             System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
@@ -254,12 +270,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
      * @param idProducto
      */
     public void actualizarStock(String idProducto) {
+        //Fuck!
         System.out.println("\nINSERTE EL MONTO QUE DESEA COMPRAR");
-        int montoCompra = Integer.parseInt(input.nextLine());
+        int montoCompra = Integer.parseInt(getInput().nextLine());
         int stockActual = Integer.parseInt(servicioProducto.select("contadorProducto", "idProducto", idProducto));
         String stockNuevo = Integer.toString(stockActual + montoCompra);
         System.out.println("Desea comprar hacer la comprar s/n");
-        String aceptar = input.nextLine();
+        String aceptar = getInput().nextLine();
 
         if (aceptar.equalsIgnoreCase("s")) {
             servicioProducto.update("contadorProducto", stockNuevo, "idProducto", idProducto);
@@ -268,7 +285,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         }
 
     }
-
+    
     public void crearProducto() {
         System.out.println("Inserte el ID del proveedor");
         int idProveedor = Integer.parseInt(input.nextLine());
@@ -298,6 +315,47 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         
         servicioProducto.insert(p);
 
+    }
+    /**
+     * @return the input
+     */
+    public Scanner getInput() {
+        return input;
+    }
+
+    /**
+     * @param input the input to set
+     */
+    public void setInput(Scanner input) {
+        this.input = input;
+    }
+
+    /**
+     * @return the productoPedido
+     */
+    public Producto getProductoPedido() {
+        return productoPedido;
+    }
+
+    /**
+     * @param productoPedido the productoPedido to set
+     */
+    public void setProductoPedido(Producto productoPedido) {
+        this.productoPedido = productoPedido;
+    }
+
+    /**
+     * @return the servComboHasProd
+     */
+    public ServicioComboHasProducto getServComboHasProd() {
+        return servComboHasProd;
+    }
+
+    /**
+     * @param servComboHasProd the servComboHasProd to set
+     */
+    public void setServComboHasProd(ServicioComboHasProducto servComboHasProd) {
+        this.servComboHasProd = servComboHasProd;
     }
 
 }
