@@ -5,8 +5,10 @@
  */
 package controllers;
 
+import java.util.Scanner;
 import mediador.Colleague;
 import mediador.Mediador;
+import objetos.Proveedor;
 import servicios.Servicio;
 import servicios.ServicioProveedor;
 
@@ -19,6 +21,7 @@ public class ControllerProveedor extends ControllerFactory implements Colleague 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProveedor servicioProveedor = ((ServicioProveedor) this.CrearServicio());//CASTING DE Servcio A ServicioProveedor
     private Mediador mediador;
+    private Scanner input = new Scanner(System.in);
 
     public ControllerProveedor() {
     }
@@ -55,6 +58,30 @@ public class ControllerProveedor extends ControllerFactory implements Colleague 
         for (String s : sp.selecAllNombresProveedor()) {
             System.out.println("\n" + s);
         }
+    }
+    
+    public void crearProveedor(){
+        System.out.println("Inserte el ID para el proveedor");
+        int idProveedor = Integer.parseInt(input.nextLine());
+        
+        System.out.println("Inserte el nombre del proveedor");
+        String nombreProveedor = input.nextLine();
+        
+        System.out.println("Inserte el telefono del proveedor");
+        int telProveedor = Integer.parseInt(input.nextLine());
+        
+        System.out.println("Inserte el correo del proveedor");
+        String correoProveedor = input.nextLine();
+        
+        System.out.println("Desea agregarlo s/n");
+        String op = input.nextLine();
+        
+        if(op.equalsIgnoreCase("s")){
+        Proveedor prov = new Proveedor(idProveedor, nombreProveedor, telProveedor, correoProveedor);
+        servicioProveedor.insert(prov);
+        }
+        
+        
     }
 
 }
