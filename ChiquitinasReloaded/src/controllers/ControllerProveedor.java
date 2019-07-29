@@ -55,8 +55,6 @@ public class ControllerProveedor extends ControllerFactory implements Colleague 
         for (String s : sp.selecAllNombresProveedor()) {
             System.out.println("\n" + s);
         }
-
-        mediador.step2();
     }
 
 }
