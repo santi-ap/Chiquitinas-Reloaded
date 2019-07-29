@@ -5,10 +5,16 @@
  */
 package observer;
 
+import items.Producto;
+
 /**
  *
  * @author santialfonso
  */
 public interface Observer {
-    public abstract void update(int stock);
+    public abstract void updateObserver(Producto producto);
+    
+    public abstract void suscribeObserver();
+    
+    public abstract void unSubscribeObserver();
 }
