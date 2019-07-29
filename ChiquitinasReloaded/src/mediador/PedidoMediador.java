@@ -9,6 +9,8 @@ import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
 import items.Producto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,56 +53,89 @@ public class PedidoMediador implements Mediador {
         controllerProducto.actualizarStock(id);
     }
     
+    /*THIS MUST BE RUN AT THE END*/
     /**
-     * these last steps must be run at the end. 
+     * 
      * Producto is taken from the controllerProducto
      */
-    public void step5 () {
-        this.step6(controllerProducto.getProductoPedido());
+    public void takeProductoFromControllerProducto () {
+        this.sendProductoToControllerPedido(controllerProducto.getProductoPedido());
     }
     
     /**
      * Product info is sent into controllerPedido
      * @param productoPedido the product sent to the pedido controller
      */
-    public void step6 (Producto productoPedido)
+    public void sendProductoToControllerPedido (Producto productoPedido)
     {
         controllerPedido.setProductoPedidoByMediador(productoPedido);
     }
     
     /**
-     * Proveedor is taken from controllerProveedor
+     * ProveedorId is taken from controllerProducto
      */
-    @Override
-    public void step7 ()
+    
+    public void takeProveedorFromControllerProveedor ()
     {
-        //logic to get info from controllerProveedor
+        controllerProducto.getIdProveedorPedidobyMediador();
     }
     
     /**
-     * Proveedor Info is sent to controllerProveedor
-     */
-    @Override
-    public void step8 ()
+     * ProveedorId is sent to controllerPedido
+     * @param idProveedor
+     */ 
+    
+    public void sendProveedorIdToControllerPedido (String idProveedor)
     {
-        //logic to send info to controllerPedido
+        controllerPedido.setIdProveedorPedidoByMediador(idProveedor);
     }
     
-    public void step9 ()
+    /**
+     * pedido is created using the selected ammount chosen by the user
+     */
+    public void createPedidoWithAmmount ()
     {
+        //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
+        controllerPedido.getProductoPedido().setCantidadActualProducto(controllerProducto.getMontoCompra());                        //this line is done in 4 methods using the mediator pattern.
         controllerPedido.createPedido();
     }
     
-    @Override
-    public void step10()
+    /**
+     * sending info to pedido database
+     */
+    
+    public void insertIntoPedido()
     {
-        //add pedido to every single table in the datababe
+        controllerPedido.getServicioPedido().insert(controllerPedido.getPedidoByMediador());        
+        this.insertIntoPedidoHasProducto();
+
+
     }
     
-    public void step11()
+    /**
+     * sending info to pedidoHasProducto
+     */
+    public void insertIntoPedidoHasProducto ()
     {
-        //send the email
+        controllerPedido.insertIntoPedidoHasProducto();
     }
+    
+    /**
+     * sending info to pedidohasproveedor
+     */
+    public void insertIntoPedidoHasProveedor ()
+    {
+        controllerPedido.insertIntoPedidoHasProveedor();
+    }
+    
+    /*          STEPS TODO                      */
+    /*  get the ammount of products bought     
+        we also need to copy these last steps to the other mediador*/
+    public void enviarCorreo()
+    {
+        controllerPedido.enviarCorreo();
+    }
+
     
 
 }

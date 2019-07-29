@@ -19,7 +19,7 @@ public final class Producto extends Decorador{
     private double precioProductoProveedor;
     private double descuentoProductoPromo;
     private int stockMinimoProducto;
-    private int cantidadActualProducto;
+    private int cantidadActualProducto; //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
     private String categoriaProducto;
     private int idProveedorProducto;
     
