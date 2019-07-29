@@ -194,5 +194,44 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
         return listaDatosPedido;
     }
 
-    
+    public int selectMaxId() {
+        int maxId=1;    
+        ResultSet rs = null;
+        Statement stmt=null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            //select max(idProducto) from ChiquitinasReloaded.Producto where idProducto>(-1);
+            sql="SELECT max(idPedido) FROM Pedido";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                maxId = Integer.parseInt(rs.getString("max(idPedido)"))+1;
+            }else{//si no encuentra a un pedido con los parametros especificados, va a retornar un uno
+                System.out.println("No Id Found. ID is 1.");
+            return 1;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return maxId;
+    }
+   
 }

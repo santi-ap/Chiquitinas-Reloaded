@@ -29,29 +29,58 @@ public class PedidoMediador implements Mediador {
     }
 
     @Override
-    public void start() {
-        //this
+    public void start(int i) {
+        if (i == 1) {//Inicia agregar un producto nuevo de un proveedor existente
+            this.crpGetListaProveedores();
+        } else {//inicia pedir un producto existente
+            if (i == 2) {//Inicia agregar un producto nuevo de un proveedor nuevo
+// space for new proveedor
+            } else {
+                this.opeGetListaProveedores();
+            }
+        }
+    }
+
+    //-----------------------ORDENAR PRODUCTO EXISTENTE (ope)-----------------------
+    @Override
+    public void opeGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
+        this.opeGetListaProductoProv();
+        
     }
 
     @Override
-    public void step2() {
-        //extremely
+    public void opeGetListaProductoProv() {//Imprime la lista de productos de un proveedor
         controllerProducto.getProductoForMenuByProv();
 
     }
 
     @Override
-    public void step3() {
-        //What
+    public void opeGetProductoSeleccionado() {//Imprime el producto que se selecciono
         controllerProducto.getProductoById();
     }
 
     @Override
-    public void step4(String id) {
-        //absolute
+    public void opeSetMontoOrden(String id) {// Pide la cantidad que se quiere pedir y actualiza el stock
         controllerProducto.actualizarStock(id);
     }
+    //-----------------------END ORDENAR PRODUCTO-----------------------
+
+    //------------------------------------------------------------------
+    
+    //-----------------------CREAR PRODUCTO NUEVO(crp)-----------------------
+    @Override
+    public void crpGetListaProveedores() {// Imprime la lista de proveedores
+        controllerProveedor.getProveedorIdNombre();
+        this.crpCrearProducto();
+    }
+
+    @Override
+    public void crpCrearProducto() {// se pide los datos del producto, se crea y se inserta a la base datos
+        controllerProducto.crearProducto();
+    }
+    //-----------------------END CREAR PRODUCTO-----------------------
+    
     
     /*THIS MUST BE RUN AT THE END*/
     /**
@@ -59,6 +88,7 @@ public class PedidoMediador implements Mediador {
      * Producto is taken from the controllerProducto
      */
     public void takeProductoFromControllerProducto () {
+        System.out.println("Guardando Informaciones.");
         this.sendProductoToControllerPedido(controllerProducto.getProductoPedido());
     }
     
@@ -95,6 +125,7 @@ public class PedidoMediador implements Mediador {
      */
     public void createPedidoWithAmmount ()
     {
+        System.out.println("Creando Pedido.");
         //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
         controllerPedido.getProductoPedido().setCantidadActualProducto(controllerProducto.getMontoCompra());                        //this line is done in 4 methods using the mediator pattern.
         controllerPedido.createPedido();
@@ -106,6 +137,8 @@ public class PedidoMediador implements Mediador {
     
     public void insertIntoPedido()
     {
+        System.out.println("Registrando Pedido.");
+
         controllerPedido.getServicioPedido().insert(controllerPedido.getPedidoByMediador());        
         this.insertIntoPedidoHasProducto();
 
@@ -117,6 +150,7 @@ public class PedidoMediador implements Mediador {
      */
     public void insertIntoPedidoHasProducto ()
     {
+        
         controllerPedido.insertIntoPedidoHasProducto();
     }
     
@@ -134,6 +168,7 @@ public class PedidoMediador implements Mediador {
     public void enviarCorreo()
     {
         controllerPedido.enviarCorreo();
+        System.out.println("Correo Enviado.");
     }
 
     

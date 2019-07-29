@@ -8,6 +8,7 @@ package controllers;
 import items.Pedido;
 import items.Producto;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mediador.Colleague;
@@ -85,7 +86,10 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
 
     public void createPedido() {
         this.nuevoPedido = new Pedido();
+        this.nuevoPedido.setIdPedido(this.servicioPedido.selectMaxId());
         this.getProductoPedido().setItemDecorado(this.nuevoPedido);
+        this.nuevoPedido.setTotalPedido(this.getProductoPedido().getPrecio());
+        this.nuevoPedido.setFechaPedido(new Date(System.currentTimeMillis()));
         ((PedidoMediador)mediador).insertIntoPedido();
     }
 
@@ -299,6 +303,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public void setMontoCompra(int montoCompra) {
         this.montoCompra = montoCompra;
     }
+
 }
 
 

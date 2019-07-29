@@ -34,7 +34,7 @@ public class TesterTom {
         cpp.setMediador(m);
         cppp.setMediador(m);
         
-        m.start();
+        m.start(1);
         /*decorator example*/
 //        Pedido ped = new Pedido();
 //        ped.setFechaPedido(new Date(System.currentTimeMillis()));

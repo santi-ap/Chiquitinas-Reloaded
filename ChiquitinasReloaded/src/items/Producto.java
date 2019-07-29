@@ -11,8 +11,13 @@ import objetos.Proveedor;
  *
  * @author santialfonso
  */
+
+
+
+
 public final class Producto extends Decorador{
     
+
     private int idProducto;
     private String nombreProducto;
     private double precioProductoCliente;
@@ -22,12 +27,28 @@ public final class Producto extends Decorador{
     private int cantidadActualProducto; //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
     private String categoriaProducto;
     private int idProveedorProducto;
+
+
+   
+
+    public Producto() {
+    }
+    
+     public Producto(int idProducto, String nombreProducto, double precioProductoCliente, double precioProductoProveedor, int stockMinimoProducto, int cantidadActualProducto, String categoriaProducto, int idProveedorProducto) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.precioProductoCliente = precioProductoCliente;
+        this.precioProductoProveedor = precioProductoProveedor;
+        this.stockMinimoProducto = stockMinimoProducto;
+        this.cantidadActualProducto = cantidadActualProducto;
+        this.categoriaProducto = categoriaProducto;
+        this.idProveedorProducto = idProveedorProducto;
+     }
     
     /*          Decorator       */
     private Item itemDecorado;
     private boolean isItemPedido;
     
-    public Producto (){};
     /**
      * constructor sobrecargado para decorador, also checks if the root item was a pedido or carrito/orden
      * @param item el item que se quiere decorar (pedido, factura, carrito)
@@ -58,6 +79,7 @@ public final class Producto extends Decorador{
                 this.setIsItemPedido(false);
             }
         }
+
     }
 
     public int getIdProducto() {
@@ -133,16 +155,20 @@ public final class Producto extends Decorador{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
-                    + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente() 
-                    +" | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente()-(this.getPrecioProductoCliente()*this.getDescuentoProductoPromo())) 
-                    + " | Stock Minimo del Producto: " + this.getStockMinimoProducto() + "\n Stock actual del producto: " + this.getCantidadActualProducto() 
-                    + "Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor() + " | Descuento promocional del producto: " 
-                    + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto()+"\n";
+                + " | Precio del Producto para el cliente: ₡" + this.getPrecioProductoCliente()
+                + " | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente() - (this.getPrecioProductoCliente() * this.getDescuentoProductoPromo()))
+                + " | Stock Minimo del Producto: " + this.getStockMinimoProducto() + "\n Stock actual del producto: " + this.getCantidadActualProducto()
+                + "Precio del Producto ofrecido por el Proveedor: ₡" + this.getPrecioProductoProveedor() + " | Descuento promocional del producto: "
+                + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto() + "\n";
     }
 
     
+    /**
+     * GETS PRECIO FOR DECORATOR
+     * @return 
+     */
     @Override
     public double getPrecio() {
         //if the Item is a pedido, then the price should be the one from the Proveedor
@@ -166,6 +192,26 @@ public final class Producto extends Decorador{
      * @param itemDecorado the itemDecorado to set
      */
     public void setItemDecorado(Item itemDecorado) {
+        if (itemDecorado instanceof Pedido)
+        {
+            this.setIsItemPedido(true);
+        } else if (itemDecorado instanceof Orden || itemDecorado instanceof Carrito ) { 
+            this.setIsItemPedido(false);
+        } else if (itemDecorado instanceof Producto) {
+            if (((Producto) itemDecorado).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        } else /*this is a combo*/ {
+            if (((Combo) itemDecorado).getIsItemPedido()==true)
+            {
+                this.setIsItemPedido(true);
+            } else {
+                this.setIsItemPedido(false);
+            }
+        }
         this.itemDecorado = itemDecorado;
     }
     
