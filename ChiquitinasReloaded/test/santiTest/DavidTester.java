@@ -31,9 +31,9 @@ public class DavidTester {
         
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
         
-       //map.displayMenu();
+       map.displayMenu();
        
-       cp.crearProveedor();
+       //cp.crearProveedor();
         
         
     
