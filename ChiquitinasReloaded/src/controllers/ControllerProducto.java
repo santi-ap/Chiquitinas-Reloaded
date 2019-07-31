@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import mediador.Colleague;
 import mediador.Mediador;
+import mediador.PedidoMediador;
 import observer.Observer;
 import observer.Subject;
 import servicios.Servicio;
@@ -27,7 +28,10 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     private Mediador mediador;
     private Producto productoPedido;
     private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
+    private Observer observer;
     private Scanner input = new Scanner(System.in);
+    private String idProveedorForMediador;
+    private int montoCompra=20;
 
     public ControllerProducto() {
     }
@@ -55,19 +59,27 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         this.mediador = mediador;
     }
 
+    public Observer getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
     @Override
     public void registrarObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setObserver(observer);
     }
 
     @Override
     public void removerObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setObserver(null);
     }
 
     @Override
-    public void notificarObserver() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void notificarObserver(Producto producto) {
+        this.getObserver().updateObserver(producto);
     }
 
     public void buscarProductoPorNombre() {
@@ -87,14 +99,14 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void getProductoForMenuByProv() {
         //retarded.
         System.out.println("\nINSERTE EL ID DEL PROVEEDOR");
-        String id = getInput().nextLine();
-        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
+        idProveedorForMediador = getInput().nextLine();
+        ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", idProveedorForMediador);
 
         for (Object o : listaProductos) {
             System.out.println("ID PRODUCTO: " + ((Producto) o).getIdProducto() + "|| PRODUCTO: " + ((Producto) o).getNombreProducto() + "|| PRECIO CLIENTE: c" + ((Producto) o).getPrecioProductoCliente()
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
         }
-         mediador.step3();
+        mediador.opeGetProductoSeleccionado();
     }
 
     public void printTodosLosProductos() {
@@ -216,8 +228,11 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         //System.out.println(servicioProducto.buscarProductoConDescuento());
     
     }
-
-
+//    public void buscarProductosConDescuento() {
+//
+//        System.out.println(servicioProducto.buscarProductoConDescuento());
+//
+//    }
     public void getDatosForMenuProducto(String id) {
         ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
 
@@ -235,6 +250,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         System.out.println("Seleccione el id del producto que desea eliminar: ");
         String idProducto = getInput().nextLine();
         servicioProducto.delete("idProducto", idProducto);
+        this.servComboHasProd.delete("Producto_idProducto", idProducto);
         this.getServComboHasProd().delete("Producto_idProducto", idProducto);
         
     }
@@ -255,7 +271,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
                     + "|| PRECIO PROVEEDOR: " + ((Producto) o).getPrecioProductoProveedor());
 
         }
-        mediador.step4(id);
+        mediador.opeSetMontoOrden(id);
     }
 
     /**
@@ -267,7 +283,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void actualizarStock(String idProducto) {
         //Fuck!
         System.out.println("\nINSERTE EL MONTO QUE DESEA COMPRAR");
-        int montoCompra = Integer.parseInt(getInput().nextLine());
+        montoCompra = Integer.parseInt(getInput().nextLine());
         int stockActual = Integer.parseInt(servicioProducto.select("contadorProducto", "idProducto", idProducto));
         String stockNuevo = Integer.toString(stockActual + montoCompra);
         System.out.println("Desea comprar hacer la comprar s/n");
@@ -278,9 +294,41 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         } else {
 
         }
+        ((PedidoMediador)mediador).takeProductoFromControllerProducto();
 
     }
+    
+    public void crearProducto() {
+        System.out.println("Inserte el ID del proveedor");
+        this.idProveedorForMediador =input.nextLine();
 
+        System.out.println("Inserte el ID para el producto");
+        int idProducto = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte el nombre del producto");
+        String nombrePorducto = input.nextLine();
+
+        System.out.println("Inserte el precio para el cliente");
+        double precioCliente = Double.parseDouble(input.nextLine());
+
+        System.out.println("Inserte el stock minimo para el producto");
+        int stockMinimo = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte la cantidad que desea ordenar");
+        int montoOrden = Integer.parseInt(input.nextLine());
+
+        System.out.println("Inserte la categoria del producto");
+        String categoria = input.nextLine();
+        
+        System.out.println("Inserte el precio del proveedor");
+        double precioProveedor = Double.parseDouble(input.nextLine());
+
+        productoPedido = new Producto(idProducto, nombrePorducto, precioCliente, precioProveedor, stockMinimo, montoOrden, categoria, Integer.parseInt(this.idProveedorForMediador));
+        
+        servicioProducto.insert(productoPedido);
+        ((PedidoMediador)mediador).sendProductoToControllerPedido(productoPedido);
+
+    }
     /**
      * @return the input
      */
@@ -322,7 +370,43 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void setServComboHasProd(ServicioComboHasProducto servComboHasProd) {
         this.servComboHasProd = servComboHasProd;
     }
+
+    public void getIdProveedorPedidobyMediador() {
+        ((PedidoMediador)mediador).sendProveedorIdToControllerPedido(this.idProveedorForMediador);
+        
+    }
+
+    /**
+     * @return the montoCompra
+     */
+    public int getMontoCompra() {
+        return montoCompra;
+    }
+
+    /**
+     * @param montoCompra the montoCompra to set
+     */
+    public void setMontoCompra(int montoCompra) {
+        this.montoCompra = montoCompra;
+    }
     
-   
+    /**
+     * Metodo para actualizar el stock de un producto despues de que un cliente haya hecho una orden.
+     * En este metodo tambien se ejecuta el observer pattern para ordenar mas del producto al proveedor si baja o iguala el stock minimo
+     * @param producto Este producto deberia ser la insancia del producto que se esta comprando
+     */
+    public void updateStockDespuesDeOrden(Producto producto){
+        //do logic to update the stock after an order from a client
+        
+        //then logic for observer pattern to order more from the provider if need be
+        
+        //if actual stock is equal to or lesser than minStock, it should initiate observer pattern to order more from proveedor
+        if(producto.getCantidadActualProducto()<=producto.getStockMinimoProducto()){
+            Observer controllerPedidoObserver = new ControllerPedido(this);//instanciamos un nuevo observer 
+            controllerPedidoObserver.suscribeObserver();//vinculamos el observer con el object
+            this.notificarObserver(producto);//le dice al observer que haga un nuevo pedido del mismo producto
+            controllerPedidoObserver.unSubscribeObserver();//rompemos el vinculo del observer con el object
+        }
+    }
 
 }

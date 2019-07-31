@@ -5,6 +5,8 @@
  */
 package observer;
 
+import items.Producto;
+
 /**
  *
  * @author santialfonso
@@ -12,5 +14,5 @@ package observer;
 public interface Subject {
     public abstract void registrarObserver(Observer observer);
     public abstract void removerObserver(Observer observer);
-    public abstract void notificarObserver();
+    public abstract void notificarObserver(Producto producto);
 }
