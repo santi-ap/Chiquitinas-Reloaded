@@ -9,6 +9,10 @@ import servicios.Servicio;
 import servicios.ServicioCombo;
 import servicios.ServicioComboHasProducto;
 import java.util.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import items.*;
+import java.text.SimpleDateFormat;  
 
 /**
  *
@@ -17,7 +21,7 @@ import java.util.*;
 public class ControllerCombo extends ControllerFactory{
     // ---------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioCombo servicioCombo = ((ServicioCombo)this.CrearServicio());//CASTING DE Servcio A ServicioCombo
-    private ServicioComboHasProducto servicioComboHasProducto = ((ServicioComboHasProducto)this.CrearServicio());
+    private ServicioComboHasProducto servicioComboHasProducto = new ServicioComboHasProducto();
     
     public ControllerCombo() {
     }
@@ -55,17 +59,141 @@ public class ControllerCombo extends ControllerFactory{
     
     public void insertarProductoAUnCombo(){
     //Lo mejoraré para no estar pidiendo de nuevo el identifier del combo, sino que solamente el del producto
+    boolean condicionSalida = true;
     Scanner sc = new Scanner(System.in);
     System.out.println("Digite el identificador del combo");
-    int primer = sc.nextInt();
+    int codigoDelCombo = sc.nextInt();
+    do{
     System.out.println("Digite el identificador del producto");
-    int segundo = sc.nextInt();
-    String conversionIdCombo = String.valueOf(primer);
-    String conversionIdProducto = String.valueOf(segundo);
-    String stringParaMetodo = primer +","+segundo;
-    
+    int idProducto = sc.nextInt();
+    String conversionIdCombo = String.valueOf(codigoDelCombo);
+    String conversionIdProducto = String.valueOf(idProducto);
+    String stringParaMetodo = codigoDelCombo +","+idProducto;
     servicioComboHasProducto.insert(stringParaMetodo);
+    System.out.println("Producto agregado con exito al combo " +codigoDelCombo);
+        System.out.println("Desea continuar agregando productos al combo?\n1-Si\n2-No");
+        int respuestaUsuario = sc.nextInt();
+            if(respuestaUsuario == 1){
+            
+            condicionSalida = true;
+            
+            } else{
+            
+            condicionSalida = false;    
+            
+            }
+    
+    
+    }while(condicionSalida == true);
+    
+}
+    
+    
+    public void submenuCrearCombo(){
+    
+    //idCombo,nombreCombo,precioClienteCombo,descuentoCombo, fechaInicioCombo, fechaFinCombo
+
+        
+    }
+    
+    /**
+     * @marco
+     * Método crea un combo nuevo desde cero. Lo ampliaré para colocar una fecha fin.
+     */
+    
+    public void crearComboNuevo(){
+        
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        
+        
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Digite el identificador del combo");
+    int idCombo = sc.nextInt();
+    System.out.println("Digite el nombre del combo");
+    String nombreCombo = sc.next();
+    System.out.println("Digite el precio del combo");
+    Double precioCombo = sc.nextDouble();
+    System.out.println("Digite las unidades disponibles del combo");
+    int unidadesCombo = sc.nextInt();
+    System.out.println("Digite la cantidad de productos del combo");
+    int productosCombo = sc.nextInt();
+    System.out.println("Digite el descuento del combo");
+    Double descuentoCombo = sc.nextDouble();
+    
+    Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate);
+    servicioCombo.insert(combo);
+    System.out.println("Combo "+nombreCombo+" insertado con éxito!");      
+ 
+    
+       /* 
+    
+        */
+       
+    
+
+
+          
+    }
+    
+    
+    
+    /**
+     * @Marco
+     * Creacion de un submenu para modificar el combo
+     */
+    
+    public void submenuModificarCombo(){
+    
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1-Agregar producto a un combo\n2-Modificar precio de un combo");
+        int respuestaUsuario = sc.nextInt();
+        if(respuestaUsuario == 1){
+         
+        this.insertarProductoAUnCombo();
+        
+        } else if(respuestaUsuario == 2){
+            System.out.println("Digite el identificador del combo");
+            int identificadorCombo = sc.nextInt();
+            this.actualizarPrecioDelCombo(identificadorCombo);
+        
+        }
     
     }
+    
+    /**
+     * 
+     * @marco 
+     * Actualiza el precio del producto y es parte del menu combos
+     */
+    public void actualizarPrecioDelCombo(int idCombo){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el nuevo precio del combo: ");
+        String precioClienteProductoNuevo = sc.nextLine();
+        servicioCombo.update("precioClienteCombo", precioClienteProductoNuevo, "idCombo", idCombo);
+        System.out.println("Actualizacion exitosa de combo con id "+idCombo + " a: "+precioClienteProductoNuevo);
+        
+
+}
+    
+    public void insertarFechaDeFinEInicioDeCombo(){
+    
+        Scanner sc = new Scanner(System.in);
+        
+            Calendar calendar = Calendar.getInstance();
+            java.util.Date currentDate = calendar.getTime();
+            java.sql.Date date = new java.sql.Date(currentDate.getTime());
+            System.out.println("Digite el identificador del producto");
+            int idProducto = sc.nextInt();
+
+             servicioCombo.update("fechaInicioCombo", date, "idCombo", idProducto );
+             System.out.println("Fecha de inicio de combo ingresada con exito");
+             System.out.println("Digite la fecha de fin del combo\nSiga el formato brindado: 2019-07-21");
+                servicioCombo.update(idProducto, currentDate, idProducto, date);
+             
+    
+    }
+    
+    
     
 }

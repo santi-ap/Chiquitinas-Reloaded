@@ -10,5 +10,19 @@ package mediador;
  * @author santialfonso
  */
 public interface Mediador {
-    
+
+    public abstract void start();
+
+    public abstract void step2();
+
+    public abstract void step3();
+
+    public abstract void step4(String id);
+
+    public void step7();
+
+    public void step8();
+
+    public void step10();
+
 }

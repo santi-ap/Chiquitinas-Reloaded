@@ -5,7 +5,7 @@
  */
 package items;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  *
@@ -19,9 +19,28 @@ public class Combo extends Decorador{
     private int cantidadOfertaCombo;
     private int cantidadActualProductoCombo;
     private double descuentoCombo;
-    private Date fechaInicioCombo;
+    Calendar cal = Calendar. getInstance();
+    private Date fechaInicioCombo = cal.getTime();
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     private Date fechaFinCombo;
+   
+    /*          Decorator       */
+    private Item itemDecorado;
+    private boolean isItemPedido;
     
+    public Combo(int idComboA, String nombreCombo, double precioClienteCombo, int contadorOfertaCombo, int contadorProductoCombo, double descuentoCombo, Date fechaInicioCombo, Date fechaFinCombo){
+        this.idCombo = idComboA;
+        this.nombreCombo = nombreCombo;
+        this.precioComboCliente = precioClienteCombo;
+        this.cantidadOfertaCombo = contadorOfertaCombo;
+        this.cantidadActualProductoCombo = contadorProductoCombo;
+        this.descuentoCombo = descuentoCombo;
+        this.fechaInicioCombo = sqlDate;
+        this.fechaFinCombo = sqlDate;
+    
+    };
+     
     public Combo() {
     }
 
@@ -87,6 +106,58 @@ public class Combo extends Decorador{
 
     public void setFechaFinCombo(Date fechaFinCombo) {
         this.fechaFinCombo = fechaFinCombo;
+    }
+
+    public java.sql.Date getSqlDate() {
+        return sqlDate;
+    }
+
+    public void setSqlDate(java.sql.Date sqlDate) {
+        this.sqlDate = sqlDate;
+    }
+    
+    
+
+    @Override
+    public double getPrecio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getRecibo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    boolean getIsItemPedido() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the itemDecorado
+     */
+    public Item getItemDecorado() {
+        return itemDecorado;
+    }
+
+    /**
+     * @param itemDecorado the itemDecorado to set
+     */
+    public void setItemDecorado(Item itemDecorado) {
+        this.itemDecorado = itemDecorado;
+    }
+
+    /**
+     * @return the isItemPedido
+     */
+    public boolean isIsItemPedido() {
+        return isItemPedido;
+    }
+
+    /**
+     * @param isItemPedido the isItemPedido to set
+     */
+    public void setIsItemPedido(boolean isItemPedido) {
+        this.isItemPedido = isItemPedido;
     }
     
     

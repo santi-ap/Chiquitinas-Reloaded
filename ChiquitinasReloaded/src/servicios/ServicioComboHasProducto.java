@@ -5,6 +5,7 @@
  */
 package servicios;
 
+import items.Combo;
 import items.Producto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,7 +75,7 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
     /**
      * INSERT INTO Combo_has_Producto (Combo_idCombo, Producto_idProducto) values (?,?);
      *
-     * @param object este objeto debe ser un String de la siguiente forma: "a,b" donde 'a' es el idCombo y 'b' es el idProducto
+     * @param object este objeto debe ser un String de la siguiente forma: "a,b" donde 'a' es el idCombo y 'b' es el 
      */
     @Override
     public void insert(Object object) {
@@ -173,7 +174,7 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
         ArrayList<Object> listaDeProductos = new ArrayList<>();
-        Producto producto;
+        Combo combo;
         ResultSet rs = null;
         Statement stmt = null;
         try {
@@ -193,11 +194,11 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
             //STEP 3.1: Extract data from result set
             while(rs.next()) {
                 //Retrieve by column name
-                 producto = new Producto();
+                 combo = new Combo();
                     //Retrieve by column name
-                    producto.setIdProducto(Integer.parseInt(rs.getString("Combo_idCombo")));
-                    producto.setNombreProducto(rs.getString("Producto_idProducto"));
-                    listaDeProductos.add(producto);
+                    combo.setIdCombo(Integer.parseInt(rs.getString("Combo_idCombo")));
+                    combo.setNombreCombo(rs.getString("Producto_idProducto"));
+                    listaDeProductos.add(combo);
             }
 
         } catch (Exception e) {

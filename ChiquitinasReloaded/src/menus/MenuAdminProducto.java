@@ -5,10 +5,12 @@
  */
 package menus;
 
+import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
 import java.util.Scanner;
-
+import mediador.Mediador;
+import mediador.PedidoMediador;
 
 /**
  *
@@ -16,8 +18,13 @@ import java.util.Scanner;
  */
 public class MenuAdminProducto implements MenuDisplayBehavior {
 
-    Scanner input = new Scanner(System.in);
     ControllerProducto controllerProducto = new ControllerProducto();
+    ControllerProveedor controllerPreoveedor = new ControllerProveedor();
+    ControllerPedido controllerPedido = new ControllerPedido();
+
+    Mediador pedidoMediador = new PedidoMediador(controllerPedido, controllerPreoveedor, controllerProducto);
+
+    Scanner input = new Scanner(System.in);
 
     public MenuAdminProducto() {
     }
@@ -53,12 +60,12 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
         }
     }
 
-    
-    public void subMenuModificarProducto(){
+    public void subMenuModificarProducto() {
         System.out.println("\n\n\n\nSUBMENU PARA MODIFICAR UN PRODUCTO\n");
         controllerProducto.printTodosLosProductos();
         System.out.println("Escoga el id del producto que desea modificar");
         int idProductoAModificar = Integer.parseInt(input.nextLine());
+
         int condicion = 0;
         while (condicion == 0) {
             System.out.println("ESCOGA UNA OPCION\n"
@@ -82,37 +89,42 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     //Para regresar a este menú desde las opciones del switch tuve que crear un flag boolean de salida
                     boolean condicionSalida = true;
                     do {
-                    controllerProducto.menuPromos();
-                    switch(controllerProducto.menuPromos()){
-                    case 1: 
-                        
-                    controllerProducto.descuento(controllerProducto.descuentoUsuario());
-                    condicionSalida = true;
-                    break;
-                    
-                    case 2:
-                    controllerProducto.descuento(controllerProducto.descuentoUsuario());
-                    /*Hay una pulga cuando sale de las opciones, porque el menú principal lo arroja dos veces
+                        System.out.println("1-Crear promoción\n2-Modificar promoción\n3-Buscar promoción\n4-Ver promoción\n5-Menú principal");
+                        int userInput = input.nextInt();
+                        switch (userInput) {
+                            case 1:
+                                System.out.println("Digite el monto del descuento");
+                                double descuento = input.nextDouble();
+                                controllerProducto.descuento(descuento);
+                                condicionSalida = true;
+                                break;
+
+                            case 2:
+                                System.out.println("Digite el monto del descuento");
+                                double descuentoModificacion = input.nextDouble();
+                                controllerProducto.descuento(descuentoModificacion);
+                                /*Hay una pulga cuando sale de las opciones, porque el menú principal lo arroja dos veces
                     No estoy seguro donde está el glitch*/
-                    condicionSalida = true;
-                    break;
-                        
-                    case 3:
-                    controllerProducto.buscarProductoId(controllerProducto.idUsuario());
-                    condicionSalida = true;
-                    break;
-                        
-                    case 4:
-                        
-                    controllerProducto.buscarProductosConDescuento();
-                        
-                    case 5:    
-                    
-                        condicionSalida = false;
-                        break;
-                        
-                } } while(condicionSalida == true);
-                    
+                                condicionSalida = true;
+                                break;
+
+                            case 3:
+                                System.out.println("Digite el identificador único del producto");
+                                int idProducto = input.nextInt();
+                                controllerProducto.buscarProductoId(idProducto);
+                                condicionSalida = true;
+                                break;
+
+                            case 4:
+
+                            case 5:
+
+                                condicionSalida = false;
+                                break;
+
+                        }
+                    } while (condicionSalida == true);
+
                     break;
                 case "5"://opcion para ir atras
                     condicion = 1;
@@ -120,7 +132,6 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-
 
     public void menuAgregarPedirProducto() {
         int condicion = 0;
@@ -135,7 +146,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                     this.menuAgregarPoductoNuevo();
                     break;
                 case "2"://Opcion para Pedir un producto existente
-                    this.seleccionarProductoExistente();
+                    this.startPedidoProductoExistente();
                     break;
                 case "3"://opcion para ir atras
                     condicion = 1;
@@ -155,7 +166,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Pedir de un proveedor existente
-                    
+
                     break;
                 case "2"://Opcion para Proveedo un producto nuevo
 
@@ -167,16 +178,33 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
             }
         }
     }
-    
-    public void seleccionarProductoExistente(){
-      ControllerProveedor cp = new ControllerProveedor();
-      
-      cp.getProveedorIdNombre();
-      
-        System.out.println("\nINSERTER EL ID DEL PROVEEDOR");
-        String idProveedor = input.nextLine();
-        controllerProducto.getDatosForMenuProducto(idProveedor);
-        System.out.println("\nINSERTER EL ID DEL PRODUCTO");
-         String idProducto = input.nextLine();
+
+    public void startPedidoProductoExistente() {
+
+        this.controllerProducto.setMediador(pedidoMediador);
+        this.controllerPreoveedor.setMediador(pedidoMediador);
+        this.controllerPedido.setMediador(pedidoMediador);
+
+        pedidoMediador.start();
     }
+    
+    /**
+     * 
+     * @return true if the user desires to continue with the process, false if they want to cancel
+     */
+    public boolean confirmarAccion ()
+    {
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Ingresar 1 para confirmar, 2 para cancelar la accion:");
+        int i = Integer.parseInt(sc.nextLine());
+        if (i==1)
+        {
+            return true;
+        } else {
+            return false;
+        }
+            
+    }
+
 }
+

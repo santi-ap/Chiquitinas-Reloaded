@@ -5,7 +5,7 @@
  */
 package items;
 
-import java.util.Date;
+import java.sql.Date;
 import objetos.Proveedor;
 
 /**
@@ -21,6 +21,7 @@ public class Pedido extends Item{
     
     
     public Pedido() {
+        this.totalPedido = 0.0;
     }
 
     public int getIdPedido() {
@@ -54,5 +55,17 @@ public class Pedido extends Item{
     public void setProveedorPedido(Proveedor proveedorPedido) {
         this.proveedorPedido = proveedorPedido;
     }
-    
+        
+    /*          Decorator           */   
+    @Override
+    public double getPrecio() 
+    {
+        return this.getTotalPedido();
+    }
+
+    @Override
+    public String getRecibo() {
+        super.recibo = "#" + this.getIdPedido() + "\t\t" + this.getFechaPedido() + "\n\tPEDIDO\n";
+        return super.recibo;
+    }
 }
