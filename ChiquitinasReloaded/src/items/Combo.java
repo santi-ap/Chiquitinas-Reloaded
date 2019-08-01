@@ -23,7 +23,7 @@ public class Combo extends Decorador{
     private Date fechaInicioCombo = cal.getTime();
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-    private Date fechaFinCombo;
+    java.sql.Date fechaFinCombo;
    
     /*          Decorator       */
     private Item itemDecorado;
@@ -104,7 +104,7 @@ public class Combo extends Decorador{
         return fechaFinCombo;
     }
 
-    public void setFechaFinCombo(Date fechaFinCombo) {
+    public void setFechaFinCombo(java.sql.Date fechaFinCombo) {
         this.fechaFinCombo = fechaFinCombo;
     }
 

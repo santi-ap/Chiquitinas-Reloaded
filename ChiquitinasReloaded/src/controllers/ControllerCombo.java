@@ -12,6 +12,7 @@ import java.util.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import items.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;  
 
 /**
@@ -105,6 +106,17 @@ public class ControllerCombo extends ControllerFactory{
         
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+    
+    String string_date = "12-12-2012";
+
+                    SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                    try {
+                        java.util.Date d = f.parse(string_date);
+                        long milliseconds = d.getTime();
+                        
+                        java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
+                     
         
         
     Scanner sc = new Scanner(System.in);
@@ -121,22 +133,14 @@ public class ControllerCombo extends ControllerFactory{
     System.out.println("Digite el descuento del combo");
     Double descuentoCombo = sc.nextDouble();
     
-    Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate);
+    Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate1);
     servicioCombo.insert(combo);
-    System.out.println("Combo "+nombreCombo+" insertado con éxito!");      
- 
-    
-       /* 
-    
-        */
-       
-    
-
-
-          
+    System.out.println("Combo "+nombreCombo+" insertado con éxito!"); }   catch (ParseException e) {
+                        e.printStackTrace();}  
+   
     }
     
-    
+
     
     /**
      * @Marco
@@ -175,6 +179,21 @@ public class ControllerCombo extends ControllerFactory{
         
 
 }
+    
+    /**
+     * @marco
+     * Despliega toda la información del combo selecionado
+     */
+    
+    public void desplegarInformacionCombo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite el identificador del combo");
+        int idCombo = sc.nextInt();
+        
+            servicioCombo.selectAll("idCombo",idCombo);
+    
+    }
+    
     
     public void insertarFechaDeFinEInicioDeCombo(){
     
