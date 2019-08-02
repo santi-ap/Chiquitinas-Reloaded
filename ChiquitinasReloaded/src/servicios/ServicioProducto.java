@@ -185,7 +185,7 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
+//            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 

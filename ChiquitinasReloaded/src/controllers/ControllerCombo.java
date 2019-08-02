@@ -5,10 +5,13 @@
  */
 package controllers;
 
+import items.Combo;
+import items.Producto;
 import servicios.Servicio;
 import servicios.ServicioCombo;
 import servicios.ServicioComboHasProducto;
 import java.util.*;
+import servicios.ServicioProducto;
 
 /**
  *
@@ -18,6 +21,7 @@ public class ControllerCombo extends ControllerFactory{
     // ---------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioCombo servicioCombo = ((ServicioCombo)this.CrearServicio());//CASTING DE Servcio A ServicioCombo
     private ServicioComboHasProducto servicioComboHasProducto = new ServicioComboHasProducto();
+    ServicioProducto servicioProducto = new ServicioProducto();
     
     public ControllerCombo() {
     }
@@ -121,6 +125,22 @@ public class ControllerCombo extends ControllerFactory{
         
 
 }
+    /**
+     * @santi
+     * Muestra los combos y los productos dentro de esos combos
+     */
+    public void mostrarCombos(){
+        for(Combo c:servicioCombo.selectTodosLosCombos()){//recorre una lista de todos los combos
+           System.out.println("Id Combo: "+c.getIdCombo()+" | Nombre Combo: "+c.getNombreCombo());//imprime el id y nombre del combo actual
+           for(String idProducto:servicioComboHasProducto.selectListIdProductos("Combo_idCombo", c.getIdCombo())){//recorre una lista de productos que esten en el combo actual
+               ArrayList<Object> prodList= this.servicioProducto.selectAll("idProducto", idProducto);//agarra la info del producto actual en el recorrdio de productos en el combo actual
+                   Producto prod = ((Producto)prodList.get(0));
+                   System.out.println("   "+prod.toString(0));//imprime el producto actual dentro del combo actual
+               
+           }
+       }
+        
+    }
     
     
 }

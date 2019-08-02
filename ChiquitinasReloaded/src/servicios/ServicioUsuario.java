@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import objetos.Cliente;
 
 /**
  *
@@ -184,6 +185,51 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         }
         //retorna lo que se selecciono
         return listaDatosUsuario;
+    }
+    
+    public Usuario selectUsuario(int idUsuario){
+        Usuario usuario = new Usuario();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT * FROM Usuario WHERE idUsuario = ?;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, idUsuario);
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                usuario.setIdUsuario(rs.getString("idUsuario"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setContrasennaUsuario(rs.getString("contrasennaUsuario"));
+                usuario.setTipoUsuario(rs.getInt("tipoUsuario"));
+            }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+                System.out.println("No se encontro el usuario");
+                return null;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return usuario;
     }
 
     

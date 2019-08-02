@@ -11,6 +11,7 @@ import controllers.ControllerProveedor;
 import java.util.Scanner;
 import mediador.Mediador;
 import mediador.PedidoMediador;
+import objetos.Usuario;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
     }
 
     @Override
-    public void displayMenu() {
+    public void displayMenu(Usuario usuario) {
         int condicion = 0;
         while (condicion == 0) {
             System.out.println("\n\n\n\n\nMENU DE INVENTARIO\n"

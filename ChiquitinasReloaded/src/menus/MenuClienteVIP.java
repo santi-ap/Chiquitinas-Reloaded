@@ -14,12 +14,12 @@ import objetos.Usuario;
  *
  * @author santialfonso
  */
-public class MenuCliente implements MenuDisplayBehavior {
+public class MenuClienteVIP implements MenuDisplayBehavior {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
     Scanner input = new Scanner(System.in);
 
-    public MenuCliente() {
+    public MenuClienteVIP() {
     }
 
     @Override
@@ -31,7 +31,8 @@ public class MenuCliente implements MenuDisplayBehavior {
                     + "2-Ver Catalogo Combo\n"
                     + "3-Ver Carrito\n"
                     + "4-Ver Ordenes\n"
-                    + "5-Salir");
+                    + "5-Ver Promociones\n"
+                    + "6-Salir");
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
@@ -44,7 +45,9 @@ public class MenuCliente implements MenuDisplayBehavior {
                     break;
                 case "4"://Ver Ordenes
                     break;
-                case "5"://Salir
+                case "5"://Ver Promociones
+                    break;
+                case "6"://Salir
                     condicion = 1;
                     break;
             }

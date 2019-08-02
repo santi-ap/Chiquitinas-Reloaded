@@ -5,6 +5,8 @@
  */
 package menus;
 
+import objetos.Usuario;
+
 /**
  *
  * @author santialfonso
@@ -15,7 +17,7 @@ public class MenuAdminProveedor implements MenuDisplayBehavior{
     }
 
     @Override
-    public void displayMenu() {
+    public void displayMenu(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

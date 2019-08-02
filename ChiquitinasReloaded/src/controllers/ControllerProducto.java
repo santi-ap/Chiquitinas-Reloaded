@@ -109,9 +109,9 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         mediador.opeGetProductoSeleccionado();
     }
 
-    public void printTodosLosProductos() {
+    public void printTodosLosProductos() {//imprime todos los productos
         for (Producto p : servicioProducto.selectTodosLosProductos()) {
-            System.out.println(p);
+            System.out.println(p.toString(0));
         }
     }
 

@@ -9,7 +9,7 @@ package objetos;
  *
  * @author santialfonso
  */
-public abstract class Usuario {
+public class Usuario {
     protected String idUsuario;
     protected String nombreUsuario;
     protected String contrasennaUsuario;

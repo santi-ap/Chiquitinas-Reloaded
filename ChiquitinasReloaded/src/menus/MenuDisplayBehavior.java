@@ -5,10 +5,12 @@
  */
 package menus;
 
+import objetos.Usuario;
+
 /**
  *
  * @author santialfonso
  */
 public interface MenuDisplayBehavior {
-    public abstract void displayMenu();
+    public abstract void displayMenu(Usuario usuario);
 }

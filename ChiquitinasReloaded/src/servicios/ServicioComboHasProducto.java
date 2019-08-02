@@ -173,32 +173,33 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
      */
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        ArrayList<Object> listaDeProductos = new ArrayList<>();
-        Combo combo;
+       return null;
+    }
+    
+    public ArrayList<String> selectListIdProductos(String queColumna, int queValor){
+         ArrayList<String> listaDeIdProductos = new ArrayList<>();
+        String idProducto;
         ResultSet rs = null;
         Statement stmt = null;
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql = "SELECT * FROM Combo_has_Producto WHERE " + queColumna + " = ?;";
+            sql = "SELECT Producto_idProducto FROM Combo_has_Producto WHERE " + queColumna + " = ?;";
 
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, queValor.toString());
+            preparedStatement.setInt(1, queValor);
             rs = preparedStatement.executeQuery();
 
             //STEP 3.1: Extract data from result set
             while(rs.next()) {
                 //Retrieve by column name
-                 combo = new Combo();
                     //Retrieve by column name
-                    combo.setIdCombo(Integer.parseInt(rs.getString("Combo_idCombo")));
-                    combo.setNombreCombo(rs.getString("Producto_idProducto"));
-                    listaDeProductos.add(combo);
+                    idProducto = rs.getString("Producto_idProducto");
+                    listaDeIdProductos.add(idProducto);
             }
 
         } catch (Exception e) {
@@ -213,6 +214,6 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
             }
         }
         //retorna lo que se selecciono
-        return listaDeProductos;
+        return listaDeIdProductos;
     }
 }

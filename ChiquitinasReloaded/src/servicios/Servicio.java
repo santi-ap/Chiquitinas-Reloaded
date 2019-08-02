@@ -26,7 +26,7 @@ public abstract class Servicio {
             Class.forName("com.mysql.jdbc.Driver");
 
             //STEP 2: Open a connecNon
-            System.out.println("Connecting to database...");
+//            System.out.println("Connecting to database...");
             conn=DriverManager.getConnection(DB_URL,USER,PASS);
         }catch(Exception e){
             e.printStackTrace();

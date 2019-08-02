@@ -243,4 +243,17 @@ public final class Producto extends Decorador{
         this.isItemPedido = isItemPedido;
     }
     
+    /**
+     * este es un toString que toma como parametro cualquier numero. La idea es que imprime de una forma mas organizada para los usuarios
+     * @param i
+     * @return imprime datos del producto de forma organizada
+     */
+    public String toString(int i) {
+        return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
+                + " | Precio del Producto: ₡" + this.getPrecioProductoCliente()
+                + " | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente() - (this.getPrecioProductoCliente() * this.getDescuentoProductoPromo()))
+                + "\n    Stock actual del producto: " + this.getCantidadActualProducto()
+                + " | Descuento promocional del producto: " + this.getDescuentoProductoPromo() * 100 + "%";
+    }
+    
 }
