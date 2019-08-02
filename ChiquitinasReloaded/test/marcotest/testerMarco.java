@@ -7,6 +7,9 @@ package marcotest;
 import menus.*;
 import controllers.*;
 import servicios.*;
+import controllers.ControllerUsuario;
+import java.util.*;
+import java.sql.Date;
 
 /**
  *
@@ -21,9 +24,12 @@ public class testerMarco {
         // TODO code application logic here
         
         MenuAdminCombo mab = new MenuAdminCombo();
+        ControllerCombo controllerCombo = new ControllerCombo();
+        ControllerUsuario controllerUsuario = new ControllerUsuario();
         mab.displayMenu();
         
-        
+            
+            
     }
     
 }

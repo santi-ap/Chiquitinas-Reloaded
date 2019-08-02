@@ -5,7 +5,7 @@
  */
 package items;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  *
@@ -19,12 +19,27 @@ public class Combo extends Decorador{
     private int cantidadOfertaCombo;
     private int cantidadActualProductoCombo;
     private double descuentoCombo;
-    private Date fechaInicioCombo;
-    private Date fechaFinCombo;
+    Calendar cal = Calendar. getInstance();
+    private Date fechaInicioCombo = cal.getTime();
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    java.sql.Date fechaFinCombo;
    
     /*          Decorator       */
     private Item itemDecorado;
     private boolean isItemPedido;
+    
+    public Combo(int idComboA, String nombreCombo, double precioClienteCombo, int contadorOfertaCombo, int contadorProductoCombo, double descuentoCombo, Date fechaInicioCombo, Date fechaFinCombo){
+        this.idCombo = idComboA;
+        this.nombreCombo = nombreCombo;
+        this.precioComboCliente = precioClienteCombo;
+        this.cantidadOfertaCombo = contadorOfertaCombo;
+        this.cantidadActualProductoCombo = contadorProductoCombo;
+        this.descuentoCombo = descuentoCombo;
+        this.fechaInicioCombo = sqlDate;
+        this.fechaFinCombo = sqlDate;
+    
+    };
      
     public Combo() {
     }
@@ -89,9 +104,19 @@ public class Combo extends Decorador{
         return fechaFinCombo;
     }
 
-    public void setFechaFinCombo(Date fechaFinCombo) {
+    public void setFechaFinCombo(java.sql.Date fechaFinCombo) {
         this.fechaFinCombo = fechaFinCombo;
     }
+
+    public java.sql.Date getSqlDate() {
+        return sqlDate;
+    }
+
+    public void setSqlDate(java.sql.Date sqlDate) {
+        this.sqlDate = sqlDate;
+    }
+    
+    
 
     @Override
     public double getPrecio() {

@@ -29,13 +29,18 @@ public class MenuAdminCombo implements MenuDisplayBehavior{
             
                 case 1: 
                     
+                controllerCombo.crearComboNuevo();
+                  //controllerCombo.submenuCrearCombo();
+                break;
+                
                 case 2:
                     
                 controllerCombo.submenuModificarCombo();
-                
+                break;
                     
                 case 3:
                     
+                controllerCombo.desplegarInformacionCombo();
                 case 4:    
             
                 case 5:

@@ -233,4 +233,50 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     }
 
     
+    
+    
+    
+    public int selectCount(Object queContamos, Object queColumna, Object queValor) {
+        int returnSelect=0;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+           //"SELECT COUNT(idOrden) FROM ChiquitinasReloaded.Orden WHERE User_idUsuario = "
+            sql="SELECT COUNT("+queContamos+") FROM Orden WHERE " +queColumna+" = ?;";
+            //
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                returnSelect = rs.getInt("COUNT(idOrden)");
+            }else{//si no encuentra pedido, retorna 0
+            return 0;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
 }
+}
+

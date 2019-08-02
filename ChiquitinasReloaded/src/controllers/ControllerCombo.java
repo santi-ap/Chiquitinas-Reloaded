@@ -12,6 +12,11 @@ import servicios.ServicioCombo;
 import servicios.ServicioComboHasProducto;
 import java.util.*;
 import servicios.ServicioProducto;
+import java.sql.Date;
+import java.sql.Timestamp;
+import items.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;  
 
 /**
  *
@@ -88,9 +93,62 @@ public class ControllerCombo extends ControllerFactory{
     
 }
     
+    
+    public void submenuCrearCombo(){
+    
+    //idCombo,nombreCombo,precioClienteCombo,descuentoCombo, fechaInicioCombo, fechaFinCombo
+
+        
+    }
+    
+    /**
+     * @marco
+     * Método crea un combo nuevo desde cero. Lo ampliaré para colocar una fecha fin.
+     */
+    
+    public void crearComboNuevo(){
+        
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+    
+    String string_date = "12-12-2012";
+
+                    SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                    try {
+                        java.util.Date d = f.parse(string_date);
+                        long milliseconds = d.getTime();
+                        
+                        java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
+                     
+        
+        
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Digite el identificador del combo");
+    int idCombo = sc.nextInt();
+    System.out.println("Digite el nombre del combo");
+    String nombreCombo = sc.next();
+    System.out.println("Digite el precio del combo");
+    Double precioCombo = sc.nextDouble();
+    System.out.println("Digite las unidades disponibles del combo");
+    int unidadesCombo = sc.nextInt();
+    System.out.println("Digite la cantidad de productos del combo");
+    int productosCombo = sc.nextInt();
+    System.out.println("Digite el descuento del combo");
+    Double descuentoCombo = sc.nextDouble();
+    
+    Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate1);
+    servicioCombo.insert(combo);
+    System.out.println("Combo "+nombreCombo+" insertado con éxito!"); }   catch (ParseException e) {
+                        e.printStackTrace();}  
+   
+    }
+    
+
+    
     /**
      * @Marco
-     * Creacion de un submenu para modificar el producto
+     * Creacion de un submenu para modificar el combo
      */
     
     public void submenuModificarCombo(){
@@ -141,6 +199,40 @@ public class ControllerCombo extends ControllerFactory{
        }
         
     }
+    
+    /**
+     * @marco
+     * Despliega toda la información del combo selecionado
+     */
+    
+    public void desplegarInformacionCombo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite el identificador del combo");
+        int idCombo = sc.nextInt();
+        
+            servicioCombo.selectAll("idCombo",idCombo);
+    
+    }
+    
+    
+    public void insertarFechaDeFinEInicioDeCombo(){
+    
+        Scanner sc = new Scanner(System.in);
+        
+            Calendar calendar = Calendar.getInstance();
+            java.util.Date currentDate = calendar.getTime();
+            java.sql.Date date = new java.sql.Date(currentDate.getTime());
+            System.out.println("Digite el identificador del producto");
+            int idProducto = sc.nextInt();
+
+             servicioCombo.update("fechaInicioCombo", date, "idCombo", idProducto );
+             System.out.println("Fecha de inicio de combo ingresada con exito");
+             System.out.println("Digite la fecha de fin del combo\nSiga el formato brindado: 2019-07-21");
+                servicioCombo.update(idProducto, currentDate, idProducto, date);
+             
+    
+    }
+    
     
     
 }
