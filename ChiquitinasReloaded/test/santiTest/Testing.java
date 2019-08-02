@@ -7,6 +7,7 @@ package santiTest;
 
 import static chiquitinasreloaded.Tester.primerMenu;
 import controllers.ControllerCombo;
+import controllers.ControllerPedido;
 import controllers.ControllerProducto;
 import controllers.LoginController;
 import controllers.RegisterController;
@@ -20,6 +21,8 @@ import servicios.ServicioCombo;
 import servicios.ServicioComboHasProducto;
 import servicios.ServicioProducto;
 import java.sql.SQLException;
+import objetos.Usuario;
+import servicios.ServicioUsuario;
 
 /**
  *
@@ -66,20 +69,31 @@ public class Testing {
 //           }
 //           
 //       }
-Scanner sc = new Scanner(System.in);
-        System.out.println("1 - Login\n2 - Registrar");
-        String input = sc.nextLine();
-        if(input.equals("1")){
-            LoginController lc = new LoginController();
-            lc.formLogin();
-        }else if(input.equals("2")){
-            RegisterController rc = new RegisterController();
-            rc.formRegistro();
-        }else{
-            System.out.println("Input no valido");
-            primerMenu();
-            return;
-        }
+//Scanner sc = new Scanner(System.in);
+//        System.out.println("1 - Login\n2 - Registrar");
+//        String input = sc.nextLine();
+//        if(input.equals("1")){
+//            LoginController lc = new LoginController();
+//            lc.formLogin();
+//        }else if(input.equals("2")){
+//            RegisterController rc = new RegisterController();
+//            rc.formRegistro();
+//        }else{
+//            System.out.println("Input no valido");
+//            primerMenu();
+//            return;
+//        }
+//        Producto p = new Producto();
+//        p= ((Producto)(sp.selectAll("idProducto", 23)).get(0));
+//        ControllerPedido conPedido = new ControllerPedido();
+//        conPedido.updateObserver(p);
+
+        MenuAdminProducto menu = new MenuAdminProducto();
+        
+        Usuario u = new Usuario();
+        ServicioUsuario su = new ServicioUsuario();
+        u = su.selectUsuario(4);
+        menu.displayMenu(u);
     }
 
 }

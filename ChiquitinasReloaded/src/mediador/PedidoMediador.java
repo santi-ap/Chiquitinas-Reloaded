@@ -170,6 +170,13 @@ public class PedidoMediador implements Mediador {
         controllerPedido.enviarCorreo();
         System.out.println("Correo Enviado.");
     }
+    
+    /**
+     * llama el metodo para que sume y actualize el stock de un producto despues de que se le pidio al proveedor
+     */
+    public void sumarleLoPedidoAlStock(int cantidadPedido){
+        this.controllerProducto.actualizarStockDespuesDeCompra(cantidadPedido);
+    }
 
     
 

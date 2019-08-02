@@ -11,12 +11,7 @@ import objetos.Proveedor;
  *
  * @author santialfonso
  */
-
-
-
-
-public final class Producto extends Decorador{
-    
+public final class Producto extends Decorador {
 
     private int idProducto;
     private String nombreProducto;
@@ -27,14 +22,16 @@ public final class Producto extends Decorador{
     private int cantidadActualProducto; //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
     private String categoriaProducto;
     private int idProveedorProducto;
+    
+    /*          Decorator       */
+    private Item itemDecorado;
+    private boolean isItemPedido;
 
-
-   
 
     public Producto() {
     }
-    
-     public Producto(int idProducto, String nombreProducto, double precioProductoCliente, double precioProductoProveedor, int stockMinimoProducto, int cantidadActualProducto, String categoriaProducto, int idProveedorProducto) {
+
+    public Producto(int idProducto, String nombreProducto, double precioProductoCliente, double precioProductoProveedor, int stockMinimoProducto, int cantidadActualProducto, String categoriaProducto, int idProveedorProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precioProductoCliente = precioProductoCliente;
@@ -43,37 +40,32 @@ public final class Producto extends Decorador{
         this.cantidadActualProducto = cantidadActualProducto;
         this.categoriaProducto = categoriaProducto;
         this.idProveedorProducto = idProveedorProducto;
-     }
-    
-    /*          Decorator       */
-    private Item itemDecorado;
-    private boolean isItemPedido;
-    
+    }
+
+
     /**
-     * constructor sobrecargado para decorador, also checks if the root item was a pedido or carrito/orden
+     * constructor sobrecargado para decorador, also checks if the root item was
+     * a pedido or carrito/orden
+     *
      * @param item el item que se quiere decorar (pedido, factura, carrito)
      */
-    public Producto(Item item) 
-    {
+    public Producto(Item item) {
         this.itemDecorado = item;
         /*  THIS LOGIC TELLS THE LAST DECORATOR IF HE'S DECORATING A PEDIDO OR A ORDEN/CARRITO  */
-        
+
         //if the item passed is a pedido, or if this item has been passed on from a root pedido, the head of the chain is a pedido => 
-        if (item instanceof Pedido)
-        {
+        if (item instanceof Pedido) {
             this.setIsItemPedido(true);
-        } else if (item instanceof Orden || item instanceof Carrito ) { 
+        } else if (item instanceof Orden || item instanceof Carrito) {
             this.setIsItemPedido(false);
         } else if (item instanceof Producto) {
-            if (((Producto) item).getIsItemPedido()==true)
-            {
+            if (((Producto) item).getIsItemPedido() == true) {
                 this.setIsItemPedido(true);
             } else {
                 this.setIsItemPedido(false);
             }
         } else /*this is a combo*/ {
-            if (((Combo) item).getIsItemPedido()==true)
-            {
+            if (((Combo) item).getIsItemPedido() == true) {
                 this.setIsItemPedido(true);
             } else {
                 this.setIsItemPedido(false);
@@ -164,21 +156,20 @@ public final class Producto extends Decorador{
                 + this.getDescuentoProductoPromo() * 100 + "%" + " | ID del Proveedor del Producto: " + this.getIdProveedorProducto() + "\n";
     }
 
-    
     /**
      * GETS PRECIO FOR DECORATOR
-     * @return 
+     *
+     * @return
      */
     @Override
     public double getPrecio() {
         //if the Item is a pedido, then the price should be the one from the Proveedor
-        if (this.getIsItemPedido() == true)
-        {
-            return (this.getItemDecorado().getPrecio()+this.getPrecioProveedorPorCantidad());
-        } else /*it's either an orden or a carrito, so we use the price for the client*/{
-            return (this.getItemDecorado().getPrecio()+this.getPrecioProductoCliente());
+        if (this.getIsItemPedido() == true) {
+            return (this.getItemDecorado().getPrecio() + this.getPrecioProveedorPorCantidad());
+        } else /*it's either an orden or a carrito, so we use the price for the client*/ {
+            return (this.getItemDecorado().getPrecio() + this.getPrecioProductoCliente());
         }
-            
+
     }
 
     /**
@@ -192,21 +183,18 @@ public final class Producto extends Decorador{
      * @param itemDecorado the itemDecorado to set
      */
     public void setItemDecorado(Item itemDecorado) {
-        if (itemDecorado instanceof Pedido)
-        {
+        if (itemDecorado instanceof Pedido) {
             this.setIsItemPedido(true);
-        } else if (itemDecorado instanceof Orden || itemDecorado instanceof Carrito ) { 
+        } else if (itemDecorado instanceof Orden || itemDecorado instanceof Carrito) {
             this.setIsItemPedido(false);
         } else if (itemDecorado instanceof Producto) {
-            if (((Producto) itemDecorado).getIsItemPedido()==true)
-            {
+            if (((Producto) itemDecorado).getIsItemPedido() == true) {
                 this.setIsItemPedido(true);
             } else {
                 this.setIsItemPedido(false);
             }
         } else /*this is a combo*/ {
-            if (((Combo) itemDecorado).getIsItemPedido()==true)
-            {
+            if (((Combo) itemDecorado).getIsItemPedido() == true) {
                 this.setIsItemPedido(true);
             } else {
                 this.setIsItemPedido(false);
@@ -214,19 +202,18 @@ public final class Producto extends Decorador{
         }
         this.itemDecorado = itemDecorado;
     }
-    
+
     /**
-     * 
-     * @return the recibo with the added product 
+     *
+     * @return the recibo with the added product
      */
     @Override
     public String getRecibo() {
         return (this.getItemDecorado().getRecibo() + this.getCantidadActualProducto() + "\t" + this.getNombreProducto() + "\t" + this.getPrecioProveedorPorCantidad() + "\n");
     }
-    
-    public double getPrecioProveedorPorCantidad()
-    {
-        return (this.getCantidadActualProducto()*this.getPrecioProductoProveedor());
+
+    public double getPrecioProveedorPorCantidad() {
+        return (this.getCantidadActualProducto() * this.getPrecioProductoProveedor());
     }
 
     /**
@@ -242,18 +229,28 @@ public final class Producto extends Decorador{
     public void setIsItemPedido(boolean isItemPedido) {
         this.isItemPedido = isItemPedido;
     }
-    
+
     /**
-     * este es un toString que toma como parametro cualquier numero. La idea es que imprime de una forma mas organizada para los usuarios
-     * @param i
+     * este es un toString que toma como parametro el tipo de usuario. La idea
+     * es que imprime de una forma mas organizada para los usuarios
+     *
+     * @param tipoUsuario si es "1" imprime sin descuento
      * @return imprime datos del producto de forma organizada
      */
-    public String toString(int i) {
-        return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
-                + " | Precio del Producto: ₡" + this.getPrecioProductoCliente()
-                + " | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente() - (this.getPrecioProductoCliente() * this.getDescuentoProductoPromo()))
-                + "\n    Stock actual del producto: " + this.getCantidadActualProducto()
-                + " | Descuento promocional del producto: " + this.getDescuentoProductoPromo() * 100 + "%";
+    public String toString(int tipoUsuario) {
+        if (tipoUsuario == 1) {//impirme productos sin promos
+            return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
+                    + " | Precio del Producto: ₡" + this.getPrecioProductoCliente()
+                    + " | Stock actual del producto: " + this.getCantidadActualProducto();
+        } else if (tipoUsuario == 2) {//imprime productos con promos
+            return "ID Producto: " + this.getIdProducto() + " | Nombre Producto: " + this.getNombreProducto()
+                    + " | Precio del Producto: ₡" + this.getPrecioProductoCliente()
+                    + " | Precio con descuento promocional del Producto para el cliente VIP: ₡" + (this.getPrecioProductoCliente() - (this.getPrecioProductoCliente() * this.getDescuentoProductoPromo()))
+                    + "\n    Stock actual del producto: " + this.getCantidadActualProducto()
+                    + " | Descuento promocional del producto: " + this.getDescuentoProductoPromo() * 100 + "%";
+        } else {//imprime toda la info de los productos
+            return this.toString();
+
+        }
     }
-    
 }

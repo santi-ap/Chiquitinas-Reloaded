@@ -35,10 +35,10 @@ public class MenuCliente implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
-                    this.controllerProducto.printTodosLosProductos();
+                    this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());
                     break;
                 case "2"://Ver Catalogo Combo
-                    this.controllerCombo.mostrarCombos();
+                    this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
                     break;
                 case "3"://Ver Carrito
                     break;
