@@ -31,7 +31,7 @@ public class DavidTester {
         
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
         
-       map.displayMenu();
+      // map.displayMenu();
        // conP.actualizarStock(5, "1");
        
       // conP.crearProducto();

@@ -278,5 +278,67 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         //retorna lo que se selecciono
         return returnSelect;
 }
+    
+    /**
+     * 
+     * @param queValor
+     * @return 
+     * @marco
+     * Muestra los 10 productos más consumidos
+     * Sino ha comprado tantos productos, simplemente utilizará los que haya
+     */
+    
+    public ArrayList<Object> selectProductosMasConsumidos(Object queValor) {
+        ArrayList<Object> countProducto = new ArrayList<Object>();
+        ArrayList<Object> nombreProducto = new ArrayList<Object>();
+        int returnSelect=0;
+        String returnSelectIdProducto = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql= "SELECT Producto.nombreProducto, COUNT(Orden_has_Producto.Pruducto_idProducto) FROM Orden_has_Producto INNER JOIN Orden ON Orden_has_Producto.Orden_idOrdon = Orden.idOrden INNER JOIN Producto ON Orden_has_Producto.Pruducto_idProducto = Producto.idProducto WHERE Orden_has_Producto.Pruducto_idProducto is NOT nULL AND Orden.User_idUsuario = ? GROUP BY Pruducto_idProducto ORDER BY COUNT(Orden_has_Producto.Pruducto_idProducto) DESC LIMIT 10;";
+
+            
+            //sql = 
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            while(rs.next()){
+                //Retrieve by column name
+                returnSelect = rs.getInt("COUNT(Orden_has_Producto.Pruducto_idProducto)");
+                returnSelectIdProducto = rs.getString("nombreProducto");
+            countProducto.add(returnSelect);
+            nombreProducto.add(returnSelectIdProducto);
+            }
+                
+            //si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+            
+            
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        System.out.println(nombreProducto);
+        return countProducto;
+    }
 }
 
