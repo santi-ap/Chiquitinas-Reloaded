@@ -26,7 +26,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
     public void displayMenu(Usuario usuario) {
         int condicion = 0;
         while (condicion == 0) {
-            System.out.println("\n\n\n\n\nMENU DE CLIENTE\n"
+            System.out.println("\n\n\n\n\nMENU DE CLIENTE VIP\n"
                     + "1-Ver Catalogo Producto\n"
                     + "2-Ver Catalogo Combo\n"
                     + "3-Ver Carrito\n"
@@ -36,10 +36,10 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
-                    this.controllerProducto.printTodosLosProductos();
+                    this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());
                     break;
                 case "2"://Ver Catalogo Combo
-                    this.controllerCombo.mostrarCombos();
+                    this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
                     break;
                 case "3"://Ver Carrito
                     break;

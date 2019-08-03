@@ -11,21 +11,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mediador.Colleague;
-import mediador.Mediador;
-import mediador.PedidoMediador;
+import mediador.*;
 import objetos.Proveedor;
-import observer.Observer;
-import observer.Subject;
-import servicios.Servicio;
-import servicios.ServicioPedido;
-import servicios.ServicioPedidoHasProducto;
-import servicios.ServicioPedidoHasProveedor;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
+import observer.*;
+import servicios.*;
+import org.apache.commons.mail.*;
 import servicios.ServicioProveedor;
 
 /**
@@ -81,7 +71,16 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
      */
     @Override
     public void updateObserver(Producto producto) {
-        //logica para pedir un producto existente de forma automatica a un proveedor
+        ControllerProducto controllerProducto = new ControllerProducto();
+        ControllerProveedor controllerProveedor = new ControllerProveedor();
+        PedidoMediador pedidoMediador = new PedidoMediador(this,controllerProveedor,controllerProducto);
+        this.setMediador(pedidoMediador);
+        controllerProducto.setMediador(pedidoMediador);
+        controllerProveedor.setMediador(pedidoMediador);
+        controllerProducto.setIdProveedorForMediador(String.valueOf(producto.getIdProveedorProducto()));
+        controllerProducto.setProductoPedido(producto);
+        pedidoMediador.sendProductoToControllerPedido(producto);
+        pedidoMediador.sumarleLoPedidoAlStock(0);
     }
     
     /**
