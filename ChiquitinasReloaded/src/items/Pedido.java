@@ -58,14 +58,14 @@ public class Pedido extends Item{
         
     /*          Decorator           */   
     @Override
-    public double getPrecio() 
+    public double getPrecio(int tipoUsuario) 
     {
         return this.getTotalPedido();
     }
 
     @Override
-    public String getRecibo() {
-        super.recibo = "#" + this.getIdPedido() + "\t\t" + this.getFechaPedido() + "\n\tPEDIDO\n";
+    public String getRecibo(int tipoUsuario) {
+        super.recibo = "Pedido #" + this.getIdPedido() + "\t\t" + this.getFechaPedido() + "\n";
         return super.recibo;
     }
 }

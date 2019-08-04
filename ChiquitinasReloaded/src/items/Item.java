@@ -15,6 +15,6 @@ public abstract class Item {
         * 
         * @return the accumulated price of the item(component), plus the cost of the product(decorator)
         */
-        public abstract double getPrecio();
-        public abstract String getRecibo();
+        public abstract double getPrecio(int tipoUsuario);
+        public abstract String getRecibo(int tipoUsuario);
 }
