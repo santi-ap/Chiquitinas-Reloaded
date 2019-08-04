@@ -223,5 +223,67 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
         }
         //retorna lo que se selecciono
         return returnSelect;    }
+    
+    /**
+     * INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto, MontoProducto) values (idUsuario,idProducto,cantidadProducto);
+     * @param idUsuario el id del usuario ingresado
+     * @param idProducto el id del producto escogido por el usuario
+     * @param cantidadProducto la cantidad de producto escogido por el usuario
+     */
+    public void insertProductCarrito(String idUsuario, String idProducto, String cantidadProducto){
+        try{
+            //STEP 3: Execute a querey
+            super.conectar();
+            
+            System.out.println("Insertando valores...");
+            String sql;
+            sql="INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto, MontoProducto) values (?,?,?);";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, idUsuario);//id del Usuario logeado
+            preparedStatement.setString(2, idProducto);//id del producto que se va a agregar al carrito
+            preparedStatement.setString(3, cantidadProducto);//la cantidad de ese producto que se va a agregar al carrito
+            preparedStatement.executeUpdate(); 
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * INSERT INTO CarritoProducto (Combo_idCombo, Usuario_idUsuario, MontoCombo) values (idCombo,idUsuario,cantidadCombo);
+     * @param idUsuario el id del usuario ingresado
+     * @param idCombo el id del combo escogido por el usuario
+     * @param cantidadCombo la cantidad de combo escogido por el usuario
+     */
+    public void insertComboCarrito(String idUsuario, String idCombo, String cantidadCombo){
+        try{
+            //STEP 3: Execute a querey
+            super.conectar();
+            
+            System.out.println("Insertando valores...");
+            String sql;
+            sql="INSERT INTO CarritoCombo (Combo_idCombo, Usuario_idUsuario, MontoCombo) values (?,?,?);";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, idCombo);//id del combo que se va a agregar al carrito
+            preparedStatement.setString(2, idUsuario);//id del Usuario logeado
+            preparedStatement.setString(3, cantidadCombo);//la cantidad de ese combo que se va a agregar al carrito
+            preparedStatement.executeUpdate(); 
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
 }

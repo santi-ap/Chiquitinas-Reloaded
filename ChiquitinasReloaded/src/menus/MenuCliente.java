@@ -5,6 +5,7 @@
  */
 package menus;
 
+import controllers.ControllerCarrito;
 import controllers.ControllerCombo;
 import controllers.ControllerProducto;
 import java.util.Scanner;
@@ -18,6 +19,7 @@ import objetos.Usuario;
 public class MenuCliente implements MenuDisplayBehavior {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
+    ControllerCarrito controllerCarrito = new ControllerCarrito();
     Scanner input = new Scanner(System.in);
     OrdenMediador ordenMediador=new OrdenMediador();
 
@@ -37,10 +39,12 @@ public class MenuCliente implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
-                    this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());
+                    this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());//imprime todos los productos
+                    this.controllerCarrito.agregarProductoCarrito(usuario);//llama el metodo para agregar un producto al carrito
                     break;
                 case "2"://Ver Catalogo Combo
-                    this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
+                    this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());//imprime todos los combos con sus productos asociados
+                    this.controllerCarrito.agregarComboCarrito(usuario);//llama el metodo para agregar un combo al carrito
                     break;
                 case "3"://Ver Carrito
                     //logica para mostrar carrito
