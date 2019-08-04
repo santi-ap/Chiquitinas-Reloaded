@@ -26,7 +26,8 @@ public class testerMarco {
         MenuAdminCombo mab = new MenuAdminCombo();
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
-        mab.displayMenu();
+        //mab.displayMenu();
+        controllerUsuario.diezProductosMasConsumidos();
         
             
             

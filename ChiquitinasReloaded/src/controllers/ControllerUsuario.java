@@ -112,6 +112,20 @@ public class ControllerUsuario extends ControllerFactory{
 
         }
 
+     /**
+      * Busca los produtos más consumidos
+      */
+     
+     public void diezProductosMasConsumidos(){
+         Scanner sc = new Scanner(System.in);
+         System.out.println("Digite su identificación de cliente");
+         int userId = sc.nextInt();
+         
+            System.out.println(servivioUsuario.selectProductosMasConsumidos(userId));
+     
+     
+         
+     }
 
 
 }
