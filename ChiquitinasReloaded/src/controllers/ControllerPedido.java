@@ -118,7 +118,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         this.nuevoPedido = new Pedido();
         this.nuevoPedido.setIdPedido(this.servicioPedido.selectMaxId());
         this.getProductoPedido().setItemDecorado(this.nuevoPedido);
-        this.nuevoPedido.setTotalPedido(this.getProductoPedido().getPrecio());
+        this.nuevoPedido.setTotalPedido(this.getProductoPedido().getPrecio(0));
         this.nuevoPedido.setFechaPedido(new Date(System.currentTimeMillis()));
         ((PedidoMediador)mediador).insertIntoPedido();
     }
@@ -278,7 +278,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
 		setAuthSettings(email);
 		setConfigSettings(email);
                 String subject = "Order #" + this.getNuevoPedido().getIdPedido();
-		setEmailInfo(email, subject, "Notificacion automatica - NO responder este correo.\n\n Estimado(a), \n\nEste correo detalla la siguiente orden: \n"+this.getProductoPedido().getRecibo());
+		setEmailInfo(email, subject, "Notificacion automatica - NO responder este correo.\n\n Estimado(a), \n\nEste correo detalla la siguiente orden: \n"+this.getProductoPedido().getRecibo(0));
 		ServicioProveedor sp = new ServicioProveedor();
                 
                 email.addTo(sp.select("correoProveedor", "idProveedor", this.idProveedorPedido), sp.select("nombreProveedor", "idProveedor", this.idProveedorPedido)); /*I know I'm sorry, I am very lazy*/

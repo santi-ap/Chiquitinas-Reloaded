@@ -20,7 +20,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto) this.CrearServicio());//CASTING DE Servcio A ServicioProducto
-    private Mediador mediador;
+    private PedidoMediador mediador;
     private Producto productoPedido;
     private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
     private Observer observer;
@@ -51,7 +51,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     @Override
     public void setMediador(Mediador mediador) {
-        this.mediador = mediador;
+        this.mediador = (PedidoMediador)mediador;
     }
 
     public Observer getObserver() {

@@ -165,16 +165,55 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
     }
 
     /**
-     * SELECT * FROM Combo_has_Producto WHERE queColumna = queValor;
+     * select * from Producto where idProducto in (select Producto_idProducto from Combo_has_Producto where Combo_idCombo = QUECOMBO) 
      *
-     * @param queColumna
-     * @param queValor
+     * @param queCombo el id del combo que se quiere buscar
      * @return una lista con todos los datos del Combo
      */
-    @Override
-    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-       return null;
-    }
+    public ArrayList<Object> selectAllProductsOfCombo(Object queCombo) {
+        ArrayList<Object> listaDeProductos = new ArrayList<>();
+        Producto producto;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+//            System.out.println("Creando statement...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "select * from Producto where idProducto in (select Producto_idProducto from Combo_has_Producto where Combo_idCombo = ?) ";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queCombo.toString());
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            while(rs.next()) {
+                //Retrieve by column name
+                 producto = new Producto();
+                    //Retrieve by column name
+                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                    producto.setNombreProducto(rs.getString("nombreProducto"));
+                    producto.setCategoriaProducto(rs.getString("categoria"));
+                    
+                    listaDeProductos.add(producto);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDeProductos;    }
     
     public ArrayList<String> selectListIdProductos(String queColumna, int queValor){
          ArrayList<String> listaDeIdProductos = new ArrayList<>();
@@ -215,5 +254,10 @@ public class ServicioComboHasProducto extends Servicio implements InterfaceDAO{
         }
         //retorna lo que se selecciono
         return listaDeIdProductos;
+    }
+
+    @Override
+    public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

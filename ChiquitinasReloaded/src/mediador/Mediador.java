@@ -13,17 +13,6 @@ public interface Mediador {
 
     public abstract void start(int i);
     
-    public abstract void opeGetListaProveedores();
-
-    public abstract void opeGetListaProductoProv();
-
-    public abstract void opeGetProductoSeleccionado();
-    
-    public abstract void opeSetMontoOrden(String id);
-    
-    public abstract void crpGetListaProveedores();
-    
-    public abstract void crpCrearProducto();
     
 
 }

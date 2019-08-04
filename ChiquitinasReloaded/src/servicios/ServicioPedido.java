@@ -201,7 +201,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
         try{
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt=conn.createStatement();
             String sql;
             //select max(idProducto) from ChiquitinasReloaded.Producto where idProducto>(-1);

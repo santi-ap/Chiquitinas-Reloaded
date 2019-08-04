@@ -4,13 +4,9 @@
  * and open the template in the editor.
  */
 package testers;
-
-import controllers.*;
 import items.*;
-import java.sql.Date;
-import menus.*;
-import servicios.*;
-import mediador.*;
+import servicios.ServicioCombo;
+
 
 /**
  *
@@ -23,18 +19,40 @@ public class TesterTom {
      */
     public static void main(String[] args) {
           
-        /*tester for Mediador*/
-
-        ControllerPedido cp = new ControllerPedido();
-        ControllerProducto cpp = new ControllerProducto();
-        ControllerProveedor cppp = new ControllerProveedor();
+        /*
         
-        PedidoMediador m = new PedidoMediador(cp, cppp, cpp);
-        cp.setMediador(m);
-        cpp.setMediador(m);
-        cppp.setMediador(m);
+        TODO 
+        TEST RECIBO FOR COMBOS, AND GET PRECIO FOR COMBO
+        DO AND TEST ORDEN
+        DO AND TEST CARRITO
         
-        m.start(1);
+        */
+        Carrito car = new Carrito();
+        Combo c = new Combo (car);
+        ServicioCombo sc = new ServicioCombo ();
+        c.setIdCombo(1);
+        c.setDescuentoCombo(0.2);
+        c.setPrecioComboCliente(1000);
+        c.setCantidadActualProductoCombo(5);
+        Producto p = new Producto(c);
+        p.setCantidadActualProducto(10);
+        p.setPrecioProductoCliente(1000);
+        p.setNombreProducto("Ass");
+        
+        System.out.println(p.getRecibo(1));
+        System.out.println(p.getPrecio(1));
+//        /*tester for Mediador*/
+//
+//        ControllerPedido cp = new ControllerPedido();
+//        ControllerProducto cpp = new ControllerProducto();
+//        ControllerProveedor cppp = new ControllerProveedor();
+//        
+//        PedidoMediador m = new PedidoMediador(cp, cppp, cpp);
+//        cp.setMediador(m);
+//        cpp.setMediador(m);
+//        cppp.setMediador(m);
+//        
+//        m.start(1);
         /*decorator example*/
 //        Pedido ped = new Pedido();
 //        ped.setFechaPedido(new Date(System.currentTimeMillis()));

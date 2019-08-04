@@ -8,6 +8,7 @@ package menus;
 import controllers.ControllerCombo;
 import controllers.ControllerProducto;
 import java.util.Scanner;
+import mediador.OrdenMediador;
 import objetos.Usuario;
 
 /**
@@ -18,6 +19,7 @@ public class MenuCliente implements MenuDisplayBehavior {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
     Scanner input = new Scanner(System.in);
+    OrdenMediador ordenMediador=new OrdenMediador();
 
     public MenuCliente() {
     }
@@ -41,6 +43,8 @@ public class MenuCliente implements MenuDisplayBehavior {
                     this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
                     break;
                 case "3"://Ver Carrito
+                    //logica para mostrar carrito
+                    this.confirmarCompra(usuario);
                     break;
                 case "4"://Ver Ordenes
                     break;
@@ -50,5 +54,17 @@ public class MenuCliente implements MenuDisplayBehavior {
             }
         }
 
+    }
+
+    private void confirmarCompra(Usuario usuario) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Comprar productos? [s/n]");
+        switch(sc.nextLine())
+        {
+            case "s": ordenMediador.start(usuario);
+            default: System.out.println("Regresando a menu...\n...\n");
+                break;
+        }
+        
     }
 }
