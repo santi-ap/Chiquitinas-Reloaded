@@ -16,6 +16,7 @@ import mediador.Mediador;
 import mediador.PedidoMediador;
 import objetos.Proveedor;
 import observer.Observer;
+import observer.Subject;
 import servicios.Servicio;
 import servicios.ServicioPedido;
 import servicios.ServicioPedidoHasProducto;
@@ -39,11 +40,20 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     private ServicioPedidoHasProveedor servicioPedidoHasProveedor = new ServicioPedidoHasProveedor();
     private Mediador mediador;
     private Producto productoPedido;
+    private Pedido pedidoByMediador;
+    private Proveedor proveedorPedido;
+    private final Subject subject;
     private Pedido nuevoPedido;
     private String idProveedorPedido;
     private int montoCompra;
 
     public ControllerPedido() {
+        this.subject=null;
+    }
+    
+    //constructor para aplicar el observer pattern
+    public ControllerPedido(Subject subject){
+        this.subject=subject;
     }
 
     public ServicioPedido getServicioPedido() {
@@ -63,10 +73,31 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public Servicio CrearServicio() {
         return new ServicioPedido();
     }
-
+    
+    /**
+     * para pedir un producto existente de forma automatica a un proveedor
+     * parte del observer pattern
+     * @param producto es el producto del cual deberiamos pedirle mas al proveedor
+     */
     @Override
-    public void update(int stock) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateObserver(Producto producto) {
+        //logica para pedir un producto existente de forma automatica a un proveedor
+    }
+    
+    /**
+     * metodo para vincular al observer con el subject
+     */
+    @Override
+    public void suscribeObserver(){
+        this.subject.registrarObserver(this);
+    }
+    
+    /**
+     * metodo para romper vinculo entre observer y subject
+     */
+    @Override
+    public void unSubscribeObserver(){
+        this.subject.removerObserver(this);
     }
 
     @Override

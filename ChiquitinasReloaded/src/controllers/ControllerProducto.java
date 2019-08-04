@@ -28,6 +28,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     private Mediador mediador;
     private Producto productoPedido;
     private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
+    private Observer observer;
     private Scanner input = new Scanner(System.in);
     private String idProveedorForMediador;
     private int montoCompra=20;
@@ -58,19 +59,27 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         this.mediador = mediador;
     }
 
+    public Observer getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
     @Override
     public void registrarObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setObserver(observer);
     }
 
     @Override
     public void removerObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setObserver(null);
     }
 
     @Override
-    public void notificarObserver() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void notificarObserver(Producto producto) {
+        this.getObserver().updateObserver(producto);
     }
 
     public void buscarProductoPorNombre() {
@@ -381,5 +390,23 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         this.montoCompra = montoCompra;
     }
     
+    /**
+     * Metodo para actualizar el stock de un producto despues de que un cliente haya hecho una orden.
+     * En este metodo tambien se ejecuta el observer pattern para ordenar mas del producto al proveedor si baja o iguala el stock minimo
+     * @param producto Este producto deberia ser la insancia del producto que se esta comprando
+     */
+    public void updateStockDespuesDeOrden(Producto producto){
+        //do logic to update the stock after an order from a client
+        
+        //then logic for observer pattern to order more from the provider if need be
+        
+        //if actual stock is equal to or lesser than minStock, it should initiate observer pattern to order more from proveedor
+        if(producto.getCantidadActualProducto()<=producto.getStockMinimoProducto()){
+            Observer controllerPedidoObserver = new ControllerPedido(this);//instanciamos un nuevo observer 
+            controllerPedidoObserver.suscribeObserver();//vinculamos el observer con el object
+            this.notificarObserver(producto);//le dice al observer que haga un nuevo pedido del mismo producto
+            controllerPedidoObserver.unSubscribeObserver();//rompemos el vinculo del observer con el object
+        }
+    }
 
 }
