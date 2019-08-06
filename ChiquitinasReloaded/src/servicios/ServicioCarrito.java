@@ -19,9 +19,9 @@ import java.util.ArrayList;
  */
 public class ServicioCarrito extends Servicio implements InterfaceDAO {
 
-    public ServicioCarrito()
-    {}
-    
+    public ServicioCarrito() {
+    }
+
     @Override
     public String select(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect = "";
@@ -60,7 +60,8 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-        return returnSelect;    }
+        return returnSelect;
+    }
 
     @Override
     public void insert(Object objecto) {
@@ -81,10 +82,10 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-  
-      
-/**
-     * select * from Producto where idProducto in (select Producto_idProducto from Combo_has_Producto where Combo_idCombo = QUECOMBO) 
+
+    /**
+     * select * from Producto where idProducto in (select Producto_idProducto
+     * from Combo_has_Producto where Combo_idCombo = QUECOMBO)
      *
      * @param queCombo el id del combo que se quiere buscar
      * @return una lista con todos los datos del Combo
@@ -109,16 +110,16 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             rs = preparedStatement.executeQuery();
 
             //STEP 3.1: Extract data from result set
-            while(rs.next()) {
+            while (rs.next()) {
                 //Retrieve by column name
-                 producto = new Producto();
-                    //Retrieve by column name
-                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
-                    producto.setNombreProducto(rs.getString("nombreProducto"));
-                    producto.setPrecioProductoCliente(rs.getDouble("precioClienteProducto"));
-                    producto.setCantidadActualProducto(Integer.parseInt(this.select("MontoProducto", "Usuario_idUsuario", queUserId )));
-                    producto.setDescuentoProductoPromo(rs.getDouble("descuentoPromo"));
-                    listaDeProductos.add(producto);
+                producto = new Producto();
+                //Retrieve by column name
+                producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                producto.setNombreProducto(rs.getString("nombreProducto"));
+                producto.setPrecioProductoCliente(rs.getDouble("precioClienteProducto"));
+                producto.setCantidadActualProducto(Integer.parseInt(this.select("MontoProducto", "Usuario_idUsuario", queUserId)));
+                producto.setDescuentoProductoPromo(rs.getDouble("descuentoPromo"));
+                listaDeProductos.add(producto);
             }
 
         } catch (Exception e) {
@@ -133,10 +134,12 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-    return listaDeProductos;    }    
-      
-/**
-     * select * from Producto where idProducto in (select Producto_idProducto from Combo_has_Producto where Combo_idCombo = QUECOMBO) 
+        return listaDeProductos;
+    }
+
+    /**
+     * select * from Producto where idProducto in (select Producto_idProducto
+     * from Combo_has_Producto where Combo_idCombo = QUECOMBO)
      *
      * @param queCombo el id del combo que se quiere buscar
      * @return una lista con todos los datos del Combo
@@ -161,15 +164,15 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             rs = preparedStatement.executeQuery();
 
             //STEP 3.1: Extract data from result set
-            while(rs.next()) {
+            while (rs.next()) {
                 //Retrieve by column name
-                 Combo combo= new Combo();
-                    //Retrieve by column name
-                    combo.setNombreCombo(rs.getString("nombreCombo"));
-                    combo.setIdCombo(Integer.parseInt(rs.getString("idCombo")));
-                    combo.setPrecioComboCliente(rs.getDouble("precioClienteCombo"));
-                    combo.setCantidadActualProductoCombo(Integer.parseInt(this.selectCombo("MontoCombo", "Usuario_idUsuario", queUserId )));
-                    listaDeCombos.add(combo);
+                Combo combo = new Combo();
+                //Retrieve by column name
+                combo.setNombreCombo(rs.getString("nombreCombo"));
+                combo.setIdCombo(Integer.parseInt(rs.getString("idCombo")));
+                combo.setPrecioComboCliente(rs.getDouble("precioClienteCombo"));
+                combo.setCantidadActualProductoCombo(Integer.parseInt(this.selectCombo("MontoCombo", "Usuario_idUsuario", queUserId)));
+                listaDeCombos.add(combo);
             }
 
         } catch (Exception e) {
@@ -184,9 +187,9 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-        return listaDeCombos;    
-    }  
-    
+        return listaDeCombos;
+    }
+
     public String selectCombo(Object queBuscamos, Object queColumna, Object queValor) {
         String returnSelect = "";
         ResultSet rs = null;
@@ -224,8 +227,9 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-        return returnSelect;    }
-    
+        return returnSelect;
+    }
+
     public String selectMontoProducto(Object userID, Object productID) {
         String returnSelect = "";
         ResultSet rs = null;
@@ -264,8 +268,9 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
         //retorna lo que se selecciono
-        return returnSelect;    }
-    
+        return returnSelect;
+    }
+
     public void deleteProducto(Object userID, Object productID) {
         try {
             super.conectar();
@@ -286,7 +291,7 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             }
         }
     }
-    
+
     public void deleteCombo(Object userID, Object comboID) {
         try {
             super.conectar();
@@ -296,6 +301,72 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             preparedStmt.setString(1, userID.toString());
             preparedStmt.setString(2, comboID.toString());
             preparedStmt.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto,
+     * MontoProducto) values (idUsuario,idProducto,cantidadProducto);
+     *
+     * @param idUsuario el id del usuario ingresado
+     * @param idProducto el id del producto escogido por el usuario
+     * @param cantidadProducto la cantidad de producto escogido por el usuario
+     */
+    public void insertProductCarrito(String idUsuario, String idProducto, String cantidadProducto) {
+        try {
+            //STEP 3: Execute a querey
+            super.conectar();
+
+            System.out.println("Insertando valores...");
+            String sql;
+            sql = "INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto, MontoProducto) values (?,?,?);";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, idUsuario);//id del Usuario logeado
+            preparedStatement.setString(2, idProducto);//id del producto que se va a agregar al carrito
+            preparedStatement.setString(3, cantidadProducto);//la cantidad de ese producto que se va a agregar al carrito
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * INSERT INTO CarritoProducto (Combo_idCombo, Usuario_idUsuario,
+     * MontoCombo) values (idCombo,idUsuario,cantidadCombo);
+     *
+     * @param idUsuario el id del usuario ingresado
+     * @param idCombo el id del combo escogido por el usuario
+     * @param cantidadCombo la cantidad de combo escogido por el usuario
+     */
+    public void insertComboCarrito(String idUsuario, String idCombo, String cantidadCombo) {
+        try {
+            //STEP 3: Execute a querey
+            super.conectar();
+
+            System.out.println("Insertando valores...");
+            String sql;
+            sql = "INSERT INTO CarritoCombo (Combo_idCombo, Usuario_idUsuario, MontoCombo) values (?,?,?);";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, idCombo);//id del combo que se va a agregar al carrito
+            preparedStatement.setString(2, idUsuario);//id del Usuario logeado
+            preparedStatement.setString(3, cantidadCombo);//la cantidad de ese combo que se va a agregar al carrito
+            preparedStatement.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
