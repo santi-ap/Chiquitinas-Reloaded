@@ -6,6 +6,7 @@
 package menus;
 import java.util.*;
 import controllers.ControllerCombo;
+import objetos.Usuario;
 /**
  *
  * @author santialfonso
@@ -20,7 +21,7 @@ public class MenuAdminCombo implements MenuDisplayBehavior{
     }
 
     @Override
-    public void displayMenu() {
+    public void displayMenu(Usuario usuario) {
         do {
             System.out.println("Menu de combos\n1-Crear combo\n2-Modificar combo\n3-Buscar combo\n4-Ver combo\n5-Menu principal ");
             int decisionUsuario = sc.nextInt();
@@ -28,13 +29,18 @@ public class MenuAdminCombo implements MenuDisplayBehavior{
             
                 case 1: 
                     
+                controllerCombo.crearComboNuevo();
+                  //controllerCombo.submenuCrearCombo();
+                break;
+                
                 case 2:
                     
                 controllerCombo.submenuModificarCombo();
-                
+                break;
                     
                 case 3:
                     
+                controllerCombo.desplegarInformacionCombo();
                 case 4:    
             
                 case 5:

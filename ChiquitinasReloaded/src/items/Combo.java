@@ -5,7 +5,9 @@
  */
 package items;
 
-import java.util.Date;
+import java.util.*;
+import servicios.ServicioCombo;
+import servicios.ServicioComboHasProducto;
 
 /**
  *
@@ -19,14 +21,52 @@ public class Combo extends Decorador{
     private int cantidadOfertaCombo;
     private int cantidadActualProductoCombo;
     private double descuentoCombo;
-    private Date fechaInicioCombo;
-    private Date fechaFinCombo;
+    Calendar cal = Calendar. getInstance();
+    private Date fechaInicioCombo = cal.getTime();
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    java.sql.Date fechaFinCombo;
    
     /*          Decorator       */
     private Item itemDecorado;
     private boolean isItemPedido;
-     
-    public Combo() {
+    
+    public Combo (){}
+    /**
+     * overcharged constructor for decorator
+     * @param itemDecorado 
+     */
+    public Combo (Item itemDecorado)
+    {
+        this.itemDecorado = itemDecorado;
+        /*  THIS LOGIC TELLS THE LAST DECORATOR IF HE'S DECORATING A PEDIDO OR A ORDEN/CARRITO  */
+
+        //if the item passed is a pedido, 
+        if (itemDecorado instanceof Pedido) {
+            this.setIsItemPedido(true);//this bool is set to 1
+        } else if (itemDecorado instanceof Orden || itemDecorado instanceof Carrito) {//else if item is an order, or a carrito
+            this.setIsItemPedido(false);//bool set to 0
+        } else if (itemDecorado instanceof Producto) {//if this isn't any of the previous objects, check if it's either a combo or a product
+            if (((Producto) itemDecorado).getIsItemPedido() == true) {//if it's a product, check what the boolean of item is
+                this.setIsItemPedido(true);//and set it as the same 
+            } else {
+                this.setIsItemPedido(false);
+            }
+        } else /*this is a combo, so it must be from either a carrito or a order*/ {
+                this.setIsItemPedido(false);
+        }
+
+    }
+    public Combo(int idComboA, String nombreCombo, double precioClienteCombo, int contadorOfertaCombo, int contadorProductoCombo, double descuentoCombo, Date fechaInicioCombo, Date fechaFinCombo){
+        this.idCombo = idComboA;
+        this.nombreCombo = nombreCombo;
+        this.precioComboCliente = precioClienteCombo;
+        this.cantidadOfertaCombo = contadorOfertaCombo;
+        this.cantidadActualProductoCombo = contadorProductoCombo;
+        this.descuentoCombo = descuentoCombo;
+        this.fechaInicioCombo = sqlDate;
+        this.fechaFinCombo = sqlDate;
+    
     }
 
     public int getIdCombo() {
@@ -89,22 +129,77 @@ public class Combo extends Decorador{
         return fechaFinCombo;
     }
 
-    public void setFechaFinCombo(Date fechaFinCombo) {
+    public void setFechaFinCombo(java.sql.Date fechaFinCombo) {
         this.fechaFinCombo = fechaFinCombo;
     }
 
+    public java.sql.Date getSqlDate() {
+        return sqlDate;
+    }
+
+    public void setSqlDate(java.sql.Date sqlDate) {
+        this.sqlDate = sqlDate;
+    }
+    
+    
+    /**
+     *  
+     * @param tipoUsuario passed on to be sent to next product 
+     * @return  the price of the combo with the applied discount
+     */
     @Override
-    public double getPrecio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getPrecio(int tipoUsuario) {
+        //we can only be decorating either a carrito or a orden, so the only price to be shown is the client's one
+        //we need to give the price with the discount applied if the type is 2
+        if (tipoUsuario==2)
+            return (this.getItemDecorado().getPrecio(tipoUsuario) + (this.getCantidadActualProductoCombo()*(this.getPrecioComboCliente()*(1-this.getDescuentoCombo()))));
+        else
+            return (this.getItemDecorado().getPrecio(tipoUsuario) +(this.getCantidadActualProductoCombo()* this.getPrecioComboCliente()));
+
+            
+    }
+    
+    public double getPrecioUnitario(int tipoUsuario)
+    {
+         switch(tipoUsuario)
+        {
+            case 2: return (this.getPrecioComboCliente()*this.getDescuentoCombo());
+            default: return this.getPrecioComboCliente();
+        }
     }
 
     @Override
-    public String getRecibo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getRecibo(int tipoUsuario) {
+        if (tipoUsuario==2)
+            return (this.getItemDecorado().getRecibo(tipoUsuario) + "ID COMBO: "+ this.getIdCombo() + "\t| Cantidad: " + this.getCantidadActualProductoCombo() + "\t| Precio: " + this.getPrecioComboCliente()*(1-this.getDescuentoCombo())+
+                "\tDescuento: " + this.descuentoCombo +"% |"+"\n\tProductos:\n" + this.getProductsAsString() + "\n");
+        else
+            return (this.getItemDecorado().getRecibo(tipoUsuario) + "ID COMBO: "+ this.getIdCombo() + "\t| Cantidad: " + this.getCantidadActualProductoCombo() + "\t| Precio: " + this.getPrecioComboCliente()+
+                "\n\tProductos:\n" + this.getProductsAsString() + "\n");   
+    }
+    /**
+     * Used by the method getRecibo to get useful info from db
+     */
+    public String getProductsAsString ()
+    {
+        ServicioComboHasProducto sc = new ServicioComboHasProducto();
+
+        String productos = "";
+        for (Object p: sc.selectAllProductsOfCombo(idCombo))
+        {
+            productos += "ID: ";
+            productos += ((Producto)p).getIdProducto();
+            productos += "\t| Nombre Producto: ";
+            productos += ((Producto)p).getNombreProducto();
+            productos += "\t\t| Categoria Producto: ";
+            productos += ((Producto)p).getCategoriaProducto();
+            productos += "\n";
+        }
+        return productos;
     }
 
     boolean getIsItemPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.isItemPedido;
     }
 
     /**

@@ -24,7 +24,7 @@ public class Testing {
         ServicioProducto sp = new ServicioProducto();
 //        sp.update("stockMinProducto", "10", "idProducto", "2123657");
         MenuAdminProducto mAP=new MenuAdminProducto();
-        mAP.displayMenu();
+        //mAP.displayMenu();
 //          for(Producto p:sp.selectTodosLosProductos()){
 //              System.out.println(p);
 //          }

@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package menus;
-
 import controllers.ControllerProveedor;
 import java.util.Scanner;
+import objetos.Usuario;
 
 /**
  *
@@ -20,7 +20,6 @@ public class MenuAdminProveedor implements MenuDisplayBehavior{
     public MenuAdminProveedor() {
     }
 
-    @Override
     public void displayMenu() {
         int condicion = 0;
         while (condicion == 0) {
@@ -49,6 +48,11 @@ public class MenuAdminProveedor implements MenuDisplayBehavior{
                     break;
             }
         }
+
+    }   
+
+    @Override
+    public void displayMenu(Usuario usuario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

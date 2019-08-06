@@ -5,12 +5,18 @@
  */
 package santiTest;
 
+import controllers.ControllerCarrito;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
 import objetos.Proveedor;
 import servicios.ServicioProducto;
 import servicios.ServicioProveedor;
 import menus.MenuAdminProducto;
+import menus.MenuCliente;
+import menus.MenuClienteVIP;
+import objetos.Usuario;
+import servicios.ServicioCarrito;
+import servicios.ServicioUsuario;
 
 /**
  *
@@ -23,18 +29,21 @@ public class DavidTester {
      */
     public static void main(String[] args) {
         ServicioProveedor sp = new ServicioProveedor();
+        ServicioUsuario serU = new ServicioUsuario();
+        ServicioCarrito serCar = new ServicioCarrito();
         MenuAdminProducto map = new MenuAdminProducto();
         ControllerProveedor cp = new ControllerProveedor();
         ControllerProducto conP = new ControllerProducto();
+        ControllerCarrito conCar = new ControllerCarrito();
+        MenuCliente mc = new MenuCliente();
+        MenuClienteVIP mcv = new MenuClienteVIP();
+        Usuario u = new Usuario();
         //System.out.println(sp.select("nombreProveedor", "idProveedor", 2));
         //System.out.println(sp.selecAllNombresProveedor());
         
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
-        
-       map.displayMenu();
-       
-       //cp.crearProveedor();
-        
+        u = serU.selectUsuario(11);
+        mc.displayMenu(u);
         
     
 }

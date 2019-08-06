@@ -5,7 +5,7 @@
  */
 package items;
 
-import java.util.Date;
+import java.sql.Date;
 import objetos.Cliente;
 
 /**
@@ -55,13 +55,14 @@ public class Orden extends Item{
     }
 
     @Override
-    public double getPrecio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getPrecio(int tipoUsuario) {
+        return this.totalOrden;
     }
 
     @Override
-    public String getRecibo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getRecibo(int tipoUsuario) {
+        super.recibo = "Orden #" + this.idOrden + "\t\t" + this.fechaOrden + "\n";
+        return super.recibo;    
     }
     
 }

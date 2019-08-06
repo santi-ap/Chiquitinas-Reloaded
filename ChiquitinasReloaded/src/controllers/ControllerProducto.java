@@ -8,14 +8,9 @@ package controllers;
 import items.Producto;
 import java.util.ArrayList;
 import java.util.Scanner;
-import mediador.Colleague;
-import mediador.Mediador;
-import mediador.PedidoMediador;
-import observer.Observer;
-import observer.Subject;
-import servicios.Servicio;
-import servicios.ServicioComboHasProducto;
-import servicios.ServicioProducto;
+import mediador.*;
+import observer.*;
+import servicios.*;
 
 /**
  *
@@ -25,13 +20,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioProducto servicioProducto = ((ServicioProducto) this.CrearServicio());//CASTING DE Servcio A ServicioProducto
-    private Mediador mediador;
+    private PedidoMediador mediador;
     private Producto productoPedido;
     private ServicioComboHasProducto servComboHasProd = new ServicioComboHasProducto();
     private Observer observer;
     private Scanner input = new Scanner(System.in);
     private String idProveedorForMediador;
-    private int montoCompra=20;
+    private int montoCompra = 20;
 
     public ControllerProducto() {
     }
@@ -56,7 +51,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     @Override
     public void setMediador(Mediador mediador) {
-        this.mediador = mediador;
+        this.mediador = (PedidoMediador)mediador;
     }
 
     public Observer getObserver() {
@@ -109,9 +104,9 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         mediador.opeGetProductoSeleccionado();
     }
 
-    public void printTodosLosProductos() {
+    public void printTodosLosProductos(int tipoUsuario) {//imprime todos los productos
         for (Producto p : servicioProducto.selectTodosLosProductos()) {
-            System.out.println(p);
+            System.out.println(p.toString(tipoUsuario));
         }
     }
 
@@ -207,32 +202,30 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         return descuento;
 
     }
-    
+
 //    public void buscarProductosConDescuento(){
 //    
 //        System.out.println(servicioProducto.buscarProductoConDescuento());
 //    
 //    }
-    
+    public int idUsuario() {
 
-    public int idUsuario(){
-    
-    System.out.println("Digite el identificador único del producto");
-    int idProducto = getInput().nextInt();
-    return idProducto;
-    
+        System.out.println("Digite el identificador único del producto");
+        int idProducto = getInput().nextInt();
+        return idProducto;
+
     }
-    
-    public void buscarProductosConDescuento(){
-    
+
+    public void buscarProductosConDescuento() {
+
         //System.out.println(servicioProducto.buscarProductoConDescuento());
-    
     }
 //    public void buscarProductosConDescuento() {
 //
 //        System.out.println(servicioProducto.buscarProductoConDescuento());
 //
 //    }
+
     public void getDatosForMenuProducto(String id) {
         ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
 
@@ -246,13 +239,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     }
 
     public void borrarProducto() {
-        this.printTodosLosProductos();
+        this.printTodosLosProductos(0);
         System.out.println("Seleccione el id del producto que desea eliminar: ");
         String idProducto = getInput().nextLine();
         servicioProducto.delete("idProducto", idProducto);
         this.servComboHasProd.delete("Producto_idProducto", idProducto);
         this.getServComboHasProd().delete("Producto_idProducto", idProducto);
-        
+
     }
 
     /**
@@ -294,13 +287,13 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         } else {
 
         }
-        ((PedidoMediador)mediador).takeProductoFromControllerProducto();
+        ((PedidoMediador) mediador).takeProductoFromControllerProducto();
 
     }
-    
+
     public void crearProducto() {
         System.out.println("Inserte el ID del proveedor");
-        this.idProveedorForMediador =input.nextLine();
+        this.idProveedorForMediador = input.nextLine();
 
         System.out.println("Inserte el ID para el producto");
         int idProducto = Integer.parseInt(input.nextLine());
@@ -319,16 +312,17 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
         System.out.println("Inserte la categoria del producto");
         String categoria = input.nextLine();
-        
+
         System.out.println("Inserte el precio del proveedor");
         double precioProveedor = Double.parseDouble(input.nextLine());
 
         productoPedido = new Producto(idProducto, nombrePorducto, precioCliente, precioProveedor, stockMinimo, montoOrden, categoria, Integer.parseInt(this.idProveedorForMediador));
-        
+
         servicioProducto.insert(productoPedido);
-        ((PedidoMediador)mediador).sendProductoToControllerPedido(productoPedido);
+        ((PedidoMediador) mediador).sendProductoToControllerPedido(productoPedido);
 
     }
+
     /**
      * @return the input
      */
@@ -372,8 +366,8 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     }
 
     public void getIdProveedorPedidobyMediador() {
-        ((PedidoMediador)mediador).sendProveedorIdToControllerPedido(this.idProveedorForMediador);
-        
+        ((PedidoMediador) mediador).sendProveedorIdToControllerPedido(this.idProveedorForMediador);
+
     }
 
     /**
@@ -389,23 +383,52 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     public void setMontoCompra(int montoCompra) {
         this.montoCompra = montoCompra;
     }
-    
+
     /**
-     * Metodo para actualizar el stock de un producto despues de que un cliente haya hecho una orden.
-     * En este metodo tambien se ejecuta el observer pattern para ordenar mas del producto al proveedor si baja o iguala el stock minimo
-     * @param producto Este producto deberia ser la insancia del producto que se esta comprando
+     * Metodo para actualizar el stock de un producto despues de que un cliente
+     * haya hecho una orden. En este metodo tambien se ejecuta el observer
+     * pattern para ordenar mas del producto al proveedor si baja o iguala el
+     * stock minimo
+     *
+     * @param producto Este producto deberia ser la insancia del producto que se
+     * esta comprando
      */
-    public void updateStockDespuesDeOrden(Producto producto){
+    public void updateStockDespuesDeOrden(Producto producto) {
         //do logic to update the stock after an order from a client
-        
+
         //then logic for observer pattern to order more from the provider if need be
-        
         //if actual stock is equal to or lesser than minStock, it should initiate observer pattern to order more from proveedor
-        if(producto.getCantidadActualProducto()<=producto.getStockMinimoProducto()){
+        if (producto.getCantidadActualProducto() <= producto.getStockMinimoProducto()) {
             Observer controllerPedidoObserver = new ControllerPedido(this);//instanciamos un nuevo observer 
             controllerPedidoObserver.suscribeObserver();//vinculamos el observer con el object
             this.notificarObserver(producto);//le dice al observer que haga un nuevo pedido del mismo producto
             controllerPedidoObserver.unSubscribeObserver();//rompemos el vinculo del observer con el object
+        }
+    }
+
+    public String getIdProveedorForMediador() {
+        return idProveedorForMediador;
+    }
+
+    public void setIdProveedorForMediador(String idProveedorForMediador) {
+        this.idProveedorForMediador = idProveedorForMediador;
+    }
+
+    /**
+     * le suma el MontoCompra(que es 20 por default) al stock actual del
+     * producto en la base de datos y lo actualiza.
+     * @param cantidadPedido la cantidad que se desea pedir
+     */
+    public void actualizarStockDespuesDeCompra(int cantidadCompra) {
+        if (cantidadCompra != 0) {//si la cantidad es diferente de cero, entonces le suma la cantidad ingresada por el usuario
+            this.setMontoCompra(cantidadCompra);//se cambia el MontoCompra a la cantidad ingresada por el usuario
+            int stockAntesDePedido = Integer.parseInt(this.servicioProducto.select("contadorProducto", "idProducto", this.getProductoPedido().getIdProducto()));//agarra el stock actual en la base de datos
+            int stockDespuesDePedido = stockAntesDePedido + this.getMontoCompra();//le suma el MontoCompra al stock actual
+            this.servicioProducto.update("contadorProducto", stockDespuesDePedido, "idProducto", this.getProductoPedido().getIdProducto());//actualiza la DB con el nuevo stock sumado
+        } else {//si la cantidad es igual a cero, entonces se pide el default que es 20
+            int stockAntesDePedido = Integer.parseInt(this.servicioProducto.select("contadorProducto", "idProducto", this.getProductoPedido().getIdProducto()));//agarra el stock actual en la base de datos
+            int stockDespuesDePedido = stockAntesDePedido + this.getMontoCompra();//le suma el MontoCompra al stock actual
+            this.servicioProducto.update("contadorProducto", stockDespuesDePedido, "idProducto", this.getProductoPedido().getIdProducto());//actualiza la DB con el nuevo stock sumado
         }
     }
 

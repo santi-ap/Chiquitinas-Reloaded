@@ -10,18 +10,21 @@ package items;
  * @author santialfonso
  */
 public class Carrito extends Item{
-
+    private double totalCarrito;
+    
     public Carrito() {
+        this.totalCarrito=0f;
     }
 
     @Override
-    public double getPrecio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getPrecio(int tipoUsuario) {
+        return this.totalCarrito;
     }
 
     @Override
-    public String getRecibo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getRecibo(int tipoUsuario) {
+        super.recibo = "CARRITO:\n";
+        return super.recibo;
     }
     
 }

@@ -8,6 +8,9 @@ package controllers;
 import servicios.ServicioUsuario;
 import java.sql.SQLException;
 import servicios.Servicio;
+import menus.*;
+import java.util.*;
+import objetos.*;
 
 /**
  *
@@ -79,6 +82,50 @@ public class ControllerUsuario extends ControllerFactory{
     public boolean verificaString (String s, String p){
         return s.equals(p);
     }
+    
+     public void verificarTipoUsuario(){
+            Scanner sc = new Scanner(System.in);
+            MenuCliente menu = new MenuCliente();
+            Cliente cliente = new Cliente();
+            
+            System.out.println("Digite su identificación de usuario");
+            int idUsuario = sc.nextInt();
+            
+            int cantidadPedidos = servivioUsuario.selectCount("idOrden", "User_idUsuario", idUsuario);
+            //int cantidadPedidosConversion = Integer.parseInt(cantidadPedidos);
+            
+            System.out.println(cantidadPedidos);
+            
+           /* if(cantidadPedidosConversion >= 5){
+
+                cliente.setTipoUsuario(1); 
+                menu.displayMenu();
+
+            } else{
+
+                cliente.setTipoUsuario(0);
+                menu.displayMenu();
+
+            }
+*/
+
+
+        }
+
+     /**
+      * Busca los produtos más consumidos
+      */
+     
+     public void diezProductosMasConsumidos(){
+         Scanner sc = new Scanner(System.in);
+         System.out.println("Digite su identificación de cliente");
+         int userId = sc.nextInt();
+         
+            System.out.println(servivioUsuario.selectProductosMasConsumidos(userId));
+     
+     
+         
+     }
 
 
 }

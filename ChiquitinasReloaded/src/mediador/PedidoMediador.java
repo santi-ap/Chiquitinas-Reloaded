@@ -42,25 +42,21 @@ public class PedidoMediador implements Mediador {
     }
 
     //-----------------------ORDENAR PRODUCTO EXISTENTE (ope)-----------------------
-    @Override
     public void opeGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
         this.opeGetListaProductoProv();
 
     }
 
-    @Override
     public void opeGetListaProductoProv() {//Imprime la lista de productos de un proveedor
         controllerProducto.getProductoForMenuByProv();
 
     }
 
-    @Override
     public void opeGetProductoSeleccionado() {//Imprime el producto que se selecciono
         controllerProducto.getProductoById();
     }
 
-    @Override
     public void opeSetMontoOrden(String id) {// Pide la cantidad que se quiere pedir y actualiza el stock
         controllerProducto.actualizarStock(id);
     }
@@ -72,14 +68,11 @@ public class PedidoMediador implements Mediador {
         controllerProveedor.crearProveedor();
         this.crpCrearProducto();
     }
-
-    @Override
     public void crpGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
         this.crpCrearProducto();
     }
 
-    @Override
     public void crpCrearProducto() {// se pide los datos del producto, se crea y se inserta a la base datos
         controllerProducto.crearProducto();
     }
@@ -162,6 +155,12 @@ public class PedidoMediador implements Mediador {
     public void enviarCorreo() {
         controllerPedido.enviarCorreo();
         System.out.println("Correo Enviado.");
+    }
+    /**
+     * llama el metodo para que sume y actualize el stock de un producto despues de que se le pidio al proveedor
+     */
+    public void sumarleLoPedidoAlStock(int cantidadPedido){
+        this.controllerProducto.actualizarStockDespuesDeCompra(cantidadPedido);
     }
 
 }
