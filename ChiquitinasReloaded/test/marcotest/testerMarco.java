@@ -27,7 +27,7 @@ public class testerMarco {
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
         //mab.displayMenu();
-        controllerUsuario.diezProductosMasConsumidos();
+        controllerUsuario.ultimaOrden();
         
             
             

@@ -114,6 +114,8 @@ public class ControllerUsuario extends ControllerFactory{
 
      /**
       * Busca los produtos más consumidos
+      * Task 218,219
+      * @marco
       */
      
      public void diezProductosMasConsumidos(){
@@ -122,10 +124,22 @@ public class ControllerUsuario extends ControllerFactory{
          int userId = sc.nextInt();
          
             System.out.println(servivioUsuario.selectProductosMasConsumidos(userId));
-     
-     
          
      }
 
+     
+     /**
+      * Arroja la última orden hecha por el cliente 
+      * Task #220
+      * @marco
+      */
+     
+     public void ultimaOrden(){
+     
+         System.out.println(servivioUsuario.selectNombreProductosUltimaOrden(1));
+         System.out.println(servivioUsuario.selectSumaUltimaOrden(1));
+     
+     
+     }
 
 }
