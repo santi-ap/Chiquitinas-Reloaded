@@ -8,6 +8,7 @@ package menus;
 import controllers.ControllerCarrito;
 import controllers.ControllerCombo;
 import controllers.ControllerProducto;
+import controllers.ControllerUsuario;
 import java.util.Scanner;
 import mediador.OrdenMediador;
 import objetos.Usuario;
@@ -21,6 +22,8 @@ public class MenuCliente implements MenuDisplayBehavior {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
     ControllerCarrito controllerCarrito = new ControllerCarrito();
+    ControllerUsuario controllerUsuario = new ControllerUsuario();
+    Usuario clienteVIP = new Usuario();
     Scanner input = new Scanner(System.in);
     OrdenMediador ordenMediador = new OrdenMediador();
     
@@ -29,6 +32,8 @@ public class MenuCliente implements MenuDisplayBehavior {
     
     @Override
     public void displayMenu(Usuario usuario) {
+        
+         
         int condicion = 0;
         while (condicion == 0) {
             System.out.println("\n\n\n\n\nMENU DE CLIENTE\n"

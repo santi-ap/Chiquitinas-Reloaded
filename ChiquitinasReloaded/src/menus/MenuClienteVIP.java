@@ -29,6 +29,10 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
     @Override
     public void displayMenu(Usuario usuario) {
         int condicion = 0;
+        System.out.println("\n\t\tBienvenido de nuevo "+usuario.getNombreUsuario()+"\n\t\t  Promociones del día\n");
+        controllerUsuario.desplegarPromocionesVIP();
+        
+        controllerUsuario.ultimaOrdenPantallaInicio(Integer.parseInt(usuario.getIdUsuario()));
         while (condicion == 0) {
             System.out.println("\n\n\n\n\nMENU DE CLIENTE VIP\n"
                     + "1-Ver Catalogo Producto\n"
@@ -49,6 +53,13 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     this.menuCarrito(usuario);
                     break;
                 case "4"://Ver Ordenes
+                    switch(controllerUsuario.subMenuOrdenes()){
+                        case 1: 
+                            controllerUsuario.ultimaOrden(Integer.parseInt(usuario.getIdUsuario()));
+                        case 2:
+                            
+                    
+                    }
                     break;
                 case "5"://Ver Promociones
                     break;

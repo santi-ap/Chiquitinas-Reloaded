@@ -10,7 +10,7 @@ import servicios.*;
 import controllers.ControllerUsuario;
 import java.util.*;
 import java.sql.Date;
-
+import objetos.*;
 /**
  *
  * @author santialfonso
@@ -27,7 +27,17 @@ public class testerMarco {
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
         //mab.displayMenu();
-        controllerUsuario.ultimaOrden();
+       //ControllerProducto cp = new ControllerProducto();
+      // ServicioProducto sp = new ServicioProducto();
+      // ServicioCombo sc = new ServicioCombo();
+       Usuario cliente = new Usuario("1", "Marco", "testPass1", 2);
+       //mab.displayMenu(cliente);*/
+       mab.displayMenu(cliente);
+       
+        
+        
+       
+        
         
             
             

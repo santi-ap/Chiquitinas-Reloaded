@@ -36,7 +36,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         try{
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
+           // System.out.println("Creando statement...");
             stmt=conn.createStatement();
             String sql;
             
@@ -353,7 +353,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         try{
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
+            //System.out.println("Creando statement...");
             stmt=conn.createStatement();
             String sql;
             
@@ -396,7 +396,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
             }
         }
         //retorna lo que se selecciono
-        System.out.println("Productos comprados: "+formattedString);
+        System.out.print("Productos comprados: "+formattedString);
         return dummy;
     }
     
@@ -451,5 +451,55 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         System.out.print("Total de la compra: ");return returnSelect;
     
 }
+    
+    public String desplegarProductosConPromocion() {
+        String returnPromo="";
+        int precioOriginal=0;
+        int precioActual = 0;
+        double descuentoPromo = 0;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT nombreProducto, precioClienteProducto AS precioOriginal,precioClienteProducto - (precioClienteProducto * descuentoPromo) AS precioActual, descuentoPromo FROM Producto WHERE descuentoPromo > 0;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            System.out.println("Producto\tPrecio antes\tPrecio ahora\tDescuento");
+            while(rs.next()){
+                //Retrieve by column name
+                returnPromo = rs.getString("nombreProducto");
+                precioOriginal = rs.getInt("precioOriginal");
+                precioActual = rs.getInt("precioActual");
+                descuentoPromo = rs.getDouble("descuentoPromo");
+                System.out.println(returnPromo+"\t\t"+precioOriginal+"\t\t"+precioActual+"\t\t"+Math.round(descuentoPromo*100)+"%");
+                
+  
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return "";
+    
+}
+    
 }
 

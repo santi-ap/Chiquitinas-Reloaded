@@ -134,12 +134,56 @@ public class ControllerUsuario extends ControllerFactory{
       * @marco
       */
      
-     public void ultimaOrden(){
+     public void ultimaOrden(int idUsuario){
      
-         System.out.println(servivioUsuario.selectNombreProductosUltimaOrden(1));
-         System.out.println(servivioUsuario.selectSumaUltimaOrden(1));
+         System.out.println(servivioUsuario.selectNombreProductosUltimaOrden(idUsuario));
+         System.out.println(servivioUsuario.selectSumaUltimaOrden(idUsuario));
      
      
      }
+     
+     /**
+      * @marco
+      * @return
+      * submenu para opciones de ordenes
+      */
+     
+     public int subMenuOrdenes(){
+         Scanner sc = new Scanner(System.in);
+         System.out.println("1-Ver ultima orden\n2-Ver todas las ordenes");
+            int decisionUsuario = sc.nextInt();
+            return decisionUsuario;
+         
+     }
+     
+     public void ultimaOrdenPantallaInicio(int idUsuario){
+     
+         Scanner sc = new Scanner(System.in);
+         System.out.println("\nDesea ver su última compra\n1-Si\n2-No");
+         int respuestaUsuario = sc.nextInt();
+         
+            if(respuestaUsuario == 1){
+            
+            this.ultimaOrden(idUsuario);
+            
+            
+            } else{
+            
+                
+            
+            }
+            
+            
+         
+ 
+     }
+     
+     public void desplegarPromocionesVIP(){
+            
+            servivioUsuario.desplegarProductosConPromocion();
+         
+            
+            }
+     
 
 }

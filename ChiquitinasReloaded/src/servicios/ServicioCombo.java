@@ -168,6 +168,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
             super.conectar();
             System.out.println("Actualizando valores...");
             String sql = "UPDATE Combo SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            //UPDATE Combo SET precioClienteCombo = 5000 WHERE idCombo = 1;
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
             preparedStmt.setString(2, queValor.toString());
@@ -437,4 +438,64 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return combo;
     }
+    
+    public String selectAllInfoCombo(Object queColumna, Object queValor){
+        Combo combo = new Combo();
+        String infoCombo = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+           // System.out.println("Creando statement...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT * FROM Combo WHERE "+queColumna+" = ?;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+
+            //STEP 3.1: Extract data from result set
+//            if (rs.next()) {
+            while (rs.next()) {
+                combo = new Combo();
+                //Retrieve by column name
+                combo.setIdCombo(Integer.parseInt(rs.getString("idCombo")));
+                combo.setNombreCombo(rs.getString("nombreCombo"));
+                combo.setPrecioComboCliente(Double.parseDouble(rs.getString("precioClienteCombo")));
+                combo.setCantidadOfertaCombo(Integer.parseInt(rs.getString("contadorOfertaCombo")));
+                combo.setCantidadActualProductoCombo(Integer.parseInt(rs.getString("contadorProductoCombo")));
+                combo.setDescuentoCombo(Double.parseDouble(rs.getString("descuentoCombo")));
+                combo.setFechaInicioCombo(rs.getDate("fechaInicioCombo"));
+                combo.setFechaFinCombo(rs.getDate("fechaFinCombo"));
+                
+                infoCombo = "Nombre del Combo: "+combo.getNombreCombo()+"\nIdentificador del combo: "+combo.getIdCombo()
+                        +"\nPrecio del combo: "+Math.round(combo.getPrecioComboCliente())+" colones"+"\nCantidad disponible de combos: "+combo.getCantidadOfertaCombo()
+                        +"\nProductos del combo: "+combo.getCantidadActualProductoCombo()+"\nDescuento combo: "+Math.round(combo.getDescuentoCombo())+"%"+"\nFecha de inicio de combo: "+combo.getFechaInicioCombo();
+            }
+//            } else {//si no encuentra productos, avisa que no se encontro y retorna null
+//                System.out.println("No existen productos");
+//                return null;
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return infoCombo;
+    }
+    
+    
+    
 }

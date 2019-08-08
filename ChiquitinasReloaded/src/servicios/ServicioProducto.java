@@ -340,5 +340,61 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     }
 
 
+    public String selectAllInfoProducto(Object queColumna, Object queValor) {
+        //ArrayList<Object> listaDeProductos = new ArrayList<>();
+        String returnSelect = "";
+        Producto producto;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+//            System.out.println("Creando statement...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Producto WHERE " + queColumna + " = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            while(rs.next()) {
+                //Retrieve by column name
+                 producto = new Producto();
+                    //Retrieve by column name
+                    producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                    producto.setNombreProducto(rs.getString("nombreProducto"));
+                    producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
+                    producto.setStockMinimoProducto(Integer.parseInt(rs.getString("stockMinProducto")));
+                    producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
+                    producto.setPrecioProductoProveedor(Double.parseDouble(rs.getString("precioProveedorProducto")));
+                    producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
+                    producto.setIdProveedorProducto(Integer.parseInt(rs.getString("Proveedor_idProveedor")));
+                    producto.setCategoriaProducto(rs.getString("categoria"));
+                    
+                    returnSelect = "Nombre del producto: "+producto.getNombreProducto()+"\nPrecio del producto: "+Math.round(producto.getPrecioProductoCliente())+"\nIdentificador del producto: "+producto.getIdProducto() +""
+                            +"\nUnidades disponibles: "+producto.getCantidadActualProducto()+" unidades"+"\nPrecio del proveedor: "+Math.round(producto.getPrecioProductoProveedor())+" colones"
+                            +"\nDescuento promocional: "+Math.round(producto.getDescuentoProductoPromo()*100)+"%"+"\nID del proveedor: "+producto.getIdProveedorProducto()+"\nCategoria del producto: "+producto.getCategoriaProducto();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
+    
+
+}
 
 }
