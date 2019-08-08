@@ -98,7 +98,9 @@ public class OrdenMediador implements Mediador {
     public void emptyCarrito()
     {
         //carrito delenda est
+        System.out.println("...");
         this.controllerOrden.emptyCarrito();
+        System.out.println("Orden Completado");
         
     }
 }

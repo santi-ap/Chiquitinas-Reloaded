@@ -135,59 +135,65 @@ public class ControllerOrden extends ControllerFactory implements Colleague{
         
         //temporary product for for 
         Producto pTemp = new Producto();
-        for (Object p: this.listaProductos)
-        {//decorating order with products
-            if (isFirst)//if this is the first
-            {
-                
-                isFirst = false;
-                ((Producto)p).setItemDecorado(this.orden);
-                //inserting orden to intermediate table
-                String temp = Integer.toString(this.orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
-                //Orden_has_Producto
-                System.out.println(temp);
-                this.servcioOrdenHP.insert(temp);
-                precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
-                
-            } else {
-                ((Producto)p).setItemDecorado(pTemp);
-                //inserting orden to intermediate table
-                String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
-                //Orden_has_Producto
-                this.servcioOrdenHP.insert(temp);
-                precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
+        if(!this.listaProductos.isEmpty())
+        {
+            for (Object p: this.listaProductos)
+            {//decorating order with products
+                if (isFirst)//if this is the first
+                {
 
-            }  
-            pTemp = (Producto)p;              
-        }
-        
-        //temporary combo
-        Combo cTemp = new Combo();
-        for (Object c: this.listaCombos)
-        {//decorating order with combos
-            if (isFirst)//if this is the first
-            {
-                //inserting orden to intermediate table
-                String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
-                //Orden_has_Combo
-                this.servcioOrdenHP.insert(temp);
-                isFirst = false;
-                ((Combo)c).setItemDecorado(orden);
-                precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
-                
-            } else {
-                //inserting orden to intermediate table
-                String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
-                //Orden_has_Combo
-                this.servcioOrdenHP.insert(temp);
-                ((Combo)c).setItemDecorado(cTemp);
-                precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
+                    isFirst = false;
+                    ((Producto)p).setItemDecorado(this.orden);
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(this.orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
+                    //Orden_has_Producto
+                    System.out.println(temp);
+                    this.servcioOrdenHP.insert(temp);
+                    precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
 
+                } else {
+                    ((Producto)p).setItemDecorado(pTemp);
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
+                    //Orden_has_Producto
+                    this.servcioOrdenHP.insert(temp);
+                    precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
+
+                }  
+                pTemp = (Producto)p;              
             }
-                
-            cTemp = (Combo)c;              
+        } else if (!this.listaCombos.isEmpty()) {
+
+            //temporary combo
+            Combo cTemp = new Combo();
+            for (Object c: this.listaCombos)
+            {//decorating order with combos
+                if (isFirst)//if this is the first
+                {
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
+                    //Orden_has_Combo
+                    this.servcioOrdenHC.insert(temp);
+                    isFirst = false;
+                    ((Combo)c).setItemDecorado(orden);
+                    precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
+
+                } else {
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
+                    //Orden_has_Combo
+                    this.servcioOrdenHC.insert(temp);
+                    ((Combo)c).setItemDecorado(cTemp);
+                    precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
+
+                }
+
+                cTemp = (Combo)c;              
+            }
+        } else {
+            System.out.println("ERROR: CARRITO VACIO");
+            return;
         }
-        
         //inserting orden to db
         System.out.println("inserting orden");
         this.servcioOrden.update("totalOrden", Double.toString(precioOrden), "idOrden", Integer.toString(this.orden.getIdOrden()));

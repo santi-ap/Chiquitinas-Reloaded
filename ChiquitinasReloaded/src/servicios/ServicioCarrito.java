@@ -77,13 +77,11 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public void delete(Object queColumna, Object queValor) {
         try {
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM CarritoProducto WHERE " + queColumna + " = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
             preparedStmt.execute();
             
-            System.out.println("Borrando valores...");
             sql = "DELETE FROM CarritoCombo WHERE " + queColumna + " = ?;";
             preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
@@ -299,7 +297,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public void deleteProducto(Object userID, Object productID) {
         try {
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM CarritoProducto WHERE Usuario_idUsuario = ? AND Producto_idProducto = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, userID.toString());
@@ -320,7 +317,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public void deleteCombo(Object userID, Object comboID) {
         try {
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM CarritoCombo WHERE Usuario_idUsuario = ? AND Combo_idCombo = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, userID.toString());
@@ -351,7 +347,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto, MontoProducto) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -384,7 +379,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO CarritoCombo (Combo_idCombo, Usuario_idUsuario, MontoCombo) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);

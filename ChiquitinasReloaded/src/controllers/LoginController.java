@@ -98,8 +98,10 @@ public class LoginController extends ControllerUsuario {
                 this.logear(idInput, passInput);
                 break;
 
-            case "2": //termina proceso de logeo y vuelve al menu anterior
+            case "2": this.formLogin();
                 break;
+                
+            default: this.formLogin();
 
         }
 

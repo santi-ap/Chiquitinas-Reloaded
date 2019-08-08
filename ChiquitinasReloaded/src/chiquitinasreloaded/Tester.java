@@ -59,6 +59,10 @@ public class Tester {
         }else if(input.equals("2")){
             RegisterController rc = new RegisterController();
             rc.formRegistro();
+            System.out.println("Usuario registrado! regresando a login...\n\n");
+            //login happens after reg
+            LoginController lc = new LoginController();
+            lc.formLogin();
         }else{
             System.out.println("Input no valido");
             primerMenu();

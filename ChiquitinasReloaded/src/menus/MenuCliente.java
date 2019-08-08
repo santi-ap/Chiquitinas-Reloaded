@@ -118,10 +118,12 @@ public class MenuCliente implements MenuDisplayBehavior, Colleague {
         Scanner sc = new Scanner(System.in);
         System.out.println("Comprar productos? [s/n]");
         if (sc.nextLine().equalsIgnoreCase("s"))
+        {
             ordenMediador.start(usuario);
-        else
+            this.controllerCarrito.setTotalCarrito(0d);
+            this.controllerCarrito.setTotalFinal(0d);
+        } else
             System.out.println("Regresando a menu...\n...\n");
-
     }
     
     
@@ -132,24 +134,24 @@ public class MenuCliente implements MenuDisplayBehavior, Colleague {
     @Override
     public void setMediador(Mediador mediador) {
         this.ordenMediador = (OrdenMediador)mediador;
-        int condicion = 0;
-        while (condicion == 0) {
-            System.out.println("\n\n\n\n\nMENU CARRITO\n"
-                    + "1-Ver Productos\n"
-                    + "2-Ver combos\n"
-                    + "3-Salir");
-            String opcion = input.nextLine();
-            switch (opcion) {
-                case "1"://Ver Productos
-                    
-                    break;
-                case "2"://Ver Combos
-                    
-                    break;
-                case "3"://Salir
-                    condicion = 1;
-                    break;
-            }
-        }
+//        int condicion = 0;
+//        while (condicion == 0) {
+//            System.out.println("\n\n\n\n\nMENU CARRITO\n"
+//                    + "1-Ver Productos\n"
+//                    + "2-Ver combos\n"
+//                    + "3-Salir");
+//            String opcion = input.nextLine();
+//            switch (opcion) {
+//                case "1"://Ver Productos
+//                    
+//                    break;
+//                case "2"://Ver Combos
+//                    
+//                    break;
+//                case "3"://Salir
+//                    condicion = 1;
+//                    break;
+//            }
+//        }
     }
 }

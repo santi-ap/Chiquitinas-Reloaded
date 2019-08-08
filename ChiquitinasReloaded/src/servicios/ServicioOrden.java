@@ -34,7 +34,6 @@ public class ServicioOrden extends Servicio implements InterfaceDAO{
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...bula");
             String sql;
             sql = "INSERT INTO Orden (idOrden, totalOrden, fechaOrden, User_idUsuario) values (?,?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);

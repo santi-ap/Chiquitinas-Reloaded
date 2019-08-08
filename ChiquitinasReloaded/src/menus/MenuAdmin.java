@@ -5,6 +5,7 @@
  */
 package menus;
 
+import java.util.Scanner;
 import objetos.Usuario;
 
 /**
@@ -55,7 +56,35 @@ public class MenuAdmin implements MenuDisplayBehavior{
 
     @Override
     public void displayMenu(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean cond = true;
+        Scanner input = new Scanner(System.in);
+        while (cond)
+        {
+            System.out.println("\n\n\n\n\nMENU ADMIN\n"
+                    + "1-Administrar Usuarios\n"
+                    + "2-Combos\n"
+                    + "3-Productos\n"
+                    + "4-Proveedores\n"
+                    + "5-Atras");
+            String opcion = input.nextLine();
+            switch (opcion) {
+                case "1"://Opcion para Agregar/Pedir un producto
+                    this.menuAdminCliente.displayMenu(usuario);
+                    break;
+                case "2"://Opcion para Buscar producto por nombre
+                    this.menuAdminCombo.displayMenu(usuario);
+                    break;
+                case "3"://opcion para Modificar producto
+                    this.menuAdminProducto.displayMenu(usuario);
+                    break;
+                case "4":// opcion para Eliminar producto
+                    this.menuAdminProveedor.displayMenu();
+                    break;
+                case "5"://opcion para ir atras
+                    cond = false;
+                    break;
+            }
+        }
     }
     
 }
