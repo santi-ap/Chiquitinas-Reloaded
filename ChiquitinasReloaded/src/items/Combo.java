@@ -230,6 +230,12 @@ public class Combo extends Decorador{
         this.isItemPedido = isItemPedido;
     }
     
-    
+    public double getPrecioForOrden(int tipoUsuario)
+    {
+        if (tipoUsuario==2)
+            return (this.getCantidadActualProductoCombo()*(this.getPrecioComboCliente()*(1-this.getDescuentoCombo())));
+        else
+            return (this.getCantidadActualProductoCombo()*(this.getPrecioComboCliente()));
+    }
     
 }

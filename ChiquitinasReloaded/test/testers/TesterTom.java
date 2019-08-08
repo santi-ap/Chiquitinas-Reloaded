@@ -27,7 +27,9 @@ public class TesterTom {
         DO AND TEST CARRITO
         
         */
-        Carrito car = new Carrito();
+//        Carrito car = new Carrito();
+        Producto p2 = new Producto();
+        Orden car = new Orden();
         Combo c = new Combo (car);
         ServicioCombo sc = new ServicioCombo ();
         c.setIdCombo(1);
@@ -38,9 +40,11 @@ public class TesterTom {
         p.setCantidadActualProducto(10);
         p.setPrecioProductoCliente(1000);
         p.setNombreProducto("Ass");
+        p2.setItemDecorado(p);
         
         System.out.println(p.getRecibo(1));
         System.out.println(p.getPrecio(1));
+        
 //        /*tester for Mediador*/
 //
 //        ControllerPedido cp = new ControllerPedido();
@@ -86,6 +90,12 @@ public class TesterTom {
 //        ((Pedido)p).setTotalPedido(0);
 //        ((Pedido)p).setFechaPedido(new Date (System.currentTimeMillis()));
 //        sp.insert(p);
+
+    String o = "9,1,1";
+    String[] oo = o.split(",");
+        System.out.println(oo[0]);
+        System.out.println(oo[1]);
+        System.out.println(oo[2]);
                             
     }
     

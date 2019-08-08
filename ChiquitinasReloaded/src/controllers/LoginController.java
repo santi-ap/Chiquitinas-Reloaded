@@ -10,6 +10,7 @@ import controllers.ControllerUsuario;
 import servicios.ServicioUsuario;
 import java.util.ArrayList;
 import java.util.Scanner;
+import mediador.OrdenMediador;
 import menus.MenuAdmin;
 import menus.MenuCliente;
 import menus.MenuClienteVIP;
@@ -42,7 +43,19 @@ public class LoginController extends ControllerUsuario {
                     menuAdmin.displayMenu(admin);//se inserta el usuario ingresado al menu para utilizarlo en otros metodos
                 }else if(typeBD.get(3).toString().equals("1") ){//si es un cliente regular va a al menu de cliente
                     Usuario cliente = su.selectUsuario(Integer.parseInt(idInput));//crea un nuevo usuario con los datos de quien se ingreso
+                    //crea controllers and mediators for OrdenMediator
+                    ControllerOrden cOrden = new ControllerOrden();
+                    ControllerProducto cProd = new ControllerProducto();
+                    ControllerCarrito cCarr = new ControllerCarrito();
+                    ControllerCombo cCom = new ControllerCombo();
+                    OrdenMediador ordenM = new OrdenMediador(cOrden, cProd, cCarr,cCom);              
                     MenuCliente menuCliente = new MenuCliente();
+                    menuCliente.setMediador(ordenM);
+                    cOrden.setMediador(ordenM);
+                    cProd.setOrdenMediador(ordenM);
+                    cCarr.setMediador(ordenM);
+                    cCom.setMediador(ordenM);
+                    
                     menuCliente.displayMenu(cliente);//se inserta el usuario ingresado al menu para utilizarlo en otros metodos
                 }else if(typeBD.get(3).toString().equals("2") ){//si es un cliente VIP va al menu de clienteVIP
                     Usuario clienteVIP = su.selectUsuario(Integer.parseInt(idInput));//crea un nuevo usuario con los datos de quien se ingreso

@@ -74,7 +74,29 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
 
     @Override
     public void delete(Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            super.conectar();
+            System.out.println("Borrando valores...");
+            String sql = "DELETE FROM CarritoProducto WHERE " + queColumna + " = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queValor.toString());
+            preparedStmt.execute();
+            
+            System.out.println("Borrando valores...");
+            sql = "DELETE FROM CarritoCombo WHERE " + queColumna + " = ?;";
+            preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queValor.toString());
+            preparedStmt.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }    
     }
 
     @Override
@@ -116,6 +138,7 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
                     producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
                     producto.setNombreProducto(rs.getString("nombreProducto"));
                     producto.setPrecioProductoCliente(rs.getDouble("precioClienteProducto"));
+                    /*                                                  I am calling a new select to get the actual ammount the user bought*/
                     producto.setCantidadActualProducto(Integer.parseInt(this.select("MontoProducto", "Usuario_idUsuario", queUserId )));
                     listaDeProductos.add(producto);
             }
@@ -166,7 +189,7 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
                     //Retrieve by column name
                     combo.setIdCombo(Integer.parseInt(rs.getString("idCombo")));
                     combo.setPrecioComboCliente(rs.getDouble("precioClienteCombo"));
-                    combo.setCantidadActualProductoCombo(Integer.parseInt(this.selectCombo("MontoProducto", "Usuario_idUsuario", queUserId )));
+                    combo.setCantidadActualProductoCombo(Integer.parseInt(this.selectCombo("MontoCombo", "Usuario_idUsuario", queUserId )));
                     listaDeCombos.add(combo);
             }
 

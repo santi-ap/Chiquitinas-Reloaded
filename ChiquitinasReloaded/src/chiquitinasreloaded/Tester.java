@@ -24,7 +24,8 @@ public class Tester {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-
+        
+        
 //////////////////////////////////////////////////////////////////////////////////////////      
 //        Test for database DO NOT DELETE (run to check if db connection is working     //
 //        ServicioUsuario us = new ServicioUsuario();                                   //
@@ -34,12 +35,17 @@ public class Tester {
 //        System.out.println(sp.select("nombreProducto", "idProducto", "2123657"));     //
 //////////////////////////////////////////////////////////////////////////////////////////   
         
-        //primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
+        primerMenu(); //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA
      
 
      
        
 
+    }
+    
+    public static void ini()
+    {
+        ;
     }
     
     //ESTE ES EL PRIMER MENU QUE SE VA A VER CUANDO EMPIECE EL PROGRAMA

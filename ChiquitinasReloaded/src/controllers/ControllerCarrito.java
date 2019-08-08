@@ -34,7 +34,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
 
     @Override
     public Servicio CrearServicio() {
-        return new ServicioProducto();
+        return new ServicioCarrito();
     }
 
     @Override

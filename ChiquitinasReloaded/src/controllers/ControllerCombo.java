@@ -17,17 +17,20 @@ import java.sql.Timestamp;
 import items.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;  
+import mediador.Colleague;
+import mediador.Mediador;
+import mediador.OrdenMediador;
 
 /**
  *
  * @author santialfonso
  */
-public class ControllerCombo extends ControllerFactory{
+public class ControllerCombo extends ControllerFactory implements Colleague{
     // ---------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioCombo servicioCombo = ((ServicioCombo)this.CrearServicio());//CASTING DE Servcio A ServicioCombo
     private ServicioComboHasProducto servicioComboHasProducto = new ServicioComboHasProducto();
     ServicioProducto servicioProducto = new ServicioProducto();
-    
+    private OrdenMediador mediador;
     public ControllerCombo() {
     }
 
@@ -233,6 +236,18 @@ public class ControllerCombo extends ControllerFactory{
     
     }
     
-    
+    public void updateStock(int cantidadCompra, Combo combo)
+    {
+        
+        int stockAntesDePedido = Integer.parseInt(this.servicioCombo.select("contadorOfertaCombo", "idCombo", combo.getIdCombo()));//agarra el stock actual en la base de datos
+        int stockDespuesDePedido = stockAntesDePedido + cantidadCompra;//le suma el MontoCompra al stock actual
+        this.servicioCombo.update("contadorOfertaCombo", stockDespuesDePedido, "idCombo", combo.getIdCombo());//actualiza la DB con el nuevo stock sumado
+        
+    }
+
+    @Override
+    public void setMediador(Mediador mediador) {
+        this.mediador = (OrdenMediador)mediador;
+    }
     
 }

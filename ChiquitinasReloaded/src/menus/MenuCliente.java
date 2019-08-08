@@ -8,6 +8,8 @@ package menus;
 import controllers.ControllerCombo;
 import controllers.ControllerProducto;
 import java.util.Scanner;
+import mediador.Colleague;
+import mediador.Mediador;
 import mediador.OrdenMediador;
 import objetos.Usuario;
 
@@ -15,11 +17,11 @@ import objetos.Usuario;
  *
  * @author santialfonso
  */
-public class MenuCliente implements MenuDisplayBehavior {
+public class MenuCliente implements MenuDisplayBehavior, Colleague {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
     Scanner input = new Scanner(System.in);
-    OrdenMediador ordenMediador=new OrdenMediador();
+    OrdenMediador ordenMediador;
 
     public MenuCliente() {
     }
@@ -59,12 +61,16 @@ public class MenuCliente implements MenuDisplayBehavior {
     private void confirmarCompra(Usuario usuario) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Comprar productos? [s/n]");
-        switch(sc.nextLine())
-        {
-            case "s": ordenMediador.start(usuario);
-            default: System.out.println("Regresando a menu...\n...\n");
-                break;
-        }
+        if (sc.nextLine().equalsIgnoreCase("s"))
+            ordenMediador.start(usuario);
+        else
+            System.out.println("Regresando a menu...\n...\n");
         
+        
+    }
+
+    @Override
+    public void setMediador(Mediador mediador) {
+        this.ordenMediador = (OrdenMediador)mediador;
     }
 }
