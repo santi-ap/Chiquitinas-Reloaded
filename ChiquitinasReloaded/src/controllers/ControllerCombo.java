@@ -21,6 +21,7 @@ import mediador.Colleague;
 import mediador.Mediador;
 import mediador.OrdenMediador;
 
+
 /**
  *
  * @author santialfonso
@@ -111,21 +112,7 @@ public class ControllerCombo extends ControllerFactory implements Colleague{
     
     public void crearComboNuevo(){
         
-    java.util.Date utilDate = new java.util.Date();
-    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-    
-    String string_date = "12-12-2012";
-
-                    SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
-                    try {
-                        java.util.Date d = f.parse(string_date);
-                        long milliseconds = d.getTime();
-                        
-                        java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
-                     
-        
-        
+   
     Scanner sc = new Scanner(System.in);
     System.out.println("Digite el identificador del combo");
     int idCombo = sc.nextInt();
@@ -139,11 +126,82 @@ public class ControllerCombo extends ControllerFactory implements Colleague{
     int productosCombo = sc.nextInt();
     System.out.println("Digite el descuento del combo");
     Double descuentoCombo = sc.nextDouble();
+    System.out.println("\nEscoja una de las siguientes opciones\n1-Fecha actual\n2-Fecha personalizada");
+    int respuestaUsuario = sc.nextInt();
     
+    if(respuestaUsuario == 1){
+     java.util.Date utilDate = new java.util.Date();
+     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                                System.out.println("Digite el año de fin del combo");
+                                int ano = sc.nextInt();
+                                System.out.println("Digite el mes de fin del combo");
+                                int mes = sc.nextInt();
+                                System.out.println("Digite el dia de fin del combo");
+                                int dia = sc.nextInt();
+                                String fecha = dia+"-"+mes+"-"+ano;
+
+                                String string_date = fecha;
+
+                                SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                                try {
+                                    java.util.Date d = f.parse(string_date);
+                                    long milliseconds = d.getTime();
+
+                                    java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
+     
     Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate1);
     servicioCombo.insert(combo);
-    System.out.println("Combo "+nombreCombo+" insertado con éxito!"); }   catch (ParseException e) {
+    servicioCombo.update("fechaInicioCombo", sqlDate, "idCombo", idCombo);
+    servicioCombo.update("fechaFinCombo", sqlDate1, "idCombo", idCombo);
+    
+    System.out.println("Combo "+nombreCombo+" insertado con éxito!"); }catch (ParseException e) {
                         e.printStackTrace();}  
+    
+    } else{
+    
+                                System.out.println("Digite el año de inicio del combo");
+                                int anoInicio = sc.nextInt();
+                                System.out.println("Digite el mes de inicio del combo");
+                                int mesInicio = sc.nextInt();
+                                System.out.println("Digite el dia de inicio del combo");
+                                int diaInicio = sc.nextInt();
+                                
+                                 System.out.println("Digite el año de fin del combo");
+                                int anoFin = sc.nextInt();
+                                System.out.println("Digite el mes de fin del combo");
+                                int mesFin = sc.nextInt();
+                                System.out.println("Digite el dia de fin del combo");
+                                int diaFin = sc.nextInt();
+                                String fechaInicio = diaInicio+"-"+mesInicio+"-"+anoInicio;
+                                String fechaFin = diaFin+"-"+mesFin+"-"+"-"+anoFin;
+
+                                String string_date = fechaInicio;
+                                String string_date1 = fechaFin;
+
+                                SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                                SimpleDateFormat ff = new SimpleDateFormat("dd-mm-yyyy");
+                                try {
+                                    
+                                    java.util.Date d = f.parse(string_date);
+                                    java.util.Date dd = ff.parse(string_date1);
+                                    long milliseconds = d.getTime();
+                                    long milliseconds1 = dd.getTime();
+
+                                    java.sql.Date sqlDate = new java.sql.Date(milliseconds);
+                                    java.sql.Date sqlDate1 = new java.sql.Date(milliseconds1);
+                                    
+     
+    Combo combo = new Combo(idCombo, nombreCombo, precioCombo,unidadesCombo, productosCombo, descuentoCombo, sqlDate, sqlDate1);
+    servicioCombo.insert(combo);
+    servicioCombo.update("fechaInicioCombo", sqlDate, "idCombo", idCombo);
+    servicioCombo.update("fechaFinCombo", sqlDate1, "idCombo", idCombo);
+    System.out.println("Combo "+nombreCombo+" insertado con éxito!"); 
+                                }catch (ParseException e) {
+                        e.printStackTrace();}  
+    
+    
+    }
+   
    
     }
     
@@ -169,6 +227,203 @@ public class ControllerCombo extends ControllerFactory implements Colleague{
             this.actualizarPrecioDelCombo(identificadorCombo);
         
         }
+    
+    }
+    
+    public void modificarTodaInformacionCombo(){
+        boolean condicionSalida = true;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite el identificador del combo que desea modificar");
+        int idCombo = sc.nextInt();
+        do {
+        System.out.println("\nQué valor desea modificar\n1-Nombre del Combo\n2-Precio del combo\n3-ID del combo\n4-Disponibilidad del combo\n5-Descuento combo\n6-Fecha de inicio del combo\n7-Fecha de fin del combo\n8-Salir");
+        int respuestaUsuario = sc.nextInt();
+                switch(respuestaUsuario){
+                
+                    case 1:
+                        System.out.println("Digite el nombre del combo");
+                        String nombreDelCombo = sc.next();
+                        System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                        int confirmarCambio = sc.nextInt();
+                        if(confirmarCambio == 1){
+                        
+                        servicioCombo.update("nombreCombo", nombreDelCombo, "idCombo", idCombo);} else{condicionSalida = false;}
+                        System.out.println("Nombre del combo con ID: "+idCombo+" actualizado con éxito a: "+nombreDelCombo);
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n-2-No");
+                            int continuar = sc.nextInt();
+                            if(continuar ==1){
+                                condicionSalida = true;
+                            } else{
+                            
+                                condicionSalida = false;
+                            }
+                            break;
+                        
+                    case 2:
+                        System.out.println("Digite el precio del combo");
+                        int precioDelCombo = sc.nextInt();
+                        System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                        int confirmarCambio1 = sc.nextInt();
+                        if(confirmarCambio1 == 1){
+                        servicioCombo.update("precioClienteCombo", precioDelCombo, "idCombo", idCombo);}else{condicionSalida = false;}
+                        System.out.println("Valor del combo "+idCombo+" actualizado con éxito a: "+precioDelCombo+" colones");
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                            int continuar2 = sc.nextInt();
+                            if(continuar2 ==1){
+                                condicionSalida = true;
+                            } else{
+                            
+                                condicionSalida = false;
+                            }
+                        break;
+                    case 3:    
+                        System.out.println("Digite el ID del combo");
+                        int idDelCombo = sc.nextInt();  
+                        System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                        int confirmarCambio2 = sc.nextInt();
+                        if(confirmarCambio2 == 1){
+                        servicioCombo.update("idCombo", idDelCombo, "idCombo", idCombo);}else{condicionSalida = false;}  
+                        System.out.println("Identificador del combo: "+idCombo+" actualizado con éxito a: "+idDelCombo);
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                                int continuar3 = sc.nextInt();
+                                if(continuar3 ==1){
+                                    condicionSalida = true;
+                                } else{
+
+                                    condicionSalida = false;
+                                }
+                        break;
+                    case 4:
+                         System.out.println("Digite las unidades disponibles del combo");
+                         int stockCombo = sc.nextInt();  
+                         System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                         int confirmarCambio3 = sc.nextInt();
+                         if(confirmarCambio3 == 1){
+                         servicioCombo.update("contadorProductoCombo", stockCombo, "idCombo", idCombo);}else{condicionSalida = false;}  
+                         System.out.println("Unidades existentes del combo: "+idCombo+" actualizadas a: "+stockCombo);
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                               int continuar4 = sc.nextInt();
+                               if(continuar4 ==1){
+                                   condicionSalida = true;
+                               } else{
+
+                                   condicionSalida = false;
+                               }
+                        break;
+                    case 5:
+                         System.out.println("Digite el valor de descuento del combo");
+                         double descuentoCombo = sc.nextDouble();
+                         double conversionDescuentoCombo = descuentoCombo/100;
+                         System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                         int confirmarCambio4 = sc.nextInt();
+                         if(confirmarCambio4 == 1){
+                         servicioCombo.update("descuentoCombo", conversionDescuentoCombo, "idCombo", idCombo);}else{condicionSalida = false;}
+                         System.out.println("Descuento del combo: "+idCombo+" actualizado con éxito a: "+conversionDescuentoCombo+"%");
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                               int continuar5 = sc.nextInt();
+                               if(continuar5 ==1){
+                                   condicionSalida = true;
+                               } else{
+
+                                   condicionSalida = false;
+                               }
+                        break;
+                    case 6:
+                        System.out.println("\nEscoja una de las siguientes opciones\n1-Fecha actual\n2-Fecha personalizada");
+                        int opcionFecha = sc.nextInt();
+                        if(opcionFecha == 1){
+                            java.util.Date utilDate = new java.util.Date();
+                            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                             System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                             int confirmarCambio5 = sc.nextInt();
+                             if(confirmarCambio5 == 1){
+                                servicioCombo.update("fechaInicioCombo",sqlDate , "idCombo", idCombo);}else{condicionSalida = false;} 
+                                    System.out.println("");
+                                        System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                                            int continuar6 = sc.nextInt();
+                                            if(continuar6 ==1){
+                                                condicionSalida = true;
+                                            } else{
+
+                                                condicionSalida = false;
+                                            }
+                        } else{
+                            System.out.println("\nDigite el año");
+                                int ano = sc.nextInt();
+                                System.out.println("Digite el mes");
+                                int mes = sc.nextInt();
+                                System.out.println("Digite el dia");
+                                int dia = sc.nextInt();
+                                String fecha = dia+"-"+mes+"-"+ano;
+
+                                String string_date = fecha;
+
+                                SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                                try {
+                                    java.util.Date d = f.parse(string_date);
+                                    long milliseconds = d.getTime();
+
+                                    java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
+
+                                    System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                                    int confirmarCambio6 = sc.nextInt();
+                                    if(confirmarCambio6 == 1){
+                                    servicioCombo.update("fechaInicioCombo", sqlDate1, "idCombo", idCombo);}else{condicionSalida = false;}  
+                                    System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                                        int continuar7 = sc.nextInt();
+                                        if(continuar7 ==1){
+                                            condicionSalida = true;
+                                        } else{
+
+                                            condicionSalida = false;
+                                        } }catch (ParseException e) {
+                                    e.printStackTrace();}  
+                        
+                        }
+    
+                        break;
+                    case 7:
+                        System.out.println("Digite el año");
+                        int ano = sc.nextInt();
+                        System.out.println("Digite el mes");
+                        int mes = sc.nextInt();
+                        System.out.println("Digite el dia");
+                        int dia = sc.nextInt();
+                        String fecha = dia+"-"+mes+"-"+ano;
+                        
+                        String string_date = fecha;
+
+                    SimpleDateFormat f = new SimpleDateFormat("dd-mm-yyyy");
+                    try {
+                        java.util.Date d = f.parse(string_date);
+                        long milliseconds = d.getTime();
+                        
+                        java.sql.Date sqlDate1 = new java.sql.Date(milliseconds);
+                        System.out.println("Desea realizar la modificación?\n1-Si\n2-No");
+                                    int confirmarCambio7 = sc.nextInt();
+                                    if(confirmarCambio7 == 1){
+                        servicioCombo.update("fechaFinCombo", sqlDate1, "idCombo", idCombo);  }else{condicionSalida = false;}
+                        System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
+                            int continuar7 = sc.nextInt();
+                            if(continuar7 ==1){
+                                condicionSalida = true;
+                            } else{
+                            
+                                condicionSalida = false;
+                            } }catch (ParseException e) {
+                        e.printStackTrace();}  
+                        break;
+                    case 8: 
+                        condicionSalida = false;
+                        break; 
+                    
+                    case 9:
+                    
+                        
+                    break;}
+                        
+     //UPDATE Combo SET precioClienteCombo = 5000 WHERE idCombo = 1;
+                }while(condicionSalida == true);
     
     }
     

@@ -34,7 +34,7 @@ public class PedidoMediador implements Mediador {
             this.crpGetListaProveedores();
         } else {//inicia pedir un producto existente
             if (i == 2) {//Inicia agregar un producto nuevo de un proveedor nuevo
-// space for new proveedor
+                this.crpCrearProveedor();
             } else {
                 this.opeGetListaProveedores();
             }
@@ -45,7 +45,7 @@ public class PedidoMediador implements Mediador {
     public void opeGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
         this.opeGetListaProductoProv();
-        
+
     }
 
     public void opeGetListaProductoProv() {//Imprime la lista de productos de un proveedor
@@ -63,8 +63,11 @@ public class PedidoMediador implements Mediador {
     //-----------------------END ORDENAR PRODUCTO-----------------------
 
     //------------------------------------------------------------------
-    
     //-----------------------CREAR PRODUCTO NUEVO(crp)-----------------------
+    public void crpCrearProveedor() {
+        controllerProveedor.crearProveedor();
+        this.crpCrearProducto();
+    }
     public void crpGetListaProveedores() {// Imprime la lista de proveedores
         controllerProveedor.getProveedorIdNombre();
         this.crpCrearProducto();
@@ -74,104 +77,91 @@ public class PedidoMediador implements Mediador {
         controllerProducto.crearProducto();
     }
     //-----------------------END CREAR PRODUCTO-----------------------
-    
-    
+
     /*THIS MUST BE RUN AT THE END*/
     /**
-     * 
+     *
      * Producto is taken from the controllerProducto
      */
-    public void takeProductoFromControllerProducto () {
+    public void takeProductoFromControllerProducto() {
         System.out.println("Guardando Informaciones.");
         this.sendProductoToControllerPedido(controllerProducto.getProductoPedido());
     }
-    
+
     /**
      * Product info is sent into controllerPedido
+     *
      * @param productoPedido the product sent to the pedido controller
      */
-    public void sendProductoToControllerPedido (Producto productoPedido)
-    {
+    public void sendProductoToControllerPedido(Producto productoPedido) {
         controllerPedido.setProductoPedidoByMediador(productoPedido);
     }
-    
+
     /**
      * ProveedorId is taken from controllerProducto
      */
-    
-    public void takeProveedorFromControllerProveedor ()
-    {
+    public void takeProveedorFromControllerProveedor() {
         controllerProducto.getIdProveedorPedidobyMediador();
     }
-    
+
     /**
      * ProveedorId is sent to controllerPedido
+     *
      * @param idProveedor
-     */ 
-    
-    public void sendProveedorIdToControllerPedido (String idProveedor)
-    {
+     */
+    public void sendProveedorIdToControllerPedido(String idProveedor) {
         controllerPedido.setIdProveedorPedidoByMediador(idProveedor);
     }
-    
+
     /**
      * pedido is created using the selected ammount chosen by the user
      */
-    public void createPedidoWithAmmount ()
-    {
+    public void createPedidoWithAmmount() {
         System.out.println("Creando Pedido.");
         //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
         controllerPedido.getProductoPedido().setCantidadActualProducto(controllerProducto.getMontoCompra());                        //this line is done in 4 methods using the mediator pattern.
         controllerPedido.createPedido();
     }
-    
+
     /**
      * sending info to pedido database
      */
-    
-    public void insertIntoPedido()
-    {
+    public void insertIntoPedido() {
         System.out.println("Registrando Pedido.");
 
-        controllerPedido.getServicioPedido().insert(controllerPedido.getPedidoByMediador());        
+        controllerPedido.getServicioPedido().insert(controllerPedido.getPedidoByMediador());
         this.insertIntoPedidoHasProducto();
 
-
     }
-    
+
     /**
      * sending info to pedidoHasProducto
      */
-    public void insertIntoPedidoHasProducto ()
-    {
-        
+    public void insertIntoPedidoHasProducto() {
+
         controllerPedido.insertIntoPedidoHasProducto();
     }
-    
+
     /**
      * sending info to pedidohasproveedor
      */
-    public void insertIntoPedidoHasProveedor ()
-    {
+    public void insertIntoPedidoHasProveedor() {
         controllerPedido.insertIntoPedidoHasProveedor();
     }
-    
+
     /*          STEPS TODO                      */
-    /*  get the ammount of products bought     
+ /*  get the ammount of products bought     
         we also need to copy these last steps to the other mediador*/
-    public void enviarCorreo()
-    {
+    public void enviarCorreo() {
         controllerPedido.enviarCorreo();
         System.out.println("Correo Enviado.");
     }
-    
     /**
      * llama el metodo para que sume y actualize el stock de un producto despues de que se le pidio al proveedor
+     * @param cantidadPedido 
      */
     public void sumarleLoPedidoAlStock(int cantidadPedido){
         this.controllerProducto.actualizarStockDespuesDeCompra(cantidadPedido);
     }
-
-    
 
 }

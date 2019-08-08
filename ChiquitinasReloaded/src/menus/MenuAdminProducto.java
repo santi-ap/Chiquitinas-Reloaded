@@ -172,7 +172,7 @@ public class MenuAdminProducto implements MenuDisplayBehavior {
                 case "1"://Opcion para Pedir de un proveedor existente
                     this.pedirProducto(1);
                     break;
-                case "2"://Opcion para Proveedo un producto nuevo
+                case "2"://Opcion para Proveedo un proveedor nuevo
                     this.pedirProducto(2);
                     break;
                 case "3"://opcion para ir atras
