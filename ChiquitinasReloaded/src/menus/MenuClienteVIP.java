@@ -40,7 +40,8 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     + "3-Ver Carrito\n"
                     + "4-Ver Ordenes\n"
                     + "5-Ver Promociones\n"
-                    + "6-Salir");
+                    + "6-Cambiar Contrasenna\n"
+                    + "7-Salir");
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
@@ -63,9 +64,12 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     break;
                 case "5"://Ver Promociones
                     break;
-                case "6"://Salir
-                    condicion = 1;
+                case "6"://Cambiar contra
+                    controllerUsuario.cambiarContra(usuario);
                     break;
+                case "7"://Salir
+                    condicion = 1;
+                    break;    
             }
         }
 

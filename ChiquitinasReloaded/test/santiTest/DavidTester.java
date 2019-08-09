@@ -8,6 +8,7 @@ package santiTest;
 import controllers.ControllerCarrito;
 import controllers.ControllerProducto;
 import controllers.ControllerProveedor;
+import controllers.ControllerUsuario;
 import objetos.Proveedor;
 import servicios.ServicioProducto;
 import servicios.ServicioProveedor;
@@ -35,6 +36,7 @@ public class DavidTester {
         ControllerProveedor cp = new ControllerProveedor();
         ControllerProducto conP = new ControllerProducto();
         ControllerCarrito conCar = new ControllerCarrito();
+        ControllerUsuario conUs = new ControllerUsuario();
         MenuCliente mc = new MenuCliente();
         MenuClienteVIP mcv = new MenuClienteVIP();
         Usuario u = new Usuario();
@@ -42,8 +44,8 @@ public class DavidTester {
         //System.out.println(sp.selecAllNombresProveedor());
         
         //System.out.println(sp.selecAllNombresProveedor()+ "\n");
-        u = serU.selectUsuario(11);
-        mc.displayMenu(u);
+       u = serU.selectUsuario(4);
+       conUs.cambiarContra(u);
         
     
 }
