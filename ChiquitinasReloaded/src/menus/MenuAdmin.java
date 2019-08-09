@@ -5,6 +5,7 @@
  */
 package menus;
 
+import controllers.ControllerUsuario;
 import java.util.Scanner;
 import objetos.Usuario;
 
@@ -18,6 +19,7 @@ public class MenuAdmin implements MenuDisplayBehavior{
      private MenuAdminProveedor menuAdminProveedor = new MenuAdminProveedor();
      private MenuAdminProducto menuAdminProducto = new MenuAdminProducto();
      private MenuAdminCliente menuAdminCliente = new MenuAdminCliente();
+     ControllerUsuario controllerUsuario = new ControllerUsuario(); 
 
     public MenuAdmin() {
     }
@@ -65,7 +67,8 @@ public class MenuAdmin implements MenuDisplayBehavior{
                     + "2-Combos\n"
                     + "3-Productos\n"
                     + "4-Proveedores\n"
-                    + "5-Atras");
+                    + "5-Cambiar Contrasenna\n"
+                    + "6-Atras");
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Agregar/Pedir un producto
@@ -80,9 +83,12 @@ public class MenuAdmin implements MenuDisplayBehavior{
                 case "4":// opcion para Eliminar producto
                     this.menuAdminProveedor.displayMenu();
                     break;
-                case "5"://opcion para ir atras
-                    cond = false;
+                case "5"://Cambiar Contra
+                    controllerUsuario.cambiarContra(usuario);
                     break;
+                case "6"://opcion para ir atras
+                    cond = false;
+                    break;    
             }
         }
     }
