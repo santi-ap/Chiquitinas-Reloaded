@@ -42,7 +42,8 @@ public class MenuAdminCombo implements MenuDisplayBehavior{
                     
                 controllerCombo.desplegarInformacionCombo();
                 case 4:    
-            
+                    
+                controllerCombo.verCombos();
                 case 5:
                  
                 condicionSalida = false;   

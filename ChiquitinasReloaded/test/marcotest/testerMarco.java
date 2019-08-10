@@ -29,12 +29,15 @@ public class testerMarco {
         //mab.displayMenu();
        //ControllerProducto cp = new ControllerProducto();
       // ServicioProducto sp = new ServicioProducto();
-      // ServicioCombo sc = new ServicioCombo();
+       ServicioCombo sc = new ServicioCombo();
        Usuario cliente = new Usuario("1", "Marco", "testPass1", 2);
        //mab.displayMenu(cliente);*/
-       mab.displayMenu(cliente);
+       //mab.displayMenu(cliente);
+       sc.selectCombosPasados();
        
-        
+       
+       
+      
         
        
         

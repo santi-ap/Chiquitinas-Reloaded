@@ -63,20 +63,18 @@ public class ControllerCombo extends ControllerFactory{
     */
     
     
-    public void insertarProductoAUnCombo(){
+    public void insertarProductoAUnCombo(int idCombo){
     //Lo mejoraré para no estar pidiendo de nuevo el identifier del combo, sino que solamente el del producto
-    boolean condicionSalida = true;
     Scanner sc = new Scanner(System.in);
-    System.out.println("Digite el identificador del combo");
-    int codigoDelCombo = sc.nextInt();
+    boolean condicionSalida = true;
     do{
     System.out.println("Digite el identificador del producto");
     int idProducto = sc.nextInt();
-    String conversionIdCombo = String.valueOf(codigoDelCombo);
+    String conversionIdCombo = String.valueOf(idCombo);
     String conversionIdProducto = String.valueOf(idProducto);
-    String stringParaMetodo = codigoDelCombo +","+idProducto;
+    String stringParaMetodo = idCombo +","+idProducto;
     servicioComboHasProducto.insert(stringParaMetodo);
-    System.out.println("Producto agregado con exito al combo " +codigoDelCombo);
+    System.out.println("Producto agregado con exito al combo " +idCombo);
         System.out.println("Desea continuar agregando productos al combo?\n1-Si\n2-No");
         int respuestaUsuario = sc.nextInt();
             if(respuestaUsuario == 1){
@@ -111,19 +109,22 @@ public class ControllerCombo extends ControllerFactory{
         
    
     Scanner sc = new Scanner(System.in);
-    System.out.println("Digite el identificador del combo");
+    System.out.println("\nDigite el identificador del combo");
     int idCombo = sc.nextInt();
     System.out.println("Digite el nombre del combo");
-    String nombreCombo = sc.next();
+    sc.nextLine();
+    String nombreCombo = sc.nextLine();
     System.out.println("Digite el precio del combo");
     Double precioCombo = sc.nextDouble();
     System.out.println("Digite las unidades disponibles del combo");
     int unidadesCombo = sc.nextInt();
     System.out.println("Digite la cantidad de productos del combo");
     int productosCombo = sc.nextInt();
+    System.out.println("\n");
+    this.insertarProductoAUnCombo(idCombo);
     System.out.println("Digite el descuento del combo");
     Double descuentoCombo = sc.nextDouble();
-    System.out.println("\nEscoja una de las siguientes opciones\n1-Fecha actual\n2-Fecha personalizada");
+    System.out.println("Escoja una de las siguientes opciones\n1-Fecha de inicio actual y fecha de fin personalizada\n2-Fecha de inicio y fin personalizadas");
     int respuestaUsuario = sc.nextInt();
     
     if(respuestaUsuario == 1){
@@ -216,7 +217,7 @@ public class ControllerCombo extends ControllerFactory{
         int respuestaUsuario = sc.nextInt();
         if(respuestaUsuario == 1){
          
-        this.insertarProductoAUnCombo();
+        //this.insertarProductoAUnCombo();
         
         } else if(respuestaUsuario == 2){
             System.out.println("Digite el identificador del combo");
@@ -227,13 +228,18 @@ public class ControllerCombo extends ControllerFactory{
     
     }
     
+    /**
+     * @marco
+     * Modifica toda la información del producto 
+     */
+    
     public void modificarTodaInformacionCombo(){
         boolean condicionSalida = true;
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el identificador del combo que desea modificar");
         int idCombo = sc.nextInt();
         do {
-        System.out.println("\nQué valor desea modificar\n1-Nombre del Combo\n2-Precio del combo\n3-ID del combo\n4-Disponibilidad del combo\n5-Descuento combo\n6-Fecha de inicio del combo\n7-Fecha de fin del combo\n8-Salir");
+        System.out.println("Qué valor desea modificar\n1-Nombre del Combo\n2-Precio del combo\n3-ID del combo\n4-Disponibilidad del combo\n5-Descuento combo\n6-Fecha de inicio del combo\n7-Fecha de fin del combo\n8-Salir");
         int respuestaUsuario = sc.nextInt();
                 switch(respuestaUsuario){
                 
@@ -246,13 +252,13 @@ public class ControllerCombo extends ControllerFactory{
                         
                         servicioCombo.update("nombreCombo", nombreDelCombo, "idCombo", idCombo);} else{condicionSalida = false;}
                         System.out.println("Nombre del combo con ID: "+idCombo+" actualizado con éxito a: "+nombreDelCombo);
-                            System.out.println("Desea continuar modificando este combo?\n1-Si\n-2-No");
+                            System.out.println("Desea continuar modificando este combo?\n1-Si\n2-No");
                             int continuar = sc.nextInt();
                             if(continuar ==1){
                                 condicionSalida = true;
                             } else{
                             
-                                condicionSalida = false;
+                                condicionSalida = true;
                             }
                             break;
                         
@@ -270,7 +276,7 @@ public class ControllerCombo extends ControllerFactory{
                                 condicionSalida = true;
                             } else{
                             
-                                condicionSalida = false;
+                                condicionSalida = true;
                             }
                         break;
                     case 3:    
@@ -287,7 +293,7 @@ public class ControllerCombo extends ControllerFactory{
                                     condicionSalida = true;
                                 } else{
 
-                                    condicionSalida = false;
+                                    condicionSalida = true;
                                 }
                         break;
                     case 4:
@@ -304,7 +310,7 @@ public class ControllerCombo extends ControllerFactory{
                                    condicionSalida = true;
                                } else{
 
-                                   condicionSalida = false;
+                                   condicionSalida = true;
                                }
                         break;
                     case 5:
@@ -322,7 +328,7 @@ public class ControllerCombo extends ControllerFactory{
                                    condicionSalida = true;
                                } else{
 
-                                   condicionSalida = false;
+                                   condicionSalida = true;
                                }
                         break;
                     case 6:
@@ -342,7 +348,7 @@ public class ControllerCombo extends ControllerFactory{
                                                 condicionSalida = true;
                                             } else{
 
-                                                condicionSalida = false;
+                                                condicionSalida = true;
                                             }
                         } else{
                             System.out.println("\nDigite el año");
@@ -372,7 +378,7 @@ public class ControllerCombo extends ControllerFactory{
                                             condicionSalida = true;
                                         } else{
 
-                                            condicionSalida = false;
+                                            condicionSalida = true;
                                         } }catch (ParseException e) {
                                     e.printStackTrace();}  
                         
@@ -406,7 +412,7 @@ public class ControllerCombo extends ControllerFactory{
                                 condicionSalida = true;
                             } else{
                             
-                                condicionSalida = false;
+                                condicionSalida = true;
                             } }catch (ParseException e) {
                         e.printStackTrace();}  
                         break;
@@ -423,6 +429,22 @@ public class ControllerCombo extends ControllerFactory{
                 }while(condicionSalida == true);
     
     }
+    
+    /**
+     * @marco
+     * Submenú para ver los combos
+     */
+    
+    public void verCombos(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Elija una de las siguintes opciones\n1-Ver combos actuales\n2-Ver combos pasados\n3-Ver combos futuros");
+        int combos = sc.nextInt();
+        
+        String fechaInicio = servicioCombo.select("fechaInicioCombo", "idCombo", 100);
+        
+        //"SELECT " + queBuscamos + " FROM Combo WHERE " + queColumna + " = ?;";
+    }
+    
     
     /**
      * 
@@ -461,12 +483,21 @@ public class ControllerCombo extends ControllerFactory{
      */
     
     public void desplegarInformacionCombo(){
+        boolean condicionSalida = true;
+        do{
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el identificador del combo");
         int idCombo = sc.nextInt();
         
-            servicioCombo.selectAll("idCombo",idCombo);
-    
+            System.out.println(servicioCombo.selectAllInfoCombo("idCombo",idCombo));
+            System.out.println("\nDesea buscar la información de otro combo?\n1-Si\n2-No");
+            int respuestaUsuario = sc.nextInt();
+            if(respuestaUsuario == 1){
+            
+                condicionSalida = true;
+            } else{condicionSalida = false;}
+            
+        }while(condicionSalida == true);
     }
     
     
