@@ -5,6 +5,7 @@
  */
 package menus;
 
+import controllers.ControllerPedido;
 import controllers.ControllerUsuario;
 import java.util.Scanner;
 import objetos.Usuario;
@@ -13,13 +14,14 @@ import objetos.Usuario;
  *
  * @author santialfonso
  */
-public class MenuAdmin implements MenuDisplayBehavior{
-    
-     private MenuAdminCombo menuAdminCombo = new MenuAdminCombo();
-     private MenuAdminProveedor menuAdminProveedor = new MenuAdminProveedor();
-     private MenuAdminProducto menuAdminProducto = new MenuAdminProducto();
-     private MenuAdminCliente menuAdminCliente = new MenuAdminCliente();
-     ControllerUsuario controllerUsuario = new ControllerUsuario(); 
+public class MenuAdmin implements MenuDisplayBehavior {
+
+    private MenuAdminCombo menuAdminCombo = new MenuAdminCombo();
+    private MenuAdminProveedor menuAdminProveedor = new MenuAdminProveedor();
+    private MenuAdminProducto menuAdminProducto = new MenuAdminProducto();
+    private MenuAdminCliente menuAdminCliente = new MenuAdminCliente();
+    ControllerUsuario controllerUsuario = new ControllerUsuario();
+    ControllerPedido controllerPedido = new ControllerPedido();
 
     public MenuAdmin() {
     }
@@ -60,15 +62,15 @@ public class MenuAdmin implements MenuDisplayBehavior{
     public void displayMenu(Usuario usuario) {
         boolean cond = true;
         Scanner input = new Scanner(System.in);
-        while (cond)
-        {
+        while (cond) {
             System.out.println("\n\n\n\n\nMENU ADMIN\n"
                     + "1-Administrar Usuarios\n"
                     + "2-Combos\n"
                     + "3-Productos\n"
                     + "4-Proveedores\n"
                     + "5-Cambiar Contrasenna\n"
-                    + "6-Atras");
+                    + "6-Ver Pedidos\n"
+                    + "7-Atras");
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Agregar/Pedir un producto
@@ -86,11 +88,14 @@ public class MenuAdmin implements MenuDisplayBehavior{
                 case "5"://Cambiar Contra
                     controllerUsuario.cambiarContra(usuario);
                     break;
-                case "6"://opcion para ir atras
+                case "6"://Ver pedidos
+                    this.controllerPedido.mostrarPedido();
+                    break;
+                case "7"://opcion para ir atras
                     cond = false;
-                    break;    
+                    break;
             }
         }
     }
-    
+
 }

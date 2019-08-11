@@ -25,44 +25,46 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
     public ServicioPedido() {
     }
 
- 
     /**
-     * 
-     * REMEMBER TO ALWAYS TOSTRING THE RETURN TO SHOW THE OBJECT AS A VISIBLE THING TO THE USER
-     * @param queBuscamos 
+     *
+     * REMEMBER TO ALWAYS TOSTRING THE RETURN TO SHOW THE OBJECT AS A VISIBLE
+     * THING TO THE USER
+     *
+     * @param queBuscamos
      * @param queColumna
      * @param queValor
-     * @return the selected value if it finds it, the string "noPedidoFound" will be returned
+     * @return the selected value if it finds it, the string "noPedidoFound"
+     * will be returned
      */
     @Override//select, toma como parametros lo que estmos buscando, la columna donde especificamos el valor de condicion y que valor debe tener la columna 
     public String select(Object queBuscamos, Object queColumna, Object queValor) {
-        String returnSelect="";
+        String returnSelect = "";
         ResultSet rs = null;
         Statement stmt = null;
-        try{
+        try {
             //STEP 3: Execute a query
             super.conectar();
-            stmt=conn.createStatement();
+            stmt = conn.createStatement();
             String sql;
-            
+
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql="SELECT "+queBuscamos+" FROM Pedido WHERE "+queColumna+" = ?;";
-            
+            sql = "SELECT " + queBuscamos + " FROM Pedido WHERE " + queColumna + " = ?;";
+
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, queValor.toString());
-            rs=preparedStatement.executeQuery(); 
-            
+            rs = preparedStatement.executeQuery();
+
             //STEP 3.1: Extract data from result set
-            if(rs.next()){
+            if (rs.next()) {
                 //Retrieve by column name
                 returnSelect = rs.getString(queBuscamos.toString());
-            }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
-            return "noPedidoFound";
+            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+                return "noPedidoFound";
             }
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 rs.close();
                 stmt.close();
@@ -77,24 +79,24 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
 
     @Override
     public void insert(Object object) {
-        try{
+        try {
             //sending info to table Pedido
             super.conectar();
-            
+
             String sql;
-            sql="INSERT INTO Pedido (idPedido, totalPedido, fechaPedido) values (?,?,?);";
+            sql = "INSERT INTO Pedido (idPedido, totalPedido, fechaPedido) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, Integer.toString(((Pedido)object).getIdPedido()));//idPedido
-            preparedStatement.setString(2, Double.toString(((Pedido)object).getTotalPedido()));//nombreUsuario
-            
-            Date date = ((Pedido)object).getFechaPedido();
-            
+            preparedStatement.setString(1, Integer.toString(((Pedido) object).getIdPedido()));//idPedido
+            preparedStatement.setString(2, Double.toString(((Pedido) object).getTotalPedido()));//nombreUsuario
+
+            Date date = ((Pedido) object).getFechaPedido();
+
             preparedStatement.setDate(3, date);//fecha
-            preparedStatement.executeUpdate();  
-            
-        }catch(Exception e){
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 super.desconectar();
             } catch (SQLException ex) {
@@ -105,17 +107,17 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
 
     @Override
     public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
-        try{
+        try {
             super.conectar();
-            String sql = "UPDATE Pedido SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?;";
+            String sql = "UPDATE Pedido SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
             preparedStmt.setString(2, queValor.toString());
-            preparedStmt.executeUpdate(); 
-           
-        }catch(Exception e){
+            preparedStmt.executeUpdate();
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 super.desconectar();
             } catch (SQLException ex) {
@@ -126,16 +128,16 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
 
     @Override
     public void delete(Object queColumna, Object queValor) {
-        try{
+        try {
             super.conectar();
-            String sql = "DELETE FROM Pedido WHERE "+queColumna+" = ?;";
+            String sql = "DELETE FROM Pedido WHERE " + queColumna + " = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
-            preparedStmt.execute(); 
-           
-        }catch(Exception e){
+            preparedStmt.execute();
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 super.desconectar();
             } catch (SQLException ex) {
@@ -147,36 +149,36 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
 
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        ArrayList<Object> listaDatosPedido= new ArrayList<>();
+        ArrayList<Object> listaDatosPedido = new ArrayList<>();
         ResultSet rs = null;
-        Statement stmt=null;
-        try{
+        Statement stmt = null;
+        try {
             //STEP 3: Execute a query
             super.conectar();
-            stmt=conn.createStatement();
+            stmt = conn.createStatement();
             String sql;
-            
+
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql="SELECT * FROM Pedido WHERE "+queColumna+" = ?;";
-            
+            sql = "SELECT * FROM Pedido WHERE " + queColumna + " = ?;";
+
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, queValor.toString());
-            rs=preparedStatement.executeQuery(); 
-            
+            rs = preparedStatement.executeQuery();
+
             //STEP 3.1: Extract data from result set
-            if(rs.next()){
+            if (rs.next()) {
                 //Retrieve by column name
                 listaDatosPedido.add(rs.getString("idPedido"));
                 listaDatosPedido.add(rs.getDouble("totalPedido"));
                 listaDatosPedido.add(rs.getDate("fechaPedido"));
-            }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
                 listaDatosPedido.add("noPedidoFound");
-            return listaDatosPedido;
+                return listaDatosPedido;
             }
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 rs.close();
                 stmt.close();
@@ -190,32 +192,32 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
     }
 
     public int selectMaxId() {
-        int maxId=1;    
+        int maxId = 1;
         ResultSet rs = null;
-        Statement stmt=null;
-        try{
+        Statement stmt = null;
+        try {
             //STEP 3: Execute a query
             super.conectar();
-            stmt=conn.createStatement();
+            stmt = conn.createStatement();
             String sql;
             //select max(idProducto) from ChiquitinasReloaded.Producto where idProducto>(-1);
-            sql="SELECT max(idPedido) FROM Pedido";
-            
+            sql = "SELECT max(idPedido) FROM Pedido";
+
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            rs=preparedStatement.executeQuery(); 
-            
+            rs = preparedStatement.executeQuery();
+
             //STEP 3.1: Extract data from result set
-            if(rs.next()){
+            if (rs.next()) {
                 //Retrieve by column name
-                maxId = Integer.parseInt(rs.getString("max(idPedido)"))+1;
-            }else{//si no encuentra a un pedido con los parametros especificados, va a retornar un uno
+                maxId = Integer.parseInt(rs.getString("max(idPedido)")) + 1;
+            } else {//si no encuentra a un pedido con los parametros especificados, va a retornar un uno
                 System.out.println("No Id Found. ID is 1.");
-            return 1;
+                return 1;
             }
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 rs.close();
                 stmt.close();
@@ -227,5 +229,47 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
         //retorna lo que se selecciono
         return maxId;
     }
-   
+
+    public ArrayList<Pedido> selectAllPedidos() {
+        ArrayList<Pedido> listaPedidos = new ArrayList<>();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Pedido;";
+
+            rs = stmt.executeQuery(sql);
+
+            //STEP 3.1: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                Pedido pedido = new Pedido();
+                pedido.setIdPedido(rs.getInt("idPedido"));
+                pedido.setTotalPedido(rs.getDouble("totalPedido"));
+                pedido.setFechaPedido(rs.getDate("fechaPedido"));
+                listaPedidos.add(pedido);
+//            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+//                System.out.println("noPedidoFound");
+//                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaPedidos;
+    }
 }

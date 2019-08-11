@@ -65,6 +65,7 @@ public class MenuCliente implements MenuDisplayBehavior, Colleague {
                     this.menuCarrito(usuario);
                     break;
                 case "4"://Ver Ordenes
+                    this.controllerOrden.mostrarOrden(usuario);
                     break;
                 case "5"://Cambiar Contra
                     controllerUsuario.cambiarContra(usuario);

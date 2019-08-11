@@ -6,7 +6,9 @@
 package servicios;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 /**
  *
@@ -18,7 +20,43 @@ public class ServicioPedidoHasProducto extends Servicio implements InterfaceDAO{
     
     @Override
     public String select(Object queBuscamos, Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String returnSelect = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT " + queBuscamos + " FROM Pedido_has_Producto WHERE " + queColumna + " = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            if (rs.next()) {
+                //Retrieve by column name
+                returnSelect = rs.getString(queBuscamos.toString());
+            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+                return "No se encontro lo buscado";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
     }
 
     /**

@@ -9,6 +9,7 @@ import items.Pedido;
 import items.Producto;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mediador.*;
@@ -22,7 +23,7 @@ import servicios.ServicioProveedor;
  *
  * @author santialfonso
  */
-public class ControllerPedido extends ControllerFactory implements Observer, Colleague,Serializable {
+public class ControllerPedido extends ControllerFactory implements Observer, Colleague, Serializable {
 
     // ---------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioPedido servicioPedido = ((ServicioPedido) this.CrearServicio());//CASTING DE Servcio A ServicioPedido
@@ -38,12 +39,12 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     private int montoCompra;
 
     public ControllerPedido() {
-        this.subject=null;
+        this.subject = null;
     }
-    
+
     //constructor para aplicar el observer pattern
-    public ControllerPedido(Subject subject){
-        this.subject=subject;
+    public ControllerPedido(Subject subject) {
+        this.subject = subject;
     }
 
     public ServicioPedido getServicioPedido() {
@@ -63,17 +64,19 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public Servicio CrearServicio() {
         return new ServicioPedido();
     }
-    
+
     /**
-     * para pedir un producto existente de forma automatica a un proveedor
-     * parte del observer pattern
-     * @param producto es el producto del cual deberiamos pedirle mas al proveedor
+     * para pedir un producto existente de forma automatica a un proveedor parte
+     * del observer pattern
+     *
+     * @param producto es el producto del cual deberiamos pedirle mas al
+     * proveedor
      */
     @Override
     public void updateObserver(Producto producto) {
         ControllerProducto controllerProducto = new ControllerProducto();
         ControllerProveedor controllerProveedor = new ControllerProveedor();
-        PedidoMediador pedidoMediador = new PedidoMediador(this,controllerProveedor,controllerProducto);
+        PedidoMediador pedidoMediador = new PedidoMediador(this, controllerProveedor, controllerProducto);
         this.setMediador(pedidoMediador);
         controllerProducto.setMediador(pedidoMediador);
         controllerProveedor.setMediador(pedidoMediador);
@@ -82,20 +85,20 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         pedidoMediador.sendProductoToControllerPedido(producto);
         pedidoMediador.sumarleLoPedidoAlStock(0);
     }
-    
+
     /**
      * metodo para vincular al observer con el subject
      */
     @Override
-    public void suscribeObserver(){
+    public void suscribeObserver() {
         this.subject.registrarObserver(this);
     }
-    
+
     /**
      * metodo para romper vinculo entre observer y subject
      */
     @Override
-    public void unSubscribeObserver(){
+    public void unSubscribeObserver() {
         this.subject.removerObserver(this);
     }
 
@@ -106,7 +109,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
 
     public void setProductoPedidoByMediador(Producto productoPedido) {
         this.setProductoPedido(productoPedido);
-        ((PedidoMediador)mediador).takeProveedorFromControllerProveedor();
+        ((PedidoMediador) mediador).takeProveedorFromControllerProveedor();
     }
 
     public void setIdProveedorPedidoByMediador(String idProveedor) {
@@ -120,7 +123,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         this.getProductoPedido().setItemDecorado(this.nuevoPedido);
         this.nuevoPedido.setTotalPedido(this.getProductoPedido().getPrecio(0));
         this.nuevoPedido.setFechaPedido(new Date(System.currentTimeMillis()));
-        ((PedidoMediador)mediador).insertIntoPedido();
+        ((PedidoMediador) mediador).insertIntoPedido();
     }
 
     /**
@@ -143,7 +146,6 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public Pedido getPedidoByMediador() {
         return nuevoPedido;
     }
-
 
     /**
      * @return the proveedorPedido
@@ -193,6 +195,7 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public void setIdProveedorPedido(String idProveedorPedido) {
         this.idProveedorPedido = idProveedorPedido;
     }
+
     /**
      * this method sends the email, once everything has been set
      */
@@ -202,22 +205,24 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         } catch (Exception ex) {
             Logger.getLogger(ControllerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
-       }
-
-    /**
-     * this method is used to insert the new pedido in the intermediate table PedidoHasProducto
-     */
-    public void insertIntoPedidoHasProducto(){
-        this.getServicioPedidoHasProducto().insert(this.getNuevoPedido().getIdPedido() + "," + this.getProductoPedido().getIdProducto());
-        ((PedidoMediador)this.mediador).insertIntoPedidoHasProveedor();
     }
 
     /**
-     * this method is used to insert the new pedido in the intermediate table PedidoHasProveedor
+     * this method is used to insert the new pedido in the intermediate table
+     * PedidoHasProducto
      */
-    public void insertIntoPedidoHasProveedor(){
+    public void insertIntoPedidoHasProducto() {
+        this.getServicioPedidoHasProducto().insert(this.getNuevoPedido().getIdPedido() + "," + this.getProductoPedido().getIdProducto());
+        ((PedidoMediador) this.mediador).insertIntoPedidoHasProveedor();
+    }
+
+    /**
+     * this method is used to insert the new pedido in the intermediate table
+     * PedidoHasProveedor
+     */
+    public void insertIntoPedidoHasProveedor() {
         this.getServicioPedidoHasProveedor().insert(this.getNuevoPedido().getIdPedido() + "," + this.getIdProveedorPedido());
-        ((PedidoMediador)this.mediador).enviarCorreo();
+        ((PedidoMediador) this.mediador).enviarCorreo();
     }
 
     /**
@@ -233,92 +238,92 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
     public void setNuevoPedido(Pedido nuevoPedido) {
         this.nuevoPedido = nuevoPedido;
     }
-    
-    /**   
-	 * 
-	 */ 
-	private static final long serialVersionUID = 1L;
 
-	private static void setConfigSettings(Email email) throws Exception {
-		
-		email.setSmtpPort(587);
-		email.setCharset("UTF-8");
-		email.setDebug(false);
-		email.setHostName("smtp.gmail.com");
-		email.getMailSession().getProperties().put("mail.smtps.auth", "true");
-		email.getMailSession().getProperties().put("mail.debug", "true");
-		email.getMailSession().getProperties().put("mail.smtps.port", "587");
-		email.getMailSession().getProperties().put("mail.smtps.socketFactory.port", "587");
-		email.getMailSession()
-				.getProperties()
-				.put("mail.smtps.socketFactory.class",
-						"javax.net.ssl.SSLSocketFactory");
-		email.getMailSession().getProperties()
-				.put("mail.smtps.socketFactory.fallback", "false");
-		email.getMailSession().getProperties()
-				.put("mail.smtp.starttls.enable", "true");
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static void setAuthSettings(Email email) {
-		String authuser = "diariofacil5@gmail.com";
-		String authpwd = "d1s2t3w4";
-		email.setAuthenticator(new DefaultAuthenticator(authuser, authpwd));
-	}
-        
-         
-	private static void setEmailInfo(Email email, String subject, String body)
-			throws Exception {
-		email.setFrom("diariofacil5@gmail.com", subject);
-		email.setSubject(subject);
-		email.setMsg(body);
-	}
+    private static void setConfigSettings(Email email) throws Exception {
 
-	public void sendSimpleEmail() throws Exception,InterruptedException {
-		Email email = new SimpleEmail();
-		setAuthSettings(email);
-		setConfigSettings(email);
-                String subject = "Order #" + this.getNuevoPedido().getIdPedido();
-		setEmailInfo(email, subject, "Notificacion automatica - NO responder este correo.\n\n Estimado(a), \n\nEste correo detalla la siguiente orden: \n"+this.getProductoPedido().getRecibo(0));
-		ServicioProveedor sp = new ServicioProveedor();
-                
-                email.addTo(sp.select("correoProveedor", "idProveedor", this.idProveedorPedido), sp.select("nombreProveedor", "idProveedor", this.idProveedorPedido)); /*I know I'm sorry, I am very lazy*/
-		email.send();
-	}
+        email.setSmtpPort(587);
+        email.setCharset("UTF-8");
+        email.setDebug(false);
+        email.setHostName("smtp.gmail.com");
+        email.getMailSession().getProperties().put("mail.smtps.auth", "true");
+        email.getMailSession().getProperties().put("mail.debug", "true");
+        email.getMailSession().getProperties().put("mail.smtps.port", "587");
+        email.getMailSession().getProperties().put("mail.smtps.socketFactory.port", "587");
+        email.getMailSession()
+                .getProperties()
+                .put("mail.smtps.socketFactory.class",
+                        "javax.net.ssl.SSLSocketFactory");
+        email.getMailSession().getProperties()
+                .put("mail.smtps.socketFactory.fallback", "false");
+        email.getMailSession().getProperties()
+                .put("mail.smtp.starttls.enable", "true");
+    }
 
-	public static void sendSimpleEmail(String[] receivers, String subject, String body)
-			throws Exception, InterruptedException {
-		Email email = new SimpleEmail();
-		setAuthSettings(email);
-		setConfigSettings(email);
-		setEmailInfo(email, subject, body);
-		email.addTo(receivers);
-		
-		email.send();
-	}
+    private static void setAuthSettings(Email email) {
+        String authuser = "diariofacil5@gmail.com";
+        String authpwd = "d1s2t3w4";
+        email.setAuthenticator(new DefaultAuthenticator(authuser, authpwd));
+    }
 
-	public static EmailAttachment createAttachment(String path, String description, String name) {
-		EmailAttachment attachment = new EmailAttachment();
-		
-		attachment.setPath(path);
-		attachment.setDisposition(EmailAttachment.ATTACHMENT);
-		attachment.setDescription(description);
-		attachment.setName(name);
-		
-		return attachment;
-	}
-	
-	public static void sendEmailWithAttachment(String subject, String body, EmailAttachment attachment, String... receivers) throws Exception {
+    private static void setEmailInfo(Email email, String subject, String body)
+            throws Exception {
+        email.setFrom("diariofacil5@gmail.com", subject);
+        email.setSubject(subject);
+        email.setMsg(body);
+    }
 
-		MultiPartEmail email = new MultiPartEmail();
-		setAuthSettings(email);
-		setConfigSettings(email);
-		setEmailInfo(email, subject, body);
-		email.addTo(receivers);
+    public void sendSimpleEmail() throws Exception, InterruptedException {
+        Email email = new SimpleEmail();
+        setAuthSettings(email);
+        setConfigSettings(email);
+        String subject = "Order #" + this.getNuevoPedido().getIdPedido();
+        setEmailInfo(email, subject, "Notificacion automatica - NO responder este correo.\n\n Estimado(a), \n\nEste correo detalla la siguiente orden: \n" + this.getProductoPedido().getRecibo(0));
+        ServicioProveedor sp = new ServicioProveedor();
 
-		email.attach(attachment);
+        email.addTo(sp.select("correoProveedor", "idProveedor", this.idProveedorPedido), sp.select("nombreProveedor", "idProveedor", this.idProveedorPedido));
+        /*I know I'm sorry, I am very lazy*/
+        email.send();
+    }
 
-		email.send();
-	}
+    public static void sendSimpleEmail(String[] receivers, String subject, String body)
+            throws Exception, InterruptedException {
+        Email email = new SimpleEmail();
+        setAuthSettings(email);
+        setConfigSettings(email);
+        setEmailInfo(email, subject, body);
+        email.addTo(receivers);
+
+        email.send();
+    }
+
+    public static EmailAttachment createAttachment(String path, String description, String name) {
+        EmailAttachment attachment = new EmailAttachment();
+
+        attachment.setPath(path);
+        attachment.setDisposition(EmailAttachment.ATTACHMENT);
+        attachment.setDescription(description);
+        attachment.setName(name);
+
+        return attachment;
+    }
+
+    public static void sendEmailWithAttachment(String subject, String body, EmailAttachment attachment, String... receivers) throws Exception {
+
+        MultiPartEmail email = new MultiPartEmail();
+        setAuthSettings(email);
+        setConfigSettings(email);
+        setEmailInfo(email, subject, body);
+        email.addTo(receivers);
+
+        email.attach(attachment);
+
+        email.send();
+    }
 
     /**
      * @return the montoCompra
@@ -334,7 +339,26 @@ public class ControllerPedido extends ControllerFactory implements Observer, Col
         this.montoCompra = montoCompra;
     }
 
+    /**
+     * mustra la info de todos los pedidos
+     */
+    public void mostrarPedido() {
+        ArrayList<Pedido> listaPedidos = this.servicioPedido.selectAllPedidos();//agarra todos los pedidos
+        ServicioPedidoHasProducto servicioPedidoHasProducto = new ServicioPedidoHasProducto();
+        ServicioProducto servicioProducto = new ServicioProducto();
+        ServicioProveedor servicioProveedor = new ServicioProveedor();
+        //imprime una guia
+        System.out.println("Id Pedido\tProducto pedido\t\tCantidad de producto pedido\tProveedor del pedido\tPrecio total del pedido\t\tFecha del pedido");
+        System.out.println("---------\t---------------\t\t---------------------------\t--------------------\t-----------------------\t\t----------------");
+        
+        for (Pedido pedido : listaPedidos) {//pasa por cada pedido
+            String idProducto = servicioPedidoHasProducto.select("Producto_id", "Pedido_id", pedido.getIdPedido());//agarra el id del producto del pedido
+            Producto producto = ((Producto)servicioProducto.selectAll("idProducto", idProducto).get(0));//agarra el producto con el id
+            Proveedor proveedor = servicioProveedor.selectProveedor("idProveedor", producto.getIdProveedorProducto());//agarra el proveedor segun el producto
+            //imprime la info de la orden junto con el producto
+            System.out.println(pedido.getIdPedido() + "\t\t" +producto.getNombreProducto()+ "\t\t\t" +(pedido.getTotalPedido()/producto.getPrecioProductoProveedor())
+                    + "\t\t\t\t"+proveedor.getNombreProveedor() + "\t\t\t₡"+pedido.getTotalPedido()+"\t\t\t"+pedido.getFechaPedido());
+        }
+    }
+
 }
-
-
-

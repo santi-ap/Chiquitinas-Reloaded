@@ -7,6 +7,7 @@ package menus;
 
 import controllers.ControllerCarrito;
 import controllers.ControllerCombo;
+import controllers.ControllerOrden;
 import controllers.ControllerProducto;
 import controllers.ControllerUsuario;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
     ControllerProducto controllerProducto = new ControllerProducto();
     ControllerUsuario controllerUsuario = new ControllerUsuario();
     ControllerCarrito controllerCarrito = new ControllerCarrito();
+    ControllerOrden controllerOrden = new ControllerOrden();
     Scanner input = new Scanner(System.in);
 
     public MenuClienteVIP() {
@@ -57,9 +59,10 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     switch(controllerUsuario.subMenuOrdenes()){
                         case 1: 
                             controllerUsuario.ultimaOrden(Integer.parseInt(usuario.getIdUsuario()));
+                            break;
                         case 2:
-                            
-                    
+                            this.controllerOrden.mostrarOrden(usuario);
+                            break;
                     }
                     break;
                 case "5"://Ver Promociones
