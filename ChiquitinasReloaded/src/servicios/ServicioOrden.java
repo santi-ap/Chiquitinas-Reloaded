@@ -90,7 +90,49 @@ public class ServicioOrden extends Servicio implements InterfaceDAO{
 
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> listaOrdenes = new ArrayList<>();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Orden WHERE " + queColumna + " = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs = preparedStatement.executeQuery();
+
+
+            //STEP 3.1: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                Orden orden = new Orden();
+                orden.setIdOrden(rs.getInt("idOrden"));
+                orden.setTotalOrden(rs.getDouble("totalOrden"));
+                orden.setFechaOrden(rs.getDate("fechaOrden"));
+                listaOrdenes.add(orden);
+//            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+//                System.out.println("noPedidoFound");
+//                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaOrdenes;
     }
     
     

@@ -6,7 +6,9 @@
 package servicios;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -70,7 +72,50 @@ public class ServicioOrdenHasCombo extends Servicio implements InterfaceDAO {
 
     @Override
     public ArrayList<Object> selectAll(Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> listaDatos = new ArrayList<>();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Orden_has_Combo WHERE " + queColumna + " = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs = preparedStatement.executeQuery();
+
+
+            //STEP 3.1: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                String idCombo;
+                String monto;
+                idCombo= rs.getString("Combo_idCombo");
+                monto = rs.getString("MontoCompra");
+                listaDatos.add(idCombo);
+                listaDatos.add(monto);
+//            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+//                System.out.println("noPedidoFound");
+//                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDatos;
     }
     
 }

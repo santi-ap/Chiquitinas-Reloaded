@@ -156,8 +156,8 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
                 listaDatosProveedor.add(rs.getString("telefonoProveedor"));
                 listaDatosProveedor.add(rs.getString("correoProveedor"));
             } else {//si no encuentra a un proveedor con los parametros especificados, va a retornar un un String avisando que no se encontro el proveedor
-                listaDatosProveedor.add("noProvidorFound");
-                return listaDatosProveedor;
+                System.out.println("noProvidorFound");
+                return null;
             }
 
         } catch (Exception e) {
@@ -211,4 +211,47 @@ public class ServicioProveedor extends Servicio implements InterfaceDAO{
         return listaProveedores;
     } 
     
+     public Proveedor selectProveedor(Object queColumna, Object queValor) {
+        Proveedor proveedor = new Proveedor();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Proveedor WHERE " + queColumna + " = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            if (rs.next()) {
+                //Retrieve by column name
+                proveedor.setIdProveedor(rs.getInt("idProveedor"));
+                proveedor.setNombreProveedor(rs.getString("nombreProveedor"));
+                proveedor.setNumeroTelProveedor(rs.getInt("telefonoProveedor"));
+                proveedor.setCorreoProveedor(rs.getString("correoProveedor"));
+            } else {//si no encuentra a un proveedor con los parametros especificados, va a retornar un un String avisando que no se encontro el proveedor
+                System.out.println("No se encontro el proveedor");
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return proveedor;
+    }
 }
