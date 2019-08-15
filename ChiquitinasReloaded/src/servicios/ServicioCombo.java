@@ -523,10 +523,14 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
                
                // System.out.println(nombreCombo+"\t\t"+precioClienteCombo+"\t\t"+fechaInicioCombo+"\t\t\t"+fechaFinCombo);
                 
-                System.out.printf("%s", fechaInicioCombo);
-                System.out.printf("%40s", fechaFinCombo);System.out.print("\t");
-                System.out.printf("%s", precioClienteCombo);System.out.print("\t\t\t");
+                System.out.printf("%s", fechaInicioCombo.substring(0, 10));
+                System.out.printf("%36s", fechaFinCombo.substring(0, 10));System.out.print("\t");
+                Float f = Float.parseFloat(precioClienteCombo);System.out.print("\t\t");
+                System.out.printf("%s", Math.round(f)+"₡");System.out.print("\t\t\t");
+                
                 System.out.printf("%s", nombreCombo);System.out.println("");
+                
+                
             } 
 
             
@@ -542,12 +546,140 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
                 ex.printStackTrace();
             }
         }
+        
+        
+        
+        
         //retorna lo que se selecciono
         return "";
 
     
+
+}
+    
+    
+    public String selectCombosFuturo() {
+        String nombreCombo = "";
+        String precioClienteCombo = "";
+        String fechaInicioCombo = "";
+        String fechaFinCombo = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Buscando combos con fecha en el futuro...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT nombreCombo, precioClienteCombo,idCombo, fechaInicioCombo,fechaFinCombo FROM Combo WHERE idCombo is not null AND fechaInicioCombo > NOW();";
+            
+            //SELECT nombreCombo, precioClienteCombo,idCombo, fechaInicioCombo FROM Combo WHERE idCombo is not null AND fechaInicioCombo > NOW();
+
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            
+            rs = preparedStatement.executeQuery();
+            System.out.println("Fecha de inicio del combo\t    Fecha de fin del combo\tPrecio del combo\tNombre del combo");
+            //STEP 3.1: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                nombreCombo = rs.getString("nombreCombo");
+                precioClienteCombo = rs.getString("precioClienteCombo");
+                fechaInicioCombo = rs.getString("fechaInicioCombo");
+                fechaFinCombo = rs.getString("fechaFinCombo");
+               
+               // System.out.println(nombreCombo+"\t\t"+precioClienteCombo+"\t\t"+fechaInicioCombo+"\t\t\t"+fechaFinCombo);
+                
+                System.out.printf("%s", fechaInicioCombo.substring(0, 10));
+                System.out.printf("%36s", fechaFinCombo.substring(0, 10));System.out.print("\t");
+                Float f = Float.parseFloat(precioClienteCombo);System.out.print("\t\t");
+                System.out.printf("%s", Math.round(f)+"₡");System.out.print("\t\t\t");
+                
+                System.out.printf("%s", nombreCombo);System.out.println("");
+                
+              
+            } 
+
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
     
     
 }
+    return "";
 
+}
+    
+    
+     public String selectCombosActuales() {
+        String nombreCombo = "";
+        String precioClienteCombo = "";
+        String fechaInicioCombo = "";
+        String fechaFinCombo = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            System.out.println("Buscando combos vigentes...");
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT nombreCombo, precioClienteCombo,idCombo, fechaInicioCombo, fechaFinCombo FROM Combo WHERE idCombo is not null AND  fechaInicioCombo BETWEEN fechaInicioCombo AND fechaFinCombo;";
+            
+            //SELECT nombreCombo, precioClienteCombo,idCombo, fechaInicioCombo FROM Combo WHERE idCombo is not null AND fechaInicioCombo > NOW();
+
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            
+            rs = preparedStatement.executeQuery();
+            System.out.println("Fecha de inicio del combo\t    Fecha de fin del combo\tPrecio del combo\tNombre del combo");
+            //STEP 3.1: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                nombreCombo = rs.getString("nombreCombo");
+                precioClienteCombo = rs.getString("precioClienteCombo");
+                fechaInicioCombo = rs.getString("fechaInicioCombo");
+                fechaFinCombo = rs.getString("fechaFinCombo");
+               
+               // System.out.println(nombreCombo+"\t\t"+precioClienteCombo+"\t\t"+fechaInicioCombo+"\t\t\t"+fechaFinCombo);
+                
+                System.out.printf("%s", fechaInicioCombo.substring(0, 10));
+                System.out.printf("%36s", fechaFinCombo.substring(0, 10));System.out.print("\t");
+                Float f = Float.parseFloat(precioClienteCombo);System.out.print("\t\t");
+                System.out.printf("%s", Math.round(f)+"₡");System.out.print("\t\t\t");
+                System.out.printf("%s", nombreCombo);System.out.println("");
+            } 
+
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+    
+    
+}
+    return "";
+    
+}
+     
 }

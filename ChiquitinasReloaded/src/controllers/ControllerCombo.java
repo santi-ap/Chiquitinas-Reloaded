@@ -443,6 +443,29 @@ public class ControllerCombo extends ControllerFactory implements Colleague{
         System.out.println("Elija una de las siguintes opciones\n1-Ver combos actuales\n2-Ver combos pasados\n3-Ver combos futuros");
         int combos = sc.nextInt();
         
+        switch(combos){
+        
+            case 1:
+                
+                servicioCombo.selectCombosActuales();
+                
+                break;
+                
+            case 2:
+                
+                servicioCombo.selectCombosPasados();
+                
+                break;
+                
+                
+            case 3:
+                
+                servicioCombo.selectCombosFuturo();
+        
+        
+        
+        }
+        
         String fechaInicio = servicioCombo.select("fechaInicioCombo", "idCombo", 100);
         
         //"SELECT " + queBuscamos + " FROM Combo WHERE " + queColumna + " = ?;";

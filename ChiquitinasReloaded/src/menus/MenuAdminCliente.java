@@ -97,7 +97,7 @@ public class MenuAdminCliente implements MenuDisplayBehavior{
                 
                 case 4: 
                     
-                    System.out.println("Digite el nuevo tipo de usuario:");
+                    System.out.println("Escoja el nuevo tipo de usuario\n0-Admin\n1-Regular\n2-VIP:");
                     int tipoUsuario = sc.nextInt();
                     
                     servicioUsuario.update("tipoUsuario", tipoUsuario, "idUsuario", idUsuario);
@@ -118,11 +118,11 @@ public class MenuAdminCliente implements MenuDisplayBehavior{
                     
                     System.out.println("Desea eliminar el usuario con ID: "+idUsuario+"\n1-Si\n2-No");
                     int estadoCuenta = sc.nextInt();
-                    System.out.println("Clique" + " s"+ "para eliminar usuario "+ "o clique "+ "n"+ " para cancelar");
+                    System.out.println("Clique" + "'s'"+ " para eliminar usuario "+ "o clique "+ "'n'"+ " para cancelar");
                     sc.nextLine();
                     String respuesta = sc.nextLine().toLowerCase();
  
-                    if(respuesta == "s"){ 
+                    if(respuesta.equalsIgnoreCase("s")){ 
                     if(estadoCuenta == 1){
                     estadoCuenta = 1;
                     servicioUsuario.update("estadoCuenta", 0, "idUsuario", idUsuario);
@@ -153,7 +153,7 @@ public class MenuAdminCliente implements MenuDisplayBehavior{
                    
                     System.out.println("Acción cancelada!");
                     
-                    System.out.println("Usuario eliminado con éxito!");
+                
                         System.out.println("Desea continuar modificando más información del usuario?\n1-Si\n2-No");
                         int continuar4 = sc.nextInt();
                             if(continuar4 ==1){

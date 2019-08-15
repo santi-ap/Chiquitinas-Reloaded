@@ -494,5 +494,55 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     
 }
     
+    public String selectAllUsuarios() {
+        String listaDatosUsuario="";
+        ResultSet rs = null;
+        Statement stmt=null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT * FROM Usuario WHERE idUsuario is not null;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            System.out.println("Nombre del usuario\tIdentificación del usuario\t   Contraseña del usuario\tTipo de usuario");
+            while(rs.next()){
+                //Retrieve by column name
+               String userId = rs.getString("idUsuario");
+               String userName =  rs.getString("nombreUsuario");
+               String userPass = rs.getString("contrasennaUsuario");
+               String userType = rs.getString("tipoUsuario");
+
+                String userNamePadding = userName+"        ";
+                String userIdPadding = userId + "        ";
+                
+                System.out.printf("%s %22s %30s %30s", userNamePadding.substring(0, 10), userIdPadding, userPass, userType);System.out.println("");
+                
+                }
+            
+           
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDatosUsuario;
+    
 }
 
+}

@@ -26,6 +26,7 @@ public class testerMarco {
         MenuAdminCombo mab = new MenuAdminCombo();
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
+        ServicioUsuario su = new ServicioUsuario();
         //mab.displayMenu();
        //ControllerProducto cp = new ControllerProducto();
       // ServicioProducto sp = new ServicioProducto();
@@ -33,9 +34,8 @@ public class testerMarco {
        Usuario cliente = new Usuario("1", "Marco", "testPass1", 2);
        //mab.displayMenu(cliente);*/
        //mab.displayMenu(cliente);
-        ServicioUsuario su = new ServicioUsuario();
-      MenuAdminCliente mac = new MenuAdminCliente();
-      mac.displayMenu(cliente);
+       //mab.displayMenu(cliente);
+       su.selectAllUsuarios();
        
        
        
