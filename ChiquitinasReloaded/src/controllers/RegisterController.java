@@ -112,6 +112,7 @@ public class RegisterController extends ControllerUsuario {
                             u.setIdUsuario(this.getIdInput());
                             u.setNombreUsuario(this.getNombreInput());
                             this.registar(u);
+                            LoginController lg = new LoginController();
                             break;
                         case 2://SI ESCOGE CANCELAR, SE REINICA EL FORM 
                             this.formRegistro();

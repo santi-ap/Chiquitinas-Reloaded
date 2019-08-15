@@ -33,7 +33,9 @@ public class testerMarco {
        Usuario cliente = new Usuario("1", "Marco", "testPass1", 2);
        //mab.displayMenu(cliente);*/
        //mab.displayMenu(cliente);
-       sc.selectCombosPasados();
+        ServicioUsuario su = new ServicioUsuario();
+      MenuAdminCliente mac = new MenuAdminCliente();
+      mac.displayMenu(cliente);
        
        
        

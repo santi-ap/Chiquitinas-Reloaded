@@ -49,7 +49,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 
@@ -90,7 +89,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 
@@ -135,7 +133,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO Combo (idCombo, nombreCombo, precioClienteCombo, contadorOfertaCombo, contadorProductoCombo, descuentoCombo, fechaInicioCombo, fechaFinCombo) values (?,?,?,?,?,?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -166,7 +163,7 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
 
         try {
             super.conectar();
-            //System.out.println("Actualizando valores...");
+
             String sql = "UPDATE Combo SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
             //UPDATE Combo SET precioClienteCombo = 5000 WHERE idCombo = 1;
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
@@ -201,7 +198,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 
@@ -253,7 +249,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 
@@ -394,7 +389,6 @@ public class ServicioCombo extends Servicio implements InterfaceDAO {
         try {
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt = conn.createStatement();
             String sql;
 

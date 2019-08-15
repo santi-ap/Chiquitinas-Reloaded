@@ -34,12 +34,11 @@ public class ServicioOrden extends Servicio implements InterfaceDAO{
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO Orden (idOrden, totalOrden, fechaOrden, User_idUsuario) values (?,?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, ((Orden) object).getIdOrden());//idProducto
-            preparedStatement.setDouble(2, ((Orden) object).getTotalOrden());//nombreProducto
+            preparedStatement.setDouble(2, ((Orden) object).getTotalOrden());//
             preparedStatement.setDate(3, ((Orden) object).getFechaOrden());//precioClienteProducto
             preparedStatement.setInt(4, Integer.parseInt(((Orden) object).getClienteOrden().getIdUsuario()));//stockMinProducto
             
@@ -56,9 +55,32 @@ public class ServicioOrden extends Servicio implements InterfaceDAO{
         }
     }
 
+    /**
+     * UPDATE Orden SET queColumnaActualizamos = queInsertamos WHERE queColuma = queValor;
+     * @param queColumnaActualizamos
+     * @param queInsertamos
+     * @param queColuma
+     * @param queValor 
+     */
     @Override
     public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            super.conectar();
+            String sql = "UPDATE Orden SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queInsertamos.toString());
+            preparedStmt.setString(2, queValor.toString());
+            preparedStmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -86,7 +108,7 @@ public class ServicioOrden extends Servicio implements InterfaceDAO{
             
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             rs=preparedStatement.executeQuery(); 
-            
+            System.out.println("...");
             //STEP 3.1: Extract data from result set
             if(rs.next()){
                 //Retrieve by column name

@@ -34,9 +34,9 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
     private ArrayList<Object> listaCombos = new ArrayList<Object>();
     Scanner input = new Scanner(System.in);
 
-    double totalCarrito = 0;
-    double descuentoTotal = 0;
-    double totalFinal = 0;
+    private double totalCarrito = 0;
+    private double descuentoTotal = 0;
+    private double totalFinal = 0;
 
     public double getTotalFinal() {
         return totalFinal;
@@ -112,14 +112,14 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         }
 
         System.out.println("Total Productos: " + total);
-        this.totalCarrito = totalCarrito + total;
-        this.descuentoTotal = descuento;
-        this.totalFinal = totalFinal + totalCarrito - descuentoTotal;
+        this.setTotalCarrito(totalCarrito + total);
+        this.setDescuentoTotal(descuento);
+        this.setTotalFinal(totalFinal + totalCarrito - getDescuentoTotal());
 
     }
 
     public double getDescuento() {
-        return descuentoTotal;
+        return getDescuentoTotal();
     }
 
     public void printListaCombos(Usuario usuario) {
@@ -133,8 +133,8 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
 
             }
             System.out.println("Total combo: " + servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()));
-            this.totalCarrito = totalCarrito + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()));
-            this.totalFinal = totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()));
+            this.setTotalCarrito(totalCarrito + Double.parseDouble((servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo())))*((Combo)c).getCantidadActualProductoCombo());
+            this.setTotalFinal(totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))*((Combo)c).getCantidadActualProductoCombo());
         }
     }
 
@@ -204,6 +204,34 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         if (confirmacion.equals("1")) {
             servicioCarrito.insertComboCarrito(usuario.getIdUsuario(), idCombo, cantidadCombo);//si dice que si, entonces lo agrega al carrito
         }
+    }
+
+    /**
+     * @param totalCarrito the totalCarrito to set
+     */
+    public void setTotalCarrito(double totalCarrito) {
+        this.totalCarrito = totalCarrito;
+    }
+
+    /**
+     * @return the descuentoTotal
+     */
+    public double getDescuentoTotal() {
+        return descuentoTotal;
+    }
+
+    /**
+     * @param descuentoTotal the descuentoTotal to set
+     */
+    public void setDescuentoTotal(double descuentoTotal) {
+        this.descuentoTotal = descuentoTotal;
+    }
+
+    /**
+     * @param totalFinal the totalFinal to set
+     */
+    public void setTotalFinal(double totalFinal) {
+        this.totalFinal = totalFinal;
     }
 
 }

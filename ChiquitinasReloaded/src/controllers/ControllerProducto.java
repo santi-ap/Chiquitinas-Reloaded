@@ -26,6 +26,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
     private Observer observer;
     private Scanner input = new Scanner(System.in);
     private String idProveedorForMediador;
+    private OrdenMediador ordenMediador;
     private int montoCompra = 20;
 
     public ControllerProducto() {
@@ -54,6 +55,10 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         this.mediador = (PedidoMediador)mediador;
     }
 
+    public void setOrdenMediador(Mediador mediador)
+    {
+        this.ordenMediador = (OrdenMediador)mediador;
+    }
     public Observer getObserver() {
         return observer;
     }
@@ -395,10 +400,12 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
      */
     public void updateStockDespuesDeOrden(Producto producto) {
         //do logic to update the stock after an order from a client
-
+        int cant = producto.getCantidadActualProducto() * -1;
+        this.productoPedido = producto;
+        actualizarStockDespuesDeCompra(cant);
         //then logic for observer pattern to order more from the provider if need be
         //if actual stock is equal to or lesser than minStock, it should initiate observer pattern to order more from proveedor
-        if (producto.getCantidadActualProducto() <= producto.getStockMinimoProducto()) {
+        if (producto.getCantidadActualProducto() <= producto.getStockMinimoProducto()) {//this is problematic, the info about the stockminimo is never sent and it isn't part of the product, especially for combos (Do a select from the db instead)
             Observer controllerPedidoObserver = new ControllerPedido(this);//instanciamos un nuevo observer 
             controllerPedidoObserver.suscribeObserver();//vinculamos el observer con el object
             this.notificarObserver(producto);//le dice al observer que haga un nuevo pedido del mismo producto

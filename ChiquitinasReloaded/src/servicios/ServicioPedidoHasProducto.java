@@ -36,7 +36,6 @@ public class ServicioPedidoHasProducto extends Servicio implements InterfaceDAO{
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO Pedido_has_Producto (Pedido_id, Producto_id) values (?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);

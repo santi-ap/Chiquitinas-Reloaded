@@ -42,7 +42,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
         try{
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt=conn.createStatement();
             String sql;
             
@@ -82,7 +81,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
             //sending info to table Pedido
             super.conectar();
             
-            System.out.println("Insertando valores...");
             String sql;
             sql="INSERT INTO Pedido (idPedido, totalPedido, fechaPedido) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -109,7 +107,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
     public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
         try{
             super.conectar();
-            System.out.println("Actualizando valores...");
             String sql = "UPDATE Pedido SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
@@ -131,7 +128,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
     public void delete(Object queColumna, Object queValor) {
         try{
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM Pedido WHERE "+queColumna+" = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queValor.toString());
@@ -157,7 +153,6 @@ public class ServicioPedido extends Servicio implements InterfaceDAO {
         try{
             //STEP 3: Execute a query
             super.conectar();
-            System.out.println("Creando statement...");
             stmt=conn.createStatement();
             String sql;
             

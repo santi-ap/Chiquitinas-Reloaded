@@ -5,32 +5,44 @@
  */
 package controllers;
 
+import servicios.ServicioOrdenHasCombo;
 import items.Combo;
 import items.Orden;
 import items.Producto;
 import java.sql.Date;
 import java.util.ArrayList;
+import mediador.*;
 import objetos.Cliente;
 import objetos.Usuario;
 import servicios.Servicio;
+import servicios.ServicioCarrito;
 import servicios.ServicioOrden;
+import servicios.ServicioOrdenHasProducto;
 
 /**
  *
  * @author santialfonso
  */
-public class ControllerOrden extends ControllerFactory{
+public class ControllerOrden extends ControllerFactory implements Colleague{
     
     // ---------------------------------------- HAY QUE HACER UN CASTING AQUI PARA PODER IMPLEMENTAR EL PATRON FACTORY
     private ServicioOrden servcioOrden = ((ServicioOrden)this.CrearServicio());//CASTING DE Servcio A ServicioOrden
+    private ServicioOrdenHasProducto servcioOrdenHP = ((ServicioOrdenHasProducto)this.CrearServicioHP());//CASTING DE Servcio A ServicioOrdenHP
+    private ServicioOrdenHasCombo servcioOrdenHC = ((ServicioOrdenHasCombo)this.CrearServicioHC());//CASTING DE Servcio A ServicioOrdenHS
     private Usuario usuario;
     private ArrayList<Object> listaProductos = new ArrayList<Object>();
     private ArrayList<Object> listaCombos = new ArrayList<Object>();
     private Orden orden;
+    private Mediador ordenMediador;
     public ControllerOrden() {
        
     }
 
+    @Override
+    public void setMediador(Mediador mediador)
+    {
+        this.ordenMediador=mediador;
+    }
     public ServicioOrden getServcioOrden() {
         return servcioOrden;
     }
@@ -41,11 +53,27 @@ public class ControllerOrden extends ControllerFactory{
 
     /**
      * METODO NECESARIO PARA IMPLEMENTAR FACTORY
-     * @return un nuevo ServicioUsuario
+     * @return un nuevo ServicioOrden
      */
     @Override
     public Servicio CrearServicio() {
         return new ServicioOrden();
+    }    
+    /**
+     * METODO NECESARIO PARA IMPLEMENTAR FACTORY
+     * @return un nuevo ServicioOrdenHasProducto
+     */
+    
+    public Servicio CrearServicioHP() {
+        return new ServicioOrdenHasProducto();
+    }    
+    /**
+     * METODO NECESARIO PARA IMPLEMENTAR FACTORY
+     * @return un nuevo ServicioOrdenHasCombo
+     */
+    
+    public Servicio CrearServicioHC() {
+        return new ServicioOrdenHasCombo();
     }
 
     /**
@@ -91,54 +119,94 @@ public class ControllerOrden extends ControllerFactory{
     }
 
     public void createOrden() {
-        orden = new Orden();
+        this.orden = new Orden();
         //logic to get the last id and to set it as the orderid
-        orden.setIdOrden(this.getServcioOrden().selectMaxId());
+        this.orden.setIdOrden(this.getServcioOrden().selectMaxId());
         //logic to set the client
-        orden.setClienteOrden((Cliente)this.usuario);
+        this.orden.setClienteOrden(this.usuario);
         //logic to set the current date
-        orden.setFechaOrden(new Date(System.currentTimeMillis()));
+        this.orden.setFechaOrden(new Date(System.currentTimeMillis()));
         
+        //inserting the order in the table so the products have a reference
+        this.getServcioOrden().insert(orden);
+        
+        double precioOrden=0f;
         boolean isFirst = true;//tells the for if it is the first cycle
         
         //temporary product for for 
         Producto pTemp = new Producto();
-        for (Object p: this.listaProductos)
-        {//decorating order with products
-            if (isFirst)//if this is the first
-            {
-                isFirst = false;
-                ((Producto)p).setItemDecorado(orden);
-            } else
-                ((Producto)p).setItemDecorado(pTemp);
-                
-            pTemp = (Producto)p;              
+        if(!this.listaProductos.isEmpty())
+        {
+            for (Object p: this.listaProductos)
+            {//decorating order with products
+                if (isFirst)//if this is the first
+                {
+
+                    isFirst = false;
+                    ((Producto)p).setItemDecorado(this.orden);
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(this.orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
+                    //Orden_has_Producto
+                    System.out.println(temp);
+                    this.servcioOrdenHP.insert(temp);
+                    precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
+
+                } else {
+                    ((Producto)p).setItemDecorado(pTemp);
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Producto)p).getIdProducto()) +","+ Integer.toString(((Producto)p).getCantidadActualProducto());
+                    //Orden_has_Producto
+                    this.servcioOrdenHP.insert(temp);
+                    precioOrden+=((Producto)p).getPrecioForOrden(usuario.getTipoUsuario());
+
+                }  
+                pTemp = (Producto)p;              
+            }
+        } else if (!this.listaCombos.isEmpty()) {
+
+            //temporary combo
+            Combo cTemp = new Combo();
+            for (Object c: this.listaCombos)
+            {//decorating order with combos
+                if (isFirst)//if this is the first
+                {
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
+                    //Orden_has_Combo
+                    this.servcioOrdenHC.insert(temp);
+                    isFirst = false;
+                    ((Combo)c).setItemDecorado(orden);
+                    precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
+
+                } else {
+                    //inserting orden to intermediate table
+                    String temp = Integer.toString(orden.getIdOrden()) +","+ Integer.toString(((Combo)c).getIdCombo()) +","+ Integer.toString(((Combo)c).getCantidadActualProductoCombo());
+                    //Orden_has_Combo
+                    this.servcioOrdenHC.insert(temp);
+                    ((Combo)c).setItemDecorado(cTemp);
+                    precioOrden+=((Combo)c).getPrecioForOrden(usuario.getTipoUsuario());
+
+                }
+
+                cTemp = (Combo)c;              
+            }
+        } else {
+            System.out.println("ERROR: CARRITO VACIO");
+            return;
         }
-        
-        //temporary combo
-        Combo cTemp = new Combo();
-        for (Object c: this.listaCombos)
-        {//decorating order with combos
-            if (isFirst)//if this is the first
-            {
-                isFirst = false;
-                ((Combo)c).setItemDecorado(orden);
-            } else
-                ((Combo)c).setItemDecorado(cTemp);
-                
-            cTemp = (Combo)c;              
-        }
-        
-        
-        //logic to get the right price on the orden
-        if(cTemp==null)//this means there were no combos, so the last added product is pTemp
-            orden.setTotalOrden(pTemp.getPrecio(usuario.getTipoUsuario()));
-        else
-            orden.setTotalOrden(cTemp.getPrecio(usuario.getTipoUsuario()));
         //inserting orden to db
-        this.servcioOrden.insert(orden);
-        //inserting orden to intermediate db
-        
+        System.out.println("inserting orden");
+        this.servcioOrden.update("totalOrden", Double.toString(precioOrden), "idOrden", Integer.toString(this.orden.getIdOrden()));
+        System.out.println("order inserted");
+        //calling back the mediator
+        ((OrdenMediador)this.ordenMediador).updateStock(this.orden, this.listaProductos, this.listaCombos);
+ 
+    }
+    
+    public void emptyCarrito()
+    {
+        ServicioCarrito sc = new ServicioCarrito();
+        sc.delete("Usuario_IdUsuario", usuario.getIdUsuario());
     }
     
 }

@@ -172,6 +172,15 @@ public final class Producto extends Decorador {
         }
 
     }
+    
+    public double getPrecioForOrden(int tipoUsuario)
+    {
+        if (tipoUsuario == 2)
+            return ((this.getPrecioProductoCliente()*(1-this.descuentoProductoPromo))*this.getCantidadActualProducto());
+        else
+            return (this.getPrecioProductoCliente()*this.getCantidadActualProducto());
+        
+    }
 
     /**
      * @return the itemDecorado

@@ -7,6 +7,7 @@ package items;
 
 import java.sql.Date;
 import objetos.Cliente;
+import objetos.Usuario;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Orden extends Item{
     private int idOrden;
     private double totalOrden;
     private Date fechaOrden;
-    private Cliente clienteOrden;
+    private Usuario clienteOrden;
 
     public Orden() {
     }
@@ -46,11 +47,11 @@ public class Orden extends Item{
         this.fechaOrden = fechaOrden;
     }
 
-    public Cliente getClienteOrden() {
+    public Usuario getClienteOrden() {
         return clienteOrden;
     }
 
-    public void setClienteOrden(Cliente clienteOrden) {
+    public void setClienteOrden(Usuario clienteOrden) {
         this.clienteOrden = clienteOrden;
     }
 

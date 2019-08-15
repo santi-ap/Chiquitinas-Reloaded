@@ -75,7 +75,27 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
 
     @Override
     public void delete(Object queColumna, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            super.conectar();
+            String sql = "DELETE FROM CarritoProducto WHERE " + queColumna + " = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queValor.toString());
+            preparedStmt.execute();
+            
+            sql = "DELETE FROM CarritoCombo WHERE " + queColumna + " = ?;";
+            preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queValor.toString());
+            preparedStmt.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }    
     }
 
     @Override
@@ -111,15 +131,17 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
 
             //STEP 3.1: Extract data from result set
             while (rs.next()) {
-                //Retrieve by column name
+                
                 producto = new Producto();
                 //Retrieve by column name
                 producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
                 producto.setNombreProducto(rs.getString("nombreProducto"));
                 producto.setPrecioProductoCliente(rs.getDouble("precioClienteProducto"));
+                /*                                                  I am calling a new select to get the actual ammount the user bought*/
                 producto.setCantidadActualProducto(Integer.parseInt(this.select("MontoProducto", "Usuario_idUsuario", queUserId)));
                 producto.setDescuentoProductoPromo(rs.getDouble("descuentoPromo"));
                 listaDeProductos.add(producto);
+
             }
 
         } catch (Exception e) {
@@ -166,6 +188,7 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             //STEP 3.1: Extract data from result set
             while (rs.next()) {
                 //Retrieve by column name
+
                 Combo combo = new Combo();
                 //Retrieve by column name
                 combo.setNombreCombo(rs.getString("nombreCombo"));
@@ -274,7 +297,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public void deleteProducto(Object userID, Object productID) {
         try {
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM CarritoProducto WHERE Usuario_idUsuario = ? AND Producto_idProducto = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, userID.toString());
@@ -295,7 +317,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
     public void deleteCombo(Object userID, Object comboID) {
         try {
             super.conectar();
-            System.out.println("Borrando valores...");
             String sql = "DELETE FROM CarritoCombo WHERE Usuario_idUsuario = ? AND Combo_idCombo = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, userID.toString());
@@ -326,7 +347,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO CarritoProducto (Usuario_idUsuario, Producto_idProducto, MontoProducto) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -359,7 +379,6 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             //STEP 3: Execute a querey
             super.conectar();
 
-            System.out.println("Insertando valores...");
             String sql;
             sql = "INSERT INTO CarritoCombo (Combo_idCombo, Usuario_idUsuario, MontoCombo) values (?,?,?);";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
