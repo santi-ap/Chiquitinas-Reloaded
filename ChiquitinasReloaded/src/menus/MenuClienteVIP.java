@@ -93,9 +93,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     + "1-Comprar\n"
                     + "2-Cambiar cantidad producto\n"
                     + "3-Cambiar cantidad combo\n"
-                    + "4-\n"
-                    + "5-\n"
-                    + "6-Salir");
+                    + "4-Salir");
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
@@ -106,11 +104,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                 case "3"://Cambiar cantidad combo
                     controllerCarrito.cambiarMontoCombo(usuario);
                     break;
-                case "4"://Ver Ordenes
-                    break;
-                case "5"://Ver Promociones
-                    break;
-                case "6"://Salir
+                case "4"://Salir
                     condicion = 1;
                     break;
             }
