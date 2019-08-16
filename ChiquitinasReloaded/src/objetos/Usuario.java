@@ -14,7 +14,7 @@ public class Usuario {
     protected String nombreUsuario;
     protected String contrasennaUsuario;
     protected int tipoUsuario;
-
+    
     public Usuario() {
     }
 
