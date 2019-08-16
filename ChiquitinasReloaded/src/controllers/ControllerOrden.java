@@ -228,8 +228,8 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
         for (Object object : listaOrdenes) {//pasa por cada orden
             Orden orden = ((Orden) object);//hacemos un cast a tipo Orden
             //imprime una guia
-            System.out.println("\nId Orden\tProductos oredenads\tCantidad de producto ordenado\tCombos ordenados\tCantidad de combo ordenados\tPrecio total del pedido\t\tFecha del pedido");
-            System.out.println("--------\t-------------------\t-----------------------------\t----------------\t---------------------------\t-----------------------\t\t----------------");
+            System.out.println("\nId Orden\tProductos ordenes\tCantidad de producto ordenado\tCombos ordenados\tCantidad de combo ordenados\tPrecio total del pedido\t\tFecha del pedido");
+            System.out.println("--------\t-----------------\t-----------------------------\t----------------\t---------------------------\t-----------------------\t\t----------------");
             
             //busca los datos de los producos de la orden
             ArrayList<Object> listaDatosProductoOrden = servicioOrdenHasProducto.selectAll("Orden_idOrden", orden.getIdOrden());

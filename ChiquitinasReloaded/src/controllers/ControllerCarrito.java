@@ -133,8 +133,8 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
 
             }
             System.out.println("Total combo: " + servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()));
-            this.setTotalCarrito(totalCarrito + Double.parseDouble((servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo())))*((Combo)c).getCantidadActualProductoCombo());
-            this.setTotalFinal(totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))*((Combo)c).getCantidadActualProductoCombo());
+            this.setTotalCarrito(totalCarrito + Double.parseDouble((servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))) * ((Combo) c).getCantidadActualProductoCombo());
+            this.setTotalFinal(totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo())) * ((Combo) c).getCantidadActualProductoCombo());
         }
     }
 
@@ -146,7 +146,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
 
         if (monto == 0) {
             this.servicioCarrito.deleteProducto(usuario.getIdUsuario(), productID);
-        }else{
+        } else {
             //insert code to update amount
         }
     }
@@ -156,12 +156,16 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         int comboID = Integer.parseInt(input.nextLine());
         System.out.println("Inserte el monto que desea comprar");
         int monto = Integer.parseInt(input.nextLine());
-
         if (monto == 0) {
             this.servicioCarrito.deleteCombo(usuario.getIdUsuario(), comboID);
-        }else{
+            return;
+        }
+        Combo combo = servicioCombo.selectCombo("idCombo", comboID);//busca el combo en el DB con el ID escogido por el user
+        if (monto > combo.getCantidadOfertaCombo()) {//si escoge una cantidad mayor de lo que hay
+            System.out.println("No se puede pedir mas combos de los que hay");
+        }else {
             //insert code update amount
-    }
+        }
     }
 
     /**
@@ -199,10 +203,14 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         System.out.println("\n\nIngrese la cantidad que desea agregar al carrito");//pide ingresar la cantidad deseada
         String cantidadCombo = input.nextLine();
         Combo combo = servicioCombo.selectCombo("idCombo", idCombo);//busca el combo en el DB con el ID escogido por el user
-        System.out.println("\n\nSeguro que desea agregar " + cantidadCombo + " de " + combo.getNombreCombo() + "?\n1-Si\n2-No");//le pide al user confirmar si lo quiere agregar al carrito
-        String confirmacion = input.nextLine();
-        if (confirmacion.equals("1")) {
-            servicioCarrito.insertComboCarrito(usuario.getIdUsuario(), idCombo, cantidadCombo);//si dice que si, entonces lo agrega al carrito
+        if (Integer.parseInt(cantidadCombo) > combo.getCantidadOfertaCombo()) {
+            System.out.println("No se puede pedir mas combos de los que hay");
+        } else {
+            System.out.println("\n\nSeguro que desea agregar " + cantidadCombo + " de " + combo.getNombreCombo() + "?\n1-Si\n2-No");//le pide al user confirmar si lo quiere agregar al carrito
+            String confirmacion = input.nextLine();
+            if (confirmacion.equals("1")) {
+                servicioCarrito.insertComboCarrito(usuario.getIdUsuario(), idCombo, cantidadCombo);//si dice que si, entonces lo agrega al carrito
+            }
         }
     }
 
