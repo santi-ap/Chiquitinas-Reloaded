@@ -97,6 +97,10 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
     }
 
     public void printListaProductos(Usuario usuario) {
+        
+        this.setTotalCarrito(0);
+        this.setDescuentoTotal(0);
+        this.setTotalFinal(0);
 
         double total = 0;
         double descuento = 0;
@@ -117,6 +121,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         this.setTotalFinal(totalFinal + totalCarrito - getDescuentoTotal());
 
     }
+    
 
     public double getDescuento() {
         return getDescuentoTotal();
@@ -147,7 +152,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         if (monto == 0) {
             this.servicioCarrito.deleteProducto(usuario.getIdUsuario(), productID);
         }else{
-            //insert code to update amount
+            this.servicioCarrito.update("MontoProducto", monto, "Usuario_idUsuario", usuario.getIdUsuario());
         }
     }
 
@@ -160,7 +165,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         if (monto == 0) {
             this.servicioCarrito.deleteCombo(usuario.getIdUsuario(), comboID);
         }else{
-            //insert code update amount
+            this.servicioCarrito.updateCombo("MontoCombo", monto, "Usuario_idUsuario", usuario.getIdUsuario());
     }
     }
 

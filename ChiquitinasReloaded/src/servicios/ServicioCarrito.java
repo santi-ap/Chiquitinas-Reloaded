@@ -70,7 +70,43 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
 
     @Override
     public void update(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            super.conectar();
+            String sql = "UPDATE CarritoProducto SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queInsertamos.toString());
+            preparedStmt.setString(2, queValor.toString());
+            preparedStmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void updateCombo(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
+        try {
+            super.conectar();
+            String sql = "UPDATE CarritoCombo SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queInsertamos.toString());
+            preparedStmt.setString(2, queValor.toString());
+            preparedStmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
