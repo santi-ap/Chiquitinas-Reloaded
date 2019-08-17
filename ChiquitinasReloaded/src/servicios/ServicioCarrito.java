@@ -89,13 +89,14 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
         }
     }
     
-    public void updateCombo(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
+    public void updateCombo(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor, Object segundaColumna, Object segundoValor) {
         try {
             super.conectar();
-            String sql = "UPDATE CarritoCombo SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ?;";
+            String sql = "UPDATE CarritoCombo SET " + queColumnaActualizamos + " = ? WHERE " + queColuma + " = ? AND "+segundaColumna+" = ?;";
             PreparedStatement preparedStmt = conn.prepareStatement(sql);
             preparedStmt.setString(1, queInsertamos.toString());
             preparedStmt.setString(2, queValor.toString());
+            preparedStmt.setString(3, segundoValor.toString());
             preparedStmt.executeUpdate();
 
         } catch (Exception e) {
@@ -311,6 +312,47 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
             if (rs.next()) {
                 //Retrieve by column name
                 returnSelect = rs.getString("MontoProducto");
+            } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
+    }
+    
+    public String selectMontoCombo(Object userID, Object productID) {
+        String returnSelect = "";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT MontoCombo FROM CarritoCombo WHERE Usuario_idUsuario = ? AND Combo_idCombo = ?;";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, userID.toString());
+            preparedStatement.setString(2, productID.toString());
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            if (rs.next()) {
+                //Retrieve by column name
+                returnSelect = rs.getString("MontoCombo");
             } else {//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
                 return null;
             }

@@ -97,7 +97,7 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
     }
 
     public void printListaProductos(Usuario usuario) {
-        
+
         this.setTotalCarrito(0);
         this.setDescuentoTotal(0);
         this.setTotalFinal(0);
@@ -115,13 +115,12 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
             }
         }
 
-        System.out.println("Total Productos: " + total);
+        System.out.println("Total Productos: ₡" + total);
         this.setTotalCarrito(totalCarrito + total);
         this.setDescuentoTotal(descuento);
         this.setTotalFinal(totalFinal + totalCarrito - getDescuentoTotal());
 
     }
-    
 
     public double getDescuento() {
         return getDescuentoTotal();
@@ -130,16 +129,16 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
     public void printListaCombos(Usuario usuario) {
 
         for (Object c : this.servicioCarrito.selectAllCombosOfCarrito(usuario.getIdUsuario())) {//recorre una lista de todos los combos
-            System.out.println("ID: " + ((Combo) c).getIdCombo() + " | Nombre Combo: " + ((Combo) c).getNombreCombo());//imprime el id y nombre del combo actual
+            System.out.println("ID: " + ((Combo) c).getIdCombo() + " | Nombre Combo: " + ((Combo) c).getNombreCombo() + " x" + this.servicioCarrito.selectMontoCombo(usuario.getIdUsuario(), Integer.toString(((Combo) c).getIdCombo())));//imprime el id y nombre del combo actual
             for (String idProducto : servicioComboProd.selectListIdProductos("Combo_idCombo", ((Combo) c).getIdCombo())) {//recorre una lista de productos que esten en el combo actual
                 ArrayList<Object> prodList = this.servicioProducto.selectAll("idProducto", idProducto);//agarra la info del producto actual en el recorrdio de productos en el combo actual
                 Producto prod = ((Producto) prodList.get(0));
                 System.out.println("   " + prod.toString(1));//imprime el producto actual dentro del combo actual
 
             }
-            System.out.println("Total combo: " + servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()));
-            this.setTotalCarrito(totalCarrito + Double.parseDouble((servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo())))*((Combo)c).getCantidadActualProductoCombo());
-            this.setTotalFinal(totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))*((Combo)c).getCantidadActualProductoCombo());
+            System.out.println("Total combo: ₡" + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))*Double.parseDouble(this.servicioCarrito.selectMontoCombo(usuario.getIdUsuario(), Integer.toString(((Combo) c).getIdCombo()))));
+            this.setTotalCarrito(totalCarrito + Double.parseDouble((servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo()))) * ((Combo) c).getCantidadActualProductoCombo());
+            this.setTotalFinal(totalFinal + Double.parseDouble(servicioCombo.select("precioClienteCombo", "idCombo", ((Combo) c).getIdCombo())) * ((Combo) c).getCantidadActualProductoCombo());
         }
     }
 
@@ -151,8 +150,14 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
 
         if (monto == 0) {
             this.servicioCarrito.deleteProducto(usuario.getIdUsuario(), productID);
-        }else{
-            this.servicioCarrito.update("MontoProducto", monto, "Usuario_idUsuario", usuario.getIdUsuario());
+        } else {
+            Producto producto = servicioProducto.selectProducto("idProducto", productID);//busca el combo en el DB con el ID escogido por el user
+            if (monto > producto.getCantidadActualProducto()) {//si escoge una cantidad mayor de lo que hay
+                System.out.println("No se puede pedir mas combos de los que hay");
+                return;
+            } else {
+                this.servicioCarrito.update("MontoProducto", monto, "Usuario_idUsuario", usuario.getIdUsuario());
+            }
         }
     }
 
@@ -161,12 +166,19 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         int comboID = Integer.parseInt(input.nextLine());
         System.out.println("Inserte el monto que desea comprar");
         int monto = Integer.parseInt(input.nextLine());
-
         if (monto == 0) {
             this.servicioCarrito.deleteCombo(usuario.getIdUsuario(), comboID);
-        }else{
-            this.servicioCarrito.updateCombo("MontoCombo", monto, "Usuario_idUsuario", usuario.getIdUsuario());
-    }
+        } else {
+            Combo combo = servicioCombo.selectCombo("idCombo", comboID);//busca el combo en el DB con el ID escogido por el user
+            if (monto > combo.getCantidadOfertaCombo()) {//si escoge una cantidad mayor de lo que hay
+                System.out.println("No se puede pedir mas combos de los que hay");
+                return;
+            } else {
+                this.servicioCarrito.updateCombo("MontoCombo", monto, "Usuario_idUsuario", usuario.getIdUsuario(),"Combo_idCombo",comboID);
+            }
+
+        }
+
     }
 
     /**
@@ -186,7 +198,12 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         System.out.println("\n\nSeguro que desea agregar " + cantidadProducto + " de " + producto.getNombreProducto() + "?\n1-Si\n2-No");//le pide al user confirmar si lo quiere agregar al carrito
         String confirmacion = input.nextLine();
         if (confirmacion.equals("1")) {
+            if (Integer.parseInt(cantidadProducto) > producto.getCantidadActualProducto()) {//si escoge una cantidad mayor de lo que hay
+                System.out.println("No se puede pedir mas combos de los que hay");
+                return;
+            } else {
             servicioCarrito.insertProductCarrito(usuario.getIdUsuario(), idProducto, cantidadProducto);//si dice que si, entonces lo agrega al carrito
+            }
         }
     }
 
@@ -204,10 +221,14 @@ public class ControllerCarrito extends ControllerFactory implements Colleague {
         System.out.println("\n\nIngrese la cantidad que desea agregar al carrito");//pide ingresar la cantidad deseada
         String cantidadCombo = input.nextLine();
         Combo combo = servicioCombo.selectCombo("idCombo", idCombo);//busca el combo en el DB con el ID escogido por el user
-        System.out.println("\n\nSeguro que desea agregar " + cantidadCombo + " de " + combo.getNombreCombo() + "?\n1-Si\n2-No");//le pide al user confirmar si lo quiere agregar al carrito
-        String confirmacion = input.nextLine();
-        if (confirmacion.equals("1")) {
-            servicioCarrito.insertComboCarrito(usuario.getIdUsuario(), idCombo, cantidadCombo);//si dice que si, entonces lo agrega al carrito
+        if (Integer.parseInt(cantidadCombo) > combo.getCantidadOfertaCombo()) {
+            System.out.println("No se puede pedir mas combos de los que hay");
+        } else {
+            System.out.println("\n\nSeguro que desea agregar " + cantidadCombo + " de " + combo.getNombreCombo() + "?\n1-Si\n2-No");//le pide al user confirmar si lo quiere agregar al carrito
+            String confirmacion = input.nextLine();
+            if (confirmacion.equals("1")) {
+                servicioCarrito.insertComboCarrito(usuario.getIdUsuario(), idCombo, cantidadCombo);//si dice que si, entonces lo agrega al carrito
+            }
         }
     }
 
