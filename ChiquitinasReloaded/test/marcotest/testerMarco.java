@@ -29,6 +29,7 @@ public class testerMarco {
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
         ServicioUsuario su = new ServicioUsuario();
+        ServicioProducto sp = new ServicioProducto();
         //mab.displayMenu();
        //ControllerProducto cp = new ControllerProducto();
       // ServicioProducto sp = new ServicioProducto();
@@ -39,7 +40,7 @@ public class testerMarco {
        //mab.displayMenu(cliente);
        
         
-      mab.displayMenu(cliente);
+      vip.displayMenu(cliente);
        
        
       
