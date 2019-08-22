@@ -71,6 +71,7 @@ public class MenuCliente implements MenuDisplayBehavior, Colleague {
                     controllerUsuario.cambiarContra(usuario);
                     break;
                 case "6"://Salir
+                    controllerUsuario.convertirAVIP(Integer.parseInt(usuario.getIdUsuario()));
                     condicion = 1;
                     break;
             }

@@ -530,6 +530,7 @@ public class ControllerCombo extends ControllerFactory implements Colleague {
                 condicionSalida = true;
             } else {
                 condicionSalida = false;
+                
             }
 
         } while (condicionSalida == true);

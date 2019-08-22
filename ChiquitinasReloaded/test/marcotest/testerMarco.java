@@ -24,9 +24,12 @@ public class testerMarco {
         // TODO code application logic here
         
         MenuAdminCombo mab = new MenuAdminCombo();
+        MenuCliente mc = new MenuCliente();
+        MenuClienteVIP vip = new MenuClienteVIP();
         ControllerCombo controllerCombo = new ControllerCombo();
         ControllerUsuario controllerUsuario = new ControllerUsuario();
         ServicioUsuario su = new ServicioUsuario();
+        ServicioProducto sp = new ServicioProducto();
         //mab.displayMenu();
        //ControllerProducto cp = new ControllerProducto();
       // ServicioProducto sp = new ServicioProducto();
@@ -35,8 +38,9 @@ public class testerMarco {
        //mab.displayMenu(cliente);*/
        //mab.displayMenu(cliente);
        //mab.displayMenu(cliente);
-       su.selectAllUsuarios();
        
+        
+      vip.displayMenu(cliente);
        
        
       

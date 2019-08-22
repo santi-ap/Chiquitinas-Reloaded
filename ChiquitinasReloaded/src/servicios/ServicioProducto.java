@@ -438,5 +438,56 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
         return producto;
     }
     
+     public String buscarProductosDescuento() {
+        String returnSelect = "";
+        String nombre = "";
+        int precioRegular = 0;
+        int precioPromocional = 0;
+        double descuento = 0;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
 
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT nombreProducto, precioClienteProducto AS precioRegular,  precioClienteProducto - (precioClienteProducto*descuentoPromo) AS precioPromocional, descuentoPromo FROM Producto WHERE descuentoPromo > 0;";
+            //SELECT nombreProducto, precioClienteProducto AS precioRegular,  precioClienteProducto - (precioClienteProducto*descuentoPromo) AS precioPromocional, descuentoPromo FROM Producto WHERE descuentoPromo > 0;
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
+
+            //STEP 3.1: Extract data from result set
+            System.out.println("Nombre del Producto\tPrecio Regular\tPrecio Promocional\tDescuento del producto");
+            while (rs.next()) {
+                //Retrieve by column name
+                nombre = rs.getString("nombreProducto");
+                precioRegular = rs.getInt("precioRegular");
+                precioPromocional = rs.getInt("precioPromocional");
+                descuento = rs.getDouble("descuentoPromo");
+                
+                nombre = nombre +"               ";
+                
+                long descuentoConvertido = Double.valueOf(descuento).longValue();
+                System.out.printf("%s %12d %15d %30f", nombre.substring(0, 15), precioRegular, precioPromocional, descuento);System.out.println("");
+            } 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
+    
+
+}
+     
 }
