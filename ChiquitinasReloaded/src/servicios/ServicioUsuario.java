@@ -334,6 +334,92 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         return countProducto;
     }
     
+    
+    public int queryUltimaOrdenDelUsuario(Object queValor) {
+        String returnSelect="";
+        int returnInt = 0;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+           // System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT idOrden FROM Orden WHERE User_idUsuario = ? ORDER BY idOrden DESC LIMIT 1;";
+            //SELECT idOrden FROM Orden WHERE User_idUsuario = 1 ORDER BY idOrden DESC LIMIT 1;
+
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                returnSelect = rs.getString("idOrden");
+                returnInt = Integer.parseInt(returnSelect);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+           
+            }
+            return returnInt;
+        }
+        //retorna lo que se selecciono
+    }
+   
+    public String selectNombreProductosUltimaOrdenV2(Object queValor) {
+        String returnSelect="";
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+           // System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT Producto.nombreProducto FROM Orden_has_Producto INNER JOIN Producto ON Orden_has_Producto.Pruducto_idProducto = Producto.idProducto WHERE Orden_idOrden = ?;";
+            //SELECT Producto.nombreProducto FROM Orden_has_Producto INNER JOIN Producto ON Orden_has_Producto.Pruducto_idProducto = Producto.idProducto WHERE Orden_idOrden = 5;
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            System.out.print("Nombre de los productos: ");
+            //STEP 3.1: Extract data from result set
+            while(rs.next()){
+                //Retrieve by column name
+                returnSelect = rs.getString("Producto.nombreProducto");
+                System.out.print(returnSelect+" ");
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
+    }
+    
     public ArrayList<Object> selectNombreProductosUltimaOrden(Object queValor) {
         ArrayList<Object> sumProducto = new ArrayList<Object>();
         ArrayList<Object> dummy = new ArrayList<Object>();
@@ -366,7 +452,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
                 //Retrieve by column name
                 //returnSelect = rs.getInt("SUM(precioClienteProducto)");
                 returnSelectIdProducto = rs.getString("nombreProducto");
-            sumProducto.add(returnSelect);
+            sumProducto.add(returnSelectIdProducto);
              formattedString = nombreProducto.toString()
                     .replace("[", "")  
                     .replace("]", "");  
@@ -389,7 +475,7 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
             }
         }
         //retorna lo que se selecciono
-        System.out.print("Productos comprados: "+formattedString);
+        System.out.print("Productos comprados: "+sumProducto);
         return dummy;
     }
     
@@ -412,17 +498,18 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
             String sql;
             
             //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
-            sql="SELECT SUM(precioClienteProducto), fechaOrden  FROM Orden_has_Producto INNER JOIN Orden ON Orden.idOrden = Orden_has_Producto.Orden_idOrden INNER JOIN Producto ON Orden_has_Producto.Pruducto_idProducto = Producto.idProducto WHERE Orden.User_idUsuario = ? AND Orden_idOrden = ?;";
+            sql="SELECT idOrden, totalOrden, fechaOrden FROM ChiquitinasReloaded.Orden  WHERE User_idUsuario = ? ORDER BY idOrden DESC LIMIT 1;";
+//"SELECT SUM(precioClienteProducto), fechaOrden  FROM Orden_has_Producto INNER JOIN Orden ON Orden.idOrden = Orden_has_Producto.Orden_idOrden INNER JOIN Producto ON Orden_has_Producto.Pruducto_idProducto = Producto.idProducto WHERE Orden.User_idUsuario = ? GROUP BY fechaOrden;";
             
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, queValor.toString());
-            preparedStatement.setString(2, queValor.toString());
+            //preparedStatement.setString(2, queValor.toString());
             rs=preparedStatement.executeQuery(); 
             
             //STEP 3.1: Extract data from result set
             if(rs.next()){
                 //Retrieve by column name
-                returnSelect = rs.getInt("SUM(precioClienteProducto)");
+                returnSelect = rs.getInt("totalOrden");
                 returnDate = rs.getString("fechaOrden");
             }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
             return 0;
@@ -440,8 +527,8 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
             }
         }
         //retorna lo que se selecciono
-        System.out.println("Fecha de la compra: "+returnDate);
-        System.out.print("Total de la compra: ");return returnSelect;
+        System.out.println("Fecha de la compra: "+returnDate.substring(0, 10));
+        System.out.print("Total de la compra: ₡");return returnSelect;
     
 }
     

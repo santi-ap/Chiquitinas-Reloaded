@@ -33,14 +33,13 @@ public class testerMarco {
        //ControllerProducto cp = new ControllerProducto();
       // ServicioProducto sp = new ServicioProducto();
        ServicioCombo sc = new ServicioCombo();
-       Usuario cliente = new Usuario("2", "Marco", "testPass1", 2);
+       Usuario cliente = new Usuario("1", "Marco", "testPass1", 2);
        //mab.displayMenu(cliente);*/
        //mab.displayMenu(cliente);
        //mab.displayMenu(cliente);
        
-       vip.displayMenu(cliente);
-       
-       
+        
+      mab.displayMenu(cliente);
        
        
       

@@ -131,7 +131,8 @@ public class ControllerUsuario extends ControllerFactory {
      */
     public void ultimaOrden(int idUsuario) {
 
-        System.out.println(servivioUsuario.selectNombreProductosUltimaOrden(idUsuario));
+        System.out.println(idUsuario);
+        System.out.println(servivioUsuario.selectNombreProductosUltimaOrdenV2(servivioUsuario.queryUltimaOrdenDelUsuario(idUsuario)));
         System.out.println(servivioUsuario.selectSumaUltimaOrden(idUsuario));
 
     }
