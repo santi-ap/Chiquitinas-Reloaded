@@ -203,7 +203,6 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
 
                 cTemp = (Combo) c;
             }
-        } if(this.listaProductos.isEmpty() && this.listaCombos.isEmpty()) {
             System.out.println("ERROR: CARRITO VACIO");
             return;
         }

@@ -12,6 +12,7 @@ import controllers.ControllerProducto;
 import controllers.ControllerUsuario;
 import java.util.Scanner;
 import objetos.Usuario;
+import servicios.*;
 
 /**
  *
@@ -23,6 +24,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
     ControllerUsuario controllerUsuario = new ControllerUsuario();
     ControllerCarrito controllerCarrito = new ControllerCarrito();
     ControllerOrden controllerOrden = new ControllerOrden();
+    ServicioProducto sp = new ServicioProducto();
     Scanner input = new Scanner(System.in);
 
     public MenuClienteVIP() {
@@ -48,9 +50,13 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
                     this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());
+                    this.controllerCarrito.agregarProductoCarrito(usuario);//llama el metodo para agregar un producto al carrito
+
                     break;
                 case "2"://Ver Catalogo Combo
                     this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
+                    this.controllerCarrito.agregarComboCarrito(usuario);//llama el metodo para agregar un combo al carrito
+
                     break;
                 case "3"://Ver Carrito
                     this.menuCarrito(usuario);
@@ -66,6 +72,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     }
                     break;
                 case "5"://Ver Promociones
+                    controllerProducto.buscarProductosConDescuento();
                     break;
                 case "6"://Cambiar contra
                     controllerUsuario.cambiarContra(usuario);

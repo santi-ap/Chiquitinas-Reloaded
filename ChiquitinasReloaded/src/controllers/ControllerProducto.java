@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -223,13 +223,8 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
 
     public void buscarProductosConDescuento() {
 
-        //System.out.println(servicioProducto.buscarProductoConDescuento());
+       servicioProducto.buscarProductosDescuento();
     }
-//    public void buscarProductosConDescuento() {
-//
-//        System.out.println(servicioProducto.buscarProductoConDescuento());
-//
-//    }
 
     public void getDatosForMenuProducto(String id) {
         ArrayList<Object> listaProductos = servicioProducto.selectAll("Proveedor_idProveedor", id);
@@ -439,5 +434,7 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
             this.servicioProducto.update("contadorProducto", stockDespuesDePedido, "idProducto", this.getProductoPedido().getIdProducto());//actualiza la DB con el nuevo stock sumado
         }
     }
+    
+    
 
 }
