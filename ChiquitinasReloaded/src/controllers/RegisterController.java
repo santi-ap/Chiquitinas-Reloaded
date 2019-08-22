@@ -14,6 +14,7 @@ import objetos.Usuario;
 import controllers.ControllerUsuario;
 import servicios.ServicioUsuario;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -193,5 +194,30 @@ public class RegisterController extends ControllerUsuario {
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingresar contraseña una segunda vez:");
         return sc.nextLine();
+    }
+
+    public void mostrarUsers() {
+        ArrayList<Usuario> userList = this.getServivioUsuario().selectAllUsers();
+        System.out.println("\t\t\t\tUSUARIOS");
+        System.out.println("ID\t\tNOMBRE\t\tTIPO\n__\t\t______\t\t____\n");
+        for (Usuario u:userList)
+        {
+            switch (u.getTipoUsuario())
+            {
+                case 0:             
+                    System.out.println(u.getIdUsuario() + "\t\t" + u.getNombreUsuario() + "\t\tADMIN");
+
+                    
+                    break;
+                case 1:
+                    System.out.println(u.getIdUsuario() + "\t\t" + u.getNombreUsuario() + "\t\tCLIENTE");
+
+                    break;
+                case 2:
+                    System.out.println(u.getIdUsuario() + "\t\t" + u.getNombreUsuario() + "\t\tCLIENTE VIP");
+
+                    break;
+            }
+        }
     }
 }

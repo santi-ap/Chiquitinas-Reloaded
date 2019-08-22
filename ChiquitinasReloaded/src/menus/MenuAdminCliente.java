@@ -7,6 +7,11 @@ package menus;
 import java.util.*;
 import servicios.*;
 
+import controllers.RegisterController;
+import java.sql.SQLException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import objetos.Usuario;
 
 /**
@@ -22,6 +27,44 @@ public class MenuAdminCliente implements MenuDisplayBehavior{
 
     @Override
     public void displayMenu(Usuario usuario) {
+        RegisterController rc = new RegisterController();
+        boolean condicionSalida = true;
+        Scanner sc = new Scanner (System.in);
+        do {
+            System.out.println("Menu de Usuarios\n1-Mostrar Usuarios\n2-Crear Usuario\n3-Modificar Usuario\n4-Menu principal ");
+            int decisionUsuario = sc.nextInt();
+            switch(decisionUsuario){
+            
+                case 1: rc.mostrarUsers();
+                    
+                break;
+                
+                case 2: {
+                try 
+                {
+                    rc.formRegistro();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuAdminCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                    
+                break;
+                case 3: this.menuModificarCliente();
+                    break;
+                case 4:
+                 
+                condicionSalida = false;   
+            }
+            
+        }while(condicionSalida == true);    
+    }
+
+            
+    
+
+
+public void menuModificarCliente()
+{
         
         
         Scanner sc = new Scanner(System.in);
@@ -194,8 +237,5 @@ public class MenuAdminCliente implements MenuDisplayBehavior{
             
             
     }while(condicionSalida==true);
-            
-    
 }
-    
 }

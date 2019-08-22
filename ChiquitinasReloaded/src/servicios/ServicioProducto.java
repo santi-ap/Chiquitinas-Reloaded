@@ -390,5 +390,53 @@ public class ServicioProducto extends Servicio implements InterfaceDAO {
     
 
 }
+    public Producto selectProducto(Object queColumna, Object queValor){
+        Producto producto = new Producto();
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT * FROM Producto WHERE "+queColumna+" = ?;";
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+
+            //STEP 3.1: Extract data from result set
+//            if (rs.next()) {
+            while (rs.next()) {
+                producto = new Producto();
+                //Retrieve by column name
+                producto.setIdProducto(Integer.parseInt(rs.getString("idProducto")));
+                producto.setNombreProducto(rs.getString("nombreProducto"));
+                producto.setPrecioProductoCliente(Double.parseDouble(rs.getString("precioClienteProducto")));
+                producto.setCantidadActualProducto(Integer.parseInt(rs.getString("contadorProducto")));
+                producto.setDescuentoProductoPromo(Double.parseDouble(rs.getString("descuentoPromo")));
+            }
+//            } else {//si no encuentra productos, avisa que no se encontro y retorna null
+//                System.out.println("No existen productos");
+//                return null;
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return producto;
+    }
+    
 
 }

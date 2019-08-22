@@ -5,8 +5,12 @@
  */
 package controllers;
 
+import chainofresponsablity.Handler;
+import chainofresponsablity.HandlerCombo;
+import chainofresponsablity.HandlerProducto;
 import servicios.ServicioOrdenHasCombo;
 import items.Combo;
+import items.Item;
 import items.Orden;
 import items.Pedido;
 import items.Producto;
@@ -141,6 +145,12 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
         //inserting the order in the table so the products have a reference
         this.getServcioOrden().insert(orden);
 
+        //COR PATTERN
+        Handler hp = new HandlerProducto();
+        Handler hc = new HandlerCombo();
+        
+        hp.setHandler(hc);
+        
         double precioOrden = 0f;
         boolean isFirst = true;//tells the for if it is the first cycle
 
@@ -154,24 +164,21 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
                     isFirst = false;
                     ((Producto) p).setItemDecorado(this.orden);
                     //inserting orden to intermediate table
-                    String temp = Integer.toString(this.orden.getIdOrden()) + "," + Integer.toString(((Producto) p).getIdProducto()) + "," + Integer.toString(((Producto) p).getCantidadActualProducto());
-                    //Orden_has_Producto
-                    System.out.println(temp);
-                    this.servcioOrdenHP.insert(temp);
+                    hp.processItem((Item)p, this.orden.getIdOrden());
                     precioOrden += ((Producto) p).getPrecioForOrden(usuario.getTipoUsuario());
 
                 } else {
                     ((Producto) p).setItemDecorado(pTemp);
                     //inserting orden to intermediate table
-                    String temp = Integer.toString(orden.getIdOrden()) + "," + Integer.toString(((Producto) p).getIdProducto()) + "," + Integer.toString(((Producto) p).getCantidadActualProducto());
-                    //Orden_has_Producto
-                    this.servcioOrdenHP.insert(temp);
+                    hp.processItem((Item)p, this.orden.getIdOrden());
+
                     precioOrden += ((Producto) p).getPrecioForOrden(usuario.getTipoUsuario());
 
                 }
                 pTemp = (Producto) p;
             }
-        } else if (!this.listaCombos.isEmpty()) {
+        }
+        if (!this.listaCombos.isEmpty()) {
 
             //temporary combo
             Combo cTemp = new Combo();
@@ -179,18 +186,16 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
                 if (isFirst)//if this is the first
                 {
                     //inserting orden to intermediate table
-                    String temp = Integer.toString(orden.getIdOrden()) + "," + Integer.toString(((Combo) c).getIdCombo()) + "," + Integer.toString(((Combo) c).getCantidadActualProductoCombo());
-                    //Orden_has_Combo
-                    this.servcioOrdenHC.insert(temp);
+                    hp.processItem((Item)c, this.orden.getIdOrden());
+
                     isFirst = false;
                     ((Combo) c).setItemDecorado(orden);
                     precioOrden += ((Combo) c).getPrecioForOrden(usuario.getTipoUsuario());
 
                 } else {
                     //inserting orden to intermediate table
-                    String temp = Integer.toString(orden.getIdOrden()) + "," + Integer.toString(((Combo) c).getIdCombo()) + "," + Integer.toString(((Combo) c).getCantidadActualProductoCombo());
-                    //Orden_has_Combo
-                    this.servcioOrdenHC.insert(temp);
+                    hp.processItem((Item)c, this.orden.getIdOrden());
+
                     ((Combo) c).setItemDecorado(cTemp);
                     precioOrden += ((Combo) c).getPrecioForOrden(usuario.getTipoUsuario());
 
@@ -228,8 +233,8 @@ public class ControllerOrden extends ControllerFactory implements Colleague {
         for (Object object : listaOrdenes) {//pasa por cada orden
             Orden orden = ((Orden) object);//hacemos un cast a tipo Orden
             //imprime una guia
-            System.out.println("\nId Orden\tProductos oredenads\tCantidad de producto ordenado\tCombos ordenados\tCantidad de combo ordenados\tPrecio total del pedido\t\tFecha del pedido");
-            System.out.println("--------\t-------------------\t-----------------------------\t----------------\t---------------------------\t-----------------------\t\t----------------");
+            System.out.println("\nId Orden\tProductos ordenes\tCantidad de producto ordenado\tCombos ordenados\tCantidad de combo ordenados\tPrecio total del pedido\t\tFecha del pedido");
+            System.out.println("--------\t-----------------\t-----------------------------\t----------------\t---------------------------\t-----------------------\t\t----------------");
             
             //busca los datos de los producos de la orden
             ArrayList<Object> listaDatosProductoOrden = servicioOrdenHasProducto.selectAll("Orden_idOrden", orden.getIdOrden());

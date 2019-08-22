@@ -13,5 +13,10 @@ import items.Item;
  */
 public interface Handler {
     public abstract void setHandler(Handler handler);
-    public abstract void processItem(Item item);
+    /**
+     * inserts the item into the right table
+     * @param item the product or combo to be processed
+     * @param id the id of the orden 
+     */
+    public abstract void processItem(Item item, int id);
 }

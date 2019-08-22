@@ -494,6 +494,50 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
     
 }
     
+
+    public ArrayList<Usuario> selectAllUsers() {
+        ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
+        Usuario usuario;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            //STEP 3: Execute a query
+            super.conectar();
+            stmt = conn.createStatement();
+            String sql;
+
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql = "SELECT * FROM Usuario;";
+
+            rs = stmt.executeQuery(sql);
+
+            //STEP 3.1: Extract data from result set
+//            if (rs.next()) {
+            while (rs.next()) {
+                usuario = new Usuario();
+                //Retrieve by column name
+                usuario.setIdUsuario(rs.getString("idUsuario"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setContrasennaUsuario(rs.getString("contrasennaUsuario"));
+                usuario.setTipoUsuario(Integer.parseInt(rs.getString("tipoUsuario")));
+                listaDeUsuarios.add(usuario);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return listaDeUsuarios;
+    }
+    
     public String selectAllUsuarios() {
         String listaDatosUsuario="";
         ResultSet rs = null;
@@ -542,7 +586,6 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         }
         //retorna lo que se selecciono
         return listaDatosUsuario;
-    
 }
     /**
      * 
