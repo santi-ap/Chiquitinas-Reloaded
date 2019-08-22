@@ -119,7 +119,8 @@ public class PedidoMediador implements Mediador {
     public void createPedidoWithAmmount() {
         System.out.println("Creando Pedido.");
         //during a new order, the nuevoproducto.cantidadactual represents the number of products ordered.
-        controllerPedido.getProductoPedido().setCantidadActualProducto(controllerProducto.getMontoCompra());                        //this line is done in 4 methods using the mediator pattern.
+//        controllerPedido.getProductoPedido().getCantidadActualProducto();
+//        controllerPedido.getProductoPedido().setCantidadActualProducto(controllerProducto.getMontoCompra());                        //this line is done in 4 methods using the mediator pattern.
         controllerPedido.createPedido();
     }
 

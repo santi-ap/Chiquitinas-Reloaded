@@ -177,6 +177,8 @@ public class ServicioCarrito extends Servicio implements InterfaceDAO {
                 /*                                                  I am calling a new select to get the actual ammount the user bought*/
                 producto.setCantidadActualProducto(Integer.parseInt(this.select("MontoProducto", "Usuario_idUsuario", queUserId)));
                 producto.setDescuentoProductoPromo(rs.getDouble("descuentoPromo"));
+                producto.setStockMinimoProducto(rs.getInt("stockMinProducto"));
+                producto.setIdProveedorProducto(rs.getInt("Proveedor_idProveedor"));
                 listaDeProductos.add(producto);
 
             }

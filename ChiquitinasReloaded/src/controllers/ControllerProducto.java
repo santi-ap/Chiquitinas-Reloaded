@@ -403,9 +403,10 @@ public class ControllerProducto extends ControllerFactory implements Colleague, 
         int cant = producto.getCantidadActualProducto() * -1;
         this.productoPedido = producto;
         actualizarStockDespuesDeCompra(cant);
+        int cantidadProdNuevo = Integer.parseInt(this.servicioProducto.select("contadorProducto", "idProducto", producto.getIdProducto()));
         //then logic for observer pattern to order more from the provider if need be
         //if actual stock is equal to or lesser than minStock, it should initiate observer pattern to order more from proveedor
-        if (producto.getCantidadActualProducto() <= producto.getStockMinimoProducto()) {//this is problematic, the info about the stockminimo is never sent and it isn't part of the product, especially for combos (Do a select from the db instead)
+        if (cantidadProdNuevo <= producto.getStockMinimoProducto()) {//this is problematic, the info about the stockminimo is never sent and it isn't part of the product, especially for combos (Do a select from the db instead)
             Observer controllerPedidoObserver = new ControllerPedido(this);//instanciamos un nuevo observer 
             controllerPedidoObserver.suscribeObserver();//vinculamos el observer con el object
             this.notificarObserver(producto);//le dice al observer que haga un nuevo pedido del mismo producto
