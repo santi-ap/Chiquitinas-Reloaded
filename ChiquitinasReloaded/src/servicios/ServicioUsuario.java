@@ -544,5 +544,78 @@ public class ServicioUsuario extends Servicio implements InterfaceDAO{
         return listaDatosUsuario;
     
 }
+    /**
+     * 
+     *  
+     * When user closes menu our system will check if their orders are greater than or equal to 5 and if they are  
+     * system will make regular 1 user to VIP 2 user.
+     * @marco 
+     */
+    
+    public int selectCountOfOrders(Object queValor) {
+        int returnSelect=0;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try{
+            //STEP 3: Execute a query
+            super.conectar();
+           // System.out.println("Creando statement...");
+            stmt=conn.createStatement();
+            String sql;
+            
+            //hacemos el select con lo que buscamos, de cual columna y cual valor de la columna
+            sql="SELECT COUNT(idOrden) FROM Orden WHERE User_idUsuario = ?;";
+            //SELECT COUNT(idOrden) FROM ChiquitinasReloaded.Orden WHERE User_idUsuario = 1;
+            
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, queValor.toString());
+            rs=preparedStatement.executeQuery(); 
+            
+            //STEP 3.1: Extract data from result set
+            if(rs.next()){
+                //Retrieve by column name
+                returnSelect = rs.getInt("COUNT(idOrden)");
+            }else{//si no encuentra a un usuario con los parametros especificados, va a retornar un un String avisando que no se encontro el usuario
+            return 0;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                rs.close();
+                stmt.close();
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //retorna lo que se selecciono
+        return returnSelect;
 
+}
+    
+ 
+ 
+ public void regularToVIP(Object queColumnaActualizamos, Object queInsertamos, Object queColuma, Object queValor) {
+        try{
+            super.conectar();
+            String sql = "UPDATE Usuario SET "+queColumnaActualizamos+" = ? WHERE "+queColuma+" = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(sql);
+            preparedStmt.setString(1, queInsertamos.toString());
+            preparedStmt.setString(2, queValor.toString());
+            preparedStmt.executeUpdate(); 
+            System.out.println("Lo esperamos pronto!!");
+            //UPDATE Usuario SET tipoUsuario = 2 WHERE idUsuario = 2;
+           
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                super.desconectar();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

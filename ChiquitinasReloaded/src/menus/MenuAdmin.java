@@ -74,6 +74,7 @@ public class MenuAdmin implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Opcion para Agregar/Pedir un producto
+                    controllerUsuario.mostrarUsuarios();
                     this.menuAdminCliente.displayMenu(usuario);
                     break;
                 case "2"://Opcion para Buscar producto por nombre

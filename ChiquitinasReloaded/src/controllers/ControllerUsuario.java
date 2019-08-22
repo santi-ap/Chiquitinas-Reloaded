@@ -193,4 +193,22 @@ public class ControllerUsuario extends ControllerFactory {
         }
     }
 
+    
+    public void mostrarUsuarios(){
+    
+        servivioUsuario.selectAllUsuarios();
+    
+    }
+    
+    public void convertirAVIP(int userId){
+    
+    if(servivioUsuario.selectCountOfOrders(userId) >= 5){
+    
+        servivioUsuario.regularToVIP("tipoUsuario", 2, "idUsuario", userId);
+        //UPDATE Usuario SET tipoUsuario = 2 WHERE idUsuario = 2;
+    
+    } 
+    }
+    
 }
+
