@@ -48,9 +48,13 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
                     this.controllerProducto.printTodosLosProductos(usuario.getTipoUsuario());
+                    this.controllerCarrito.agregarProductoCarrito(usuario);//llama el metodo para agregar un producto al carrito
+
                     break;
                 case "2"://Ver Catalogo Combo
                     this.controllerCombo.mostrarCombos(usuario.getTipoUsuario());
+                    this.controllerCarrito.agregarComboCarrito(usuario);//llama el metodo para agregar un combo al carrito
+
                     break;
                 case "3"://Ver Carrito
                     this.menuCarrito(usuario);
