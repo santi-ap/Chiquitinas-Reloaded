@@ -11,6 +11,9 @@ import controllers.ControllerOrden;
 import controllers.ControllerProducto;
 import controllers.ControllerUsuario;
 import java.util.Scanner;
+import mediador.Colleague;
+import mediador.Mediador;
+import mediador.OrdenMediador;
 import objetos.Usuario;
 import servicios.*;
 
@@ -18,7 +21,7 @@ import servicios.*;
  *
  * @author santialfonso
  */
-public class MenuClienteVIP implements MenuDisplayBehavior {
+public class MenuClienteVIP implements MenuDisplayBehavior, Colleague {
     ControllerCombo controllerCombo = new ControllerCombo();
     ControllerProducto controllerProducto = new ControllerProducto();
     ControllerUsuario controllerUsuario = new ControllerUsuario();
@@ -26,9 +29,16 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
     ControllerOrden controllerOrden = new ControllerOrden();
     ServicioProducto sp = new ServicioProducto();
     Scanner input = new Scanner(System.in);
+    
+    OrdenMediador ordenMediador = new OrdenMediador(controllerOrden, controllerProducto, controllerCarrito, controllerCombo);
 
     public MenuClienteVIP() {
+        controllerOrden.setMediador(ordenMediador);
+        controllerProducto.setOrdenMediador(ordenMediador);
+        controllerCarrito.setMediador(ordenMediador);
+        controllerCombo.setMediador(ordenMediador);
     }
+    
 
     @Override
     public void displayMenu(Usuario usuario) {
@@ -104,6 +114,7 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
             String opcion = input.nextLine();
             switch (opcion) {
                 case "1"://Ver Catalogo Producto
+                    this.confirmarCompra(usuario);
                     break;
                 case "2"://Cambiar cantidad producto
                       controllerCarrito.cambiarMontoProducto(usuario);
@@ -116,5 +127,45 @@ public class MenuClienteVIP implements MenuDisplayBehavior {
                     break;
             }
         }
+    }
+    
+    private void confirmarCompra(Usuario usuario) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Comprar productos? [s/n]");
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            ordenMediador.start(usuario);
+            this.controllerCarrito.setTotalCarrito(0d);
+            this.controllerCarrito.setTotalFinal(0d);
+        } else {
+            System.out.println("Regresando a menu...\n...\n");
+        }
+    }
+
+    public void menuVerCarrito(Usuario usuario) {
+
+    }
+
+    @Override
+    public void setMediador(Mediador mediador) {
+        this.ordenMediador = (OrdenMediador) mediador;
+//        int condicion = 0;
+//        while (condicion == 0) {
+//            System.out.println("\n\n\n\n\nMENU CARRITO\n"
+//                    + "1-Ver Productos\n"
+//                    + "2-Ver combos\n"
+//                    + "3-Salir");
+//            String opcion = input.nextLine();
+//            switch (opcion) {
+//                case "1"://Ver Productos
+//                    
+//                    break;
+//                case "2"://Ver Combos
+//                    
+//                    break;
+//                case "3"://Salir
+//                    condicion = 1;
+//                    break;
+//            }
+//        }
     }
 }
